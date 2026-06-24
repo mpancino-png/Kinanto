@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinanto Resort - Guida dell'Ospite</title>
+    <!-- Google Fonts per un'estetica premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- DESIGN SYSTEM & BRAND IDENTITY --- */
+        :root {
+            --color-primary: #178b75;      /* Verde Brand Kinanto */
+            --color-secondary: #c97d52;    /* Terracotta */
+            --color-accent: #e8f4f1;       /* Verde chiarissimo di sfondo */
+            --color-bg: #fdfcf7;           /* Crema/Off-white di sfondo foglio */
+            --color-text: #2c312e;         /* Antracite caldo */
+            --color-card-bg: #ffffff;
+            --color-border: #e2dfd5;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+        }
+
+        /* --- IMPOSTAZIONI DI BASE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: #f3f1e9;
+            color: var(--color-text);
+            line-height: 1.4;
+            padding: 30px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- CONTENITORE A4 VERTICALE --- */
+        .a4-container {
+            background: var(--color-bg);
+            width: 210mm;
+            height: 297mm;
+            max-height: 297mm;
+            padding: 14mm 12mm 10mm 12mm;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            border-radius: 4px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden; /* Garantisce il rispetto assoluto dei limiti A4 */
+        }
+
+        /* --- HEADER --- */
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--color-secondary);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .header-banner-container {
+            width: 100%;
+            height: 150px;
+            background-color: #e8e6dd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+        }
+
+        .header-banner {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .logo {
+            display: block;
+            max-width: 160px;
+            height: auto;
+            margin: 0 auto 6px;
+        }
+
+        h1 {
+            font-family: var(--font-serif);
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--color-primary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .instructions {
+            font-size: 11px;
+            color: #616662;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        /* --- STILING DISTANZE --- */
+        .distanza {
+            color: var(--color-secondary);
+            font-weight: 700;
+            font-size: 11.5px;
+            white-space: nowrap;
+        }
+
+        /* --- GRIGLIA A 2 COLONNE --- */
+        .grid-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            align-items: start;
+            flex-grow: 1;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* --- SEZIONI --- */
+        section {
+            background: var(--color-card-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            padding: 10px 12px;
+        }
+
+        h2 {
+            font-family: var(--font-serif);
+            font-size: 16px;
+            color: var(--color-primary);
+            border-bottom: 1.5px solid var(--color-secondary);
+            padding-bottom: 3px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        h3 {
+            font-family: var(--font-serif);
+            font-size: 13px;
+            color: var(--color-secondary);
+            margin: 6px 0 3px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- LISTE DI CONTENUTO --- */
+        .item-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .item {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .item-title {
+            font-weight: 700;
+            color: var(--color-primary);
+            text-decoration: underline;
+            text-decoration-color: var(--color-border);
+            text-underline-offset: 2.5px;
+            font-size: 12.5px;
+        }
+
+        .item-desc {
+            color: #4a504b;
+            margin-top: 1px;
+            display: inline;
+        }
+
+        .contact-info {
+            display: inline-block;
+            font-size: 13.5px; /* Aumentato da 11px per massima leggibilità */
+            font-weight: 700;  /* Reso ancora più visibile */
+            color: var(--color-primary);
+            white-space: nowrap;
+            margin-left: 4px;
+        }
+
+        .contact-info a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted var(--color-secondary); /* Sottolineatura decorativa per richiamo all'azione */
+        }
+
+        /* --- FOOTER E CONTATTI --- */
+        footer {
+            border-top: 1.5px solid var(--color-border);
+            padding-top: 8px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-reception {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .footer-reception span {
+            font-size: 10px;
+            font-weight: 700;
+            color: #616662;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-reception a {
+            font-size: 19.5px; /* Aumentato da 16px per renderlo molto visibile nel piè di pagina */
+            font-weight: 800;
+            color: var(--color-primary);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-reception a:hover {
+            color: var(--color-secondary);
+        }
+
+        /* --- NUOVO RIQUADRO SPAZIO QR CODE --- */
+        .qr-box-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qr-label-text {
+            font-size: 11px;
+            color: #616662;
+            line-height: 1.35;
+            text-align: right;
+            max-width: 180px;
+        }
+
+        .qr-label-text strong {
+            color: var(--color-primary);
+            font-size: 11.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .qr-placeholder-box {
+            width: 70px;
+            height: 70px;
+            border: 2px dashed var(--color-secondary);
+            border-radius: 6px;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            box-shadow: inset 0 0 4px rgba(0,0,0,0.02);
+        }
+
+        .qr-placeholder-box svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--color-primary);
+        }
+
+        .qr-placeholder-box span {
+            font-size: 8px;
+            font-weight: 800;
+            color: var(--color-secondary);
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- REGOLE RIGIDE DI STAMPA A4 PAGINA SINGOLA --- */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+
+            html, body {
+                height: 100%;
+                margin: 0 !important;
+                padding: 0 !important;
+                background-color: #ffffff;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .no-print-bar {
+                display: none !important;
+            }
+
+            .a4-container {
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                background: var(--color-bg) !important;
+                /* Tutte le altre proporzioni, dimensioni dei testi e altezze vengono ereditate in scala 1:1 dallo schermo */
+            }
+        }
+
+        /* --- COMPATIBILITÀ MOBILE (SOLO SU SCHERMO) --- */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .a4-container {
+                width: 100%;
+                height: auto;
+                max-height: none;
+                padding: 20px 15px;
+                overflow: visible;
+            }
+            .grid-content {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .qr-box-container {
+                display: none; /* Rimosso da mobile per salvaguardare lo spazio */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contenitore A4 Principale -->
+    <div class="a4-container">
+        
+        <!-- Header con Banner e Logo ufficiale -->
+        <header>
+            <div class="header-banner-container">
+                <!-- Banner d'intestazione ufficiale -->
+                <img class="header-banner" 
+                     src="Gemini_Generated_Image_8bwxrv8bwxrv8bwx.png" 
+                     alt="Panorama Kinanto Resort"
+                     onerror="this.style.display='none';">
+            </div>
+            
+            <img class="logo" 
+                 src="Prova-logo.png" 
+                 alt="Kinanto Logo"
+                 onerror="this.style.display='none';">
+                 
+            <h1>Guida dell'Ospite</h1>
+            <div class="instructions">Cliccando sui nomi sottolineati si aprirà direttamente la mappa su Google Maps!</div>
+        </header>
+
+        <!-- Corpo principale diviso in 2 Colonne -->
+        <div class="grid-content">
+            
+            <!-- COLONNA SINISTRA -->
+            <div class="column">
+                
+                <!-- SEZIONE MARE E NATURA -->
+                <section>
+                    <h2>🏖️ Mare e Natura</h2>
+                    <ul class="item-list">
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Marza+Ispica" target="_blank">Spiaggia di Marzà</a> 
+                            <span class="distanza">(4 km)</span>
+                            <div class="item-desc">— sita a 4 Km dal Resort (sia spiaggia libera che attrezzata)</div>
+                        </li>
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Oasi+di+Vendicari" target="_blank">Oasi di Vendicari</a> 
+                            <span class="distanza">(23 km)</span>
+                            <div class="item-desc">— sita a 20’ di macchina dal Resort prevede un biglietto d’ingresso ed una piccola passeggiata per arrivare alla prima spiaggia.</div>
+                        </li>
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Isola+delle+Correnti" target="_blank">Isola delle Correnti</a> 
+                            <span class="distanza">(20 km)</span>
+                            <div class="item-desc">— sita a 20’ di macchina dal Resort</div>
+                        </li>
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Cava+di+Ispica" target="_blank">Cava di Ispica</a> 
+                            <span class="distanza">(8 km)</span>
+                            <div class="item-desc">— per escursione trekking</div>
+                        </li>
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Marina+di+Ragusa" target="_blank">Marina di Ragusa</a> 
+                            <span class="distanza">(33 km)</span>
+                            <div class="item-desc">— per eventuali escursioni in barca</div>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- SEZIONE BORGHI E CITTÀ D'ARTE -->
+                <section>
+                    <h2>🏛️ Borghi e Città d'Arte</h2>
+                    <ul class="item-list">
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Marzamemi" target="_blank">Marzamemi</a> 
+                            <span class="distanza">(20 km)</span>
+                            <div class="item-desc">— da visitare dalle 18 in poi, possibilità di aperitivo o street food se si vuole cenare si consiglia <strong>ristorante da Nassa</strong> — per acquisto di prodotti tipici <strong>Campisi</strong></div>
+                        </li>
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Noto" target="_blank">Noto</a> 
+                            <span class="distanza">(23 km)</span>
+                            <div class="item-desc">— da visitare dopo le 18 poi per cena ristorante <strong>Ci:Vulia</strong> <span class="contact-info">(<a href="tel:0931562227">0931 562227</a>)</span> a Marina D’Avola circa 15’ da Noto <span class="distanza">(25 km)</span>.</div>
+                        </li>
+                        <li class="item">
+                            <span class="item-title">Borghi Barocchi</span>
+                            <div class="item-desc">
+                                <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Ragusa+Ibla" target="_blank">Ragusa (IBLA)</a> <span class="distanza">(33 km)</span>, 
+                                <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Scicli" target="_blank">Scicli</a> <span class="distanza">(27 km)</span>, 
+                                <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Siracusa" target="_blank">Siracusa</a> <span class="distanza">(55 km)</span>, 
+                                <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Modica" target="_blank">Modica</a> <span class="distanza">(19 km)</span> 
+                                — tutte a massimo 30’ dal Resort e da visitare dopo le 18.00 sul posto si trovano ristoranti tipici.
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+            </div>
+
+            <!-- COLONNA DESTRA -->
+            <div class="column">
+                
+                <!-- SEZIONE RISTORANTI, AGRITURISMI E PIZZERIE -->
+                <section>
+                    <h2>🍽️ Ristoranti – Agriturismi – Pizzerie</h2>
+                    
+                    <h3>Agriturismi & Pizzerie</h3>
+                    <ul class="item-list">
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Agriturismo+Casa+Azzurra+Ispica" target="_blank">Agriturismo Casa Azzurra</a> 
+                            <span class="distanza">(5 km)</span>
+                            <div class="item-desc">— cucina casalinga ma genuina, menù fisso locale carino ma semplice costo €. 20.00/25.00 a persona a 5 Km dal Resort <strong style="color: var(--color-secondary);">(consigliata prenotazione)</strong></div>
+                            <div class="contact-info">📞 <a href="tel:3393200306">339 320 0306</a></div>
+                        </li>
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Incavo+Pizzeria+Ispica" target="_blank">Incavo</a> 
+                            <span class="distanza">(9 km)</span>
+                            <div class="item-desc">— pizzeria situata nella zona storica della Cava di Ispica locale molto suggestivo che merita una serata in compagnia sia per l’atmosfera che per la pizza costo €. 25.00/35.00 a persona.</div>
+                            <div class="contact-info">📞 <a href="tel:3463732741">346 373 2741</a></div>
+                        </li>
+                    </ul>
+
+                    <h3>Specialità Pesce Fresco</h3>
+                    <ul class="item-list">
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Il+Giardino+dei+Sapori+Ispica" target="_blank">Il Giardino dei sapori</a> 
+                            <span class="distanza">(6 km)</span>
+                            <div class="item-desc">— ristorante di pesce molto semplice cucina casalinga di ottima qualità sito ad Ispica centro costo €.45.00/55.00 a persona <strong style="color: var(--color-secondary);">(consigliata prenotazione)</strong></div>
+                            <div class="contact-info">📞 <a href="tel:0932959323">0932 959323</a></div>
+                        </li>
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Ristorante+A+Valata+Pozzallo" target="_blank">A’ Valata</a> 
+                            <span class="distanza">(10 km)</span>
+                            <div class="item-desc">— ristorante di pesce sul mare con una bellissima vista pescato fresco tutti i giorni ed ottima cucina locale Pozzallo zona portuale costo €. 75.00/85.00 a persona.</div>
+                            <div class="contact-info">📞 <a href="tel:3341544320">334 154 4320</a></div>
+                        </li>
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Ci+Vulia+Marina+di+Avola" target="_blank">Cì Vulia</a> 
+                            <span class="distanza">(25 km)</span>
+                            <div class="item-desc">— di giorno pescheria di sera ristorante cucina di pesce con pescato del giorno sito a Marina D’Avola consigliato dopo aver visitato Noto costo €.55.00/65.00</div>
+                            <div class="contact-info">📞 <a href="tel:0931562227">0931 562227</a></div>
+                        </li>
+                    </ul>
+
+                    <h3>Snack & Artigianato Locale</h3>
+                    <ul class="item-list">
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=L+Artigianale+Pozzallo" target="_blank">L’Artigianale</a> 
+                            <span class="distanza">(10 km)</span>
+                            <div class="item-desc">— gelateria per un pranzo diverso e fresco granite eccezionali e gelato favoloso. Situata sul lungo mare di Pozzallo.</div>
+                            <div class="contact-info">📞 <a href="tel:0932958438">0932 958438</a></div>
+                        </li>
+                        <li class="item">
+                            <a class="item-title" href="https://www.google.com/maps/search/?api=1&query=Panificio+Asta+Ispica" target="_blank">Panificio Asta</a> 
+                            <span class="distanza">(6 km)</span>
+                            <div class="item-desc">— in centro ad Ispica il simbolo dell’artigianalità ogni giorno propongo prodotti tipici diversi (scacce — arancine — pizzette) oltre alla parte dolce con biscotti e torroncini per non dimenticare il pane tutto fatto artigianalmente a vista del cliente con prodotti a Km 0. Situato ad Ispica città.</div>
+                            <div class="contact-info">📞 <a href="tel:09321917532">0932 191 7532</a></div>
+                        </li>
+                    </ul>
+                </section>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER: Informazioni di contatto del resort con Riquadro QR Code -->
+        <footer>
+            <div class="footer-reception">
+                <span>RECEPTION KINANTO:</span>
+                <a href="tel:+393895285803">+39 389 528 5803</a>
+            </div>
+            
+            <div class="qr-box-container">
+                <div class="qr-label-text">
+                    <strong>Guida Interattiva</strong><br>
+                    Inquadra per aprire la mappa dinamica sul telefono
+                </div>
+                <div class="qr-placeholder-box">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 3H9V9H3V3M5 5V7H7V5H5M3 15H9V21H3V15M5 17V19H7V17H5M15 3H21V9H15V3M17 5V7H19V5H17M10 3H14V5H10V3M10 6H12V8H10V6M13 8H14V10H13V8M10 11H12V13H10V11M13 11H14V13H13V11M11 14H12V16H11V14M12 18H14V20H12V18M15 10H17V12H15V10M18 10H20V12H18V10M15 13H18V15H15V13M18 15H21V17H18V15M15 18H17V21H15V18M18 18H20V20H18V18M20 20H21V21H20V20Z" />
+                    </svg>
+                    <span>QR CODE</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
