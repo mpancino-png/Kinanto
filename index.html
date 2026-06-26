@@ -65,14 +65,16 @@
             margin-bottom: 12px;
         }
 
+        /* Contenitore Banner */
         .header-banner-container {
             width: 100%;
             height: 150px;
-            background-color: #e8e6dd;
+            background-color: #f5f2eb;
             border-radius: 4px;
             margin-bottom: 10px;
             overflow: hidden;
             border: 1px solid var(--color-border);
+            position: relative;
         }
 
         .header-banner {
@@ -80,13 +82,6 @@
             height: 100%;
             object-fit: cover;
             display: block;
-        }
-
-        .logo {
-            display: block;
-            max-width: 160px;
-            height: auto;
-            margin: 0 auto 6px;
         }
 
         h1 {
@@ -186,8 +181,8 @@
 
         .contact-info {
             display: inline-block;
-            font-size: 13.5px; /* Aumentato da 11px per massima leggibilità */
-            font-weight: 700;  /* Reso ancora più visibile */
+            font-size: 13.5px; /* Ingrandito per massima visibilità */
+            font-weight: 700;
             color: var(--color-primary);
             white-space: nowrap;
             margin-left: 4px;
@@ -196,7 +191,7 @@
         .contact-info a {
             color: inherit;
             text-decoration: none;
-            border-bottom: 1px dotted var(--color-secondary); /* Sottolineatura decorativa per richiamo all'azione */
+            border-bottom: 1px dotted var(--color-secondary);
         }
 
         /* --- FOOTER E CONTATTI --- */
@@ -223,7 +218,7 @@
         }
 
         .footer-reception a {
-            font-size: 19.5px; /* Aumentato da 16px per renderlo molto visibile nel piè di pagina */
+            font-size: 19.5px; /* Dimensione aumentata per renderlo chiaramente visibile */
             font-weight: 800;
             color: var(--color-primary);
             text-decoration: none;
@@ -234,7 +229,7 @@
             color: var(--color-secondary);
         }
 
-        /* --- NUOVO RIQUADRO SPAZIO QR CODE --- */
+        /* --- RIQUADRO SPAZIO QR CODE --- */
         .qr-box-container {
             display: flex;
             align-items: center;
@@ -286,7 +281,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* --- REGOLE RIGIDE DI STAMPA A4 PAGINA SINGOLA --- */
+        /* --- REGOLE RIGIDE DI STAMPA A4 PAGINA SINGOLA (PROPORZIONI INVARIATE) --- */
         @media print {
             @page {
                 size: A4 portrait;
@@ -302,16 +297,11 @@
                 print-color-adjust: exact;
             }
 
-            .no-print-bar {
-                display: none !important;
-            }
-
             .a4-container {
                 box-shadow: none !important;
                 border: none !important;
                 margin: 0 !important;
                 background: var(--color-bg) !important;
-                /* Tutte le altre proporzioni, dimensioni dei testi e altezze vengono ereditate in scala 1:1 dallo schermo */
             }
         }
 
@@ -332,7 +322,7 @@
                 gap: 15px;
             }
             .qr-box-container {
-                display: none; /* Rimosso da mobile per salvaguardare lo spazio */
+                display: none; /* Rimosso su mobile per salvaguardare lo spazio */
             }
         }
     </style>
@@ -342,21 +332,13 @@
     <!-- Contenitore A4 Principale -->
     <div class="a4-container">
         
-        <!-- Header con Banner e Logo ufficiale -->
+        <!-- Header con Banner e Titolo della Guida -->
         <header>
             <div class="header-banner-container">
-                <!-- Banner d'intestazione ufficiale -->
-                <img class="header-banner" 
-                     src="Gemini_Generated_Image_8bwxrv8bwxrv8bwx.png" 
-                     alt="Panorama Kinanto Resort"
-                     onerror="this.style.display='none';">
+                <!-- Caricamento diretto dell'immagine originale del banner -->
+                <img class="header-banner" src="Vettoriale.jpg" alt="Panorama Kinanto Resort">
             </div>
             
-            <img class="logo" 
-                 src="Prova-logo.png" 
-                 alt="Kinanto Logo"
-                 onerror="this.style.display='none';">
-                 
             <h1>Guida dell'Ospite</h1>
             <div class="instructions">Cliccando sui nomi sottolineati si aprirà direttamente la mappa su Google Maps!</div>
         </header>
