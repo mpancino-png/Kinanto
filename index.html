@@ -41,7 +41,7 @@
             background-color: var(--color-bg);
             color: var(--color-text);
             line-height: 1.5;
-            padding-bottom: 80px; /* Ridotto da 100px per rispecchiare la barra inferiore più sottile */
+            padding-bottom: 55px; /* Spazio per la barra inferiore ultrasottile */
         }
 
         .app-container {
@@ -54,11 +54,11 @@
             flex-direction: column;
         }
 
-        /* --- HERO BANNER CON SFONDO VERDE --- */
+        /* --- HERO BANNER CON SFONDO VERDE (ULTRASOTTILE) --- */
         .hero {
             position: relative;
             width: 100%;
-            height: 240px; 
+            height: 110px; /* Ridotto ulteriormente da 150px a 110px per massima compattezza */
             background-color: var(--color-primary); 
             overflow: hidden;
             display: flex;
@@ -67,16 +67,16 @@
             align-items: center;
         }
 
-        /* Riproduzione ad alta fedeltà dello stemma ufficiale ingrandito con sfondo crema a contrasto */
+        /* Riproduzione ad alta fedeltà dello stemma ufficiale (proporzionato al nuovo banner ultrasottile) */
         .brand-badge {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
             background-color: var(--color-bg); 
-            padding: 20px 48px 24px 48px; 
-            border-radius: 0 0 28px 28px; 
-            box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+            padding: 12px 30px 14px 30px; /* Padding ottimizzato per renderlo ancora più piatto e snello */
+            border-radius: 0 0 20px 20px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             text-align: center;
             z-index: 10;
             display: flex;
@@ -84,26 +84,26 @@
             align-items: center;
             border: 1.5px solid var(--color-border);
             border-top: none;
-            width: 85%; 
-            max-width: 320px;
+            width: 80%; 
+            max-width: 280px;
         }
 
         .brand-title {
             font-family: var(--font-serif);
-            font-size: 34px; 
+            font-size: 24px; /* Ridimensionato in armonia */
             font-weight: 700;
             color: var(--color-primary); /* Testo verde brand */
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             line-height: 1;
         }
 
         .brand-subtitle {
-            font-size: 11px; 
+            font-size: 8.5px; 
             font-weight: 800;
             color: var(--color-secondary); /* Sottotitolo terracotta */
             text-transform: uppercase;
-            letter-spacing: 3.5px; 
-            margin-top: 6px;
+            letter-spacing: 2.5px; 
+            margin-top: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -112,7 +112,7 @@
         }
 
         .brand-trademark {
-            font-size: 8px; 
+            font-size: 6px; 
             font-weight: 600;
             margin-left: 2px;
             vertical-align: super;
@@ -132,9 +132,9 @@
             background-color: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.4);
             color: #ffffff;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
-            padding: 6px 10px;
+            padding: 4px 8px;
             border-radius: 30px;
             cursor: pointer;
             transition: var(--transition);
@@ -157,17 +157,17 @@
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
-            padding-bottom: 20px;
+            padding-bottom: 8px; /* Padding inferiore minimo */
         }
 
         .hero h1 {
             font-family: var(--font-serif);
-            font-size: 25px;
+            font-size: 16px; /* Ridotto da 18px a 16px per evitare qualsiasi sovrapposizione visiva */
             color: #ffffff; 
             font-weight: 700;
             text-align: center;
             letter-spacing: 0.5px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.15);
         }
 
         /* --- TASTO TORNA A CASA --- */
@@ -204,7 +204,7 @@
             fill: currentColor;
         }
 
-        /* --- INTRO & SERVIZIO --- */
+        /* --- INTRO --- */
         .intro-box {
             padding: 16px 20px 10px 20px;
             text-align: center;
@@ -216,7 +216,7 @@
             font-style: italic;
         }
 
-        /* --- BARRA DI RICERCA & FILTRI --- */
+        /* --- FILTRI --- */
         .sticky-controls {
             position: sticky;
             top: 0;
@@ -224,41 +224,6 @@
             z-index: 100;
             padding: 12px 20px;
             border-bottom: 1px solid var(--color-border);
-        }
-
-        .search-wrapper {
-            position: relative;
-            margin-bottom: 12px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 14px 16px 14px 44px;
-            border-radius: 30px;
-            border: 1px solid var(--color-border);
-            background-color: var(--color-card);
-            font-family: var(--font-sans);
-            font-size: 14px;
-            color: var(--color-text);
-            outline: none;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .search-input:focus {
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(23, 139, 117, 0.15);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-            fill: var(--color-text-muted);
-            pointer-events: none;
         }
 
         /* Filtri a Griglia Fluida per Mobile (Senza scorrimento orizzontale) */
@@ -610,37 +575,37 @@
             background-color: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(10px);
             border-top: 1px solid var(--color-border);
-            padding: 10px 16px; /* Ridotto per massima discrezione su mobile */
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+            padding: 6px 12px; /* Ridotto per massima discrezione e compattezza su mobile */
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px; /* Spazio più raccolto */
+            gap: 6px; /* Spazio raccolto e ordinato */
             z-index: 1000;
         }
 
         .call-btn-footer {
             text-decoration: none;
-            padding: 10px 12px; /* Ridotto il padding verticale da 12px a 10px per snellire la barra */
-            border-radius: 30px;
-            font-size: 12.5px; /* Ridotto il font da 13.5px a 12.5px per essere meno invadente */
+            padding: 6px 10px; /* Ridotto il padding verticale da 12px a 10px per snellire la barra */
+            border-radius: 20px; /* Adattato proporzionalmente */
+            font-size: 11px; /* Rimpicciolito per non risultare invadente su schermi piccoli */
             font-weight: 700;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 5px;
             transition: var(--transition);
         }
 
         .call-btn-footer.phone {
             background-color: var(--color-primary);
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(23, 139, 117, 0.25);
+            box-shadow: 0 3px 8px rgba(23, 139, 117, 0.2);
         }
 
         .call-btn-footer.whatsapp {
             background-color: #25d366;
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+            box-shadow: 0 3px 8px rgba(37, 211, 102, 0.2);
         }
 
         .call-btn-footer:active {
@@ -648,8 +613,8 @@
         }
 
         .icon-phone-svg {
-            width: 16px; /* Ridotto da 18px */
-            height: 16px; /* Ridotto da 18px */
+            width: 13px; /* Ridotto per adattarsi all'altezza della nuova barra */
+            height: 13px; /* Ridotto per adattarsi all'altezza della nuova barra */
             fill: currentColor;
         }
     </style>
@@ -696,16 +661,8 @@
             <p id="intro-text">Abbiamo selezionato per voi i migliori luoghi del territorio. Cliccate su una destinazione per aprire direttamente il navigatore su Google Maps!</p>
         </div>
 
-        <!-- Barra di Ricerca e Selezione Categorie Fisse allo scorrimento -->
+        <!-- Barra di Selezione Categorie Fisse allo scorrimento -->
         <div class="sticky-controls">
-            <!-- Cerca -->
-            <div class="search-wrapper">
-                <svg class="search-icon" viewBox="0 0 24 24">
-                    <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
-                </svg>
-                <input type="text" id="searchInput" class="search-input" placeholder="Cerca spiagge, borghi, ristoranti..." oninput="handleSearch()">
-            </div>
-
             <!-- Tabs Categoria -->
             <div class="filter-tabs">
                 <button class="tab-btn active" id="tab-tutti" onclick="filterCategory('tutti', this)">✨ Tutti</button>
@@ -761,7 +718,6 @@
                 heroTitle: "Benvenuti a Casa",
                 homeBtn: "Naviga verso il Kinanto EcoRetreat",
                 introText: "Abbiamo selezionato per voi i migliori luoghi del territorio. Cliccate su una destinazione per aprire direttamente il navigatore su Google Maps!",
-                searchInputPlaceholder: "Cerca spiagge, borghi, ristoranti, servizi...",
                 tabTutti: "✨ Tutti",
                 tabRetreat: "🌿 EcoRetreat Info",
                 tabMare: "🏖️ Mare & Natura",
@@ -784,7 +740,6 @@
                 heroTitle: "Welcome Home",
                 homeBtn: "Navigate back to Kinanto EcoRetreat",
                 introText: "We have handpicked the finest spots around Sicily. Click on a destination to launch turn-by-turn navigation on Google Maps!",
-                searchInputPlaceholder: "Search beaches, towns, food, info...",
                 tabTutti: "✨ All",
                 tabRetreat: "🌿 EcoRetreat Info",
                 tabMare: "🏖️ Beach & Nature",
@@ -857,8 +812,8 @@
                 distanceNum: 0,
                 mapsUrl: "",
                 desc: {
-                    it: "La nostra colazione biologica e artigianale viene servita ogni mattina dalle <strong>08:30 alle 10:30</strong> nell'area baglio. Se hai intolleranze alimentari, ti invitiamo a segnalarcelo preventivamente.",
-                    en: "Our organic, artisan breakfast is served every morning from <strong>08:30 AM to 10:30 AM</strong> in our central courtyard. Please notify our reception of any food allergies or dietary restrictions."
+                    it: "La nostra colazione biologica e artigianale viene servita ogni mattina dalle <strong>08:30 alle 10:30</strong> sotto la pompeiana. Se hai intolleranze alimentari, ti invitiamo a segnalarcelo preventivamente.",
+                    en: "Our organic, artisan breakfast is served every morning from <strong>08:30 AM to 10:30 AM</strong> under the pergola. Please notify our reception of any food allergies or dietary restrictions."
                 },
                 phone: ""
             },
@@ -1267,7 +1222,6 @@
             document.getElementById('hero-title').innerText = dict.heroTitle;
             document.getElementById('home-btn-txt').innerText = dict.homeBtn;
             document.getElementById('intro-text').innerText = dict.introText;
-            document.getElementById('searchInput').placeholder = dict.searchInputPlaceholder;
             document.getElementById('call-btn-txt').innerText = dict.callBtn;
             
             // Traduci i tasti delle categorie
@@ -1410,7 +1364,7 @@
                             ${l.distanceNum > 0 ? `
                             <span class="distance-badge">
                                 <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24">
-                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5z"/>
+                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.25L17,14.92L16.25/svg" />
                                 </svg>
                                 ${l.distance}
                             </span>
@@ -1531,6 +1485,10 @@
 
         // --- INIZIALIZZAZIONE ---
         window.addEventListener('DOMContentLoaded', () => {
+            renderCards();
+            // Inizializza lingua corrente all'avvio
+            document.getElementById('lang-it-btn').classList.toggle('active', currentLang === 'it');
+            document.getElementById('lang-en-btn').classList.toggle('active', currentLang === 'en');
             setLanguage(currentLang);
         });
     </script>
