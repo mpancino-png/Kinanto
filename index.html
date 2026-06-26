@@ -41,7 +41,7 @@
             background-color: var(--color-bg);
             color: var(--color-text);
             line-height: 1.5;
-            padding-bottom: 100px; /* Spazio per la barra di contatto fissa */
+            padding-bottom: 80px; /* Ridotto da 100px per rispecchiare la barra inferiore più sottile */
         }
 
         .app-container {
@@ -261,26 +261,22 @@
             pointer-events: none;
         }
 
-        /* Filtri Orizzontali Swipeable */
+        /* Filtri a Griglia Fluida per Mobile (Senza scorrimento orizzontale) */
         .filter-tabs {
             display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-            scrollbar-width: none; /* Rimuove scrollbar Firefox */
-        }
-
-        .filter-tabs::-webkit-scrollbar {
-            display: none; /* Rimuove scrollbar Chrome/Safari */
+            flex-wrap: wrap; /* Consente ai bottoni di andare a capo in modo fluido */
+            gap: 6px;       /* Distanza compatta ottimizzata per smartphone */
+            justify-content: center; /* Allineamento ordinato e centrato */
+            padding-bottom: 2px;
         }
 
         .tab-btn {
             background-color: var(--color-card);
             border: 1px solid var(--color-border);
-            padding: 10px 20px;
-            border-radius: 50px;
+            padding: 8px 14px; /* Ridotto leggermente per massimizzare lo spazio utile */
+            border-radius: 30px;
             font-family: var(--font-sans);
-            font-size: 13px;
+            font-size: 12px; /* Compatto e altamente leggibile */
             font-weight: 600;
             color: var(--color-text-muted);
             cursor: pointer;
@@ -288,7 +284,7 @@
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             box-shadow: var(--shadow-sm);
             position: relative;
         }
@@ -614,19 +610,19 @@
             background-color: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(10px);
             border-top: 1px solid var(--color-border);
-            padding: 14px 20px;
+            padding: 10px 16px; /* Ridotto per massima discrezione su mobile */
             box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
             display: grid;
-            grid-template-columns: 1.1fr 1fr;
-            gap: 10px;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px; /* Spazio più raccolto */
             z-index: 1000;
         }
 
         .call-btn-footer {
             text-decoration: none;
-            padding: 12px 14px;
+            padding: 10px 12px; /* Ridotto il padding verticale da 12px a 10px per snellire la barra */
             border-radius: 30px;
-            font-size: 13.5px;
+            font-size: 12.5px; /* Ridotto il font da 13.5px a 12.5px per essere meno invadente */
             font-weight: 700;
             display: inline-flex;
             align-items: center;
@@ -652,8 +648,8 @@
         }
 
         .icon-phone-svg {
-            width: 18px;
-            height: 18px;
+            width: 16px; /* Ridotto da 18px */
+            height: 16px; /* Ridotto da 18px */
             fill: currentColor;
         }
     </style>
@@ -739,11 +735,11 @@
         <!-- Barra di Contatto Sticky Doppia Azione -->
         <div class="bottom-contact-bar">
             <!-- Pulsante WhatsApp -->
-            <a href="https://wa.me/393895285803?text=Salve%20reception%20Kinanto,%20avrei%20bisogno%20di%20assistenza" target="_blank" class="call-btn-footer" style="background-color: #25d366; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);">
+            <a href="https://wa.me/393895285803?text=Salve%20reception%20Kinanto,%20avrei%20bisogno%20di%20assistenza" target="_blank" class="call-btn-footer whatsapp">
                 <svg class="icon-phone-svg" viewBox="0 0 24 24">
                     <path d="M12.04 2C6.58 2 2.13 6.41 2.13,11.5C2.13,13.3 2.5 15.03 3.39,16.83L2,22L5.67,20.55C7.03,21.36 8.7,21.75 10.36,21.75C16.5,21.75 21,17.3 21,12.5C21.05,6.41 16.5,2 12,2M12,3.5C16.14,3.5 19.5,6.53 19.5,9.5C19.5,12.86 16.1,16.5 12,16.5C10.74,16.5 9.47,16.13 8.35,15.47L8.09,15.31L5.9,16.17L6.47,14.07L6.29,13.79C5.55,12.63 5.13,11.17 5.13,9.5C5.13,6.53 8.5,3.5 12,3.5M9.13,7.62C8.94,7.62 8.63,7.7 8.39,7.93C8.15,8.16 7.5,8.79 7.5,10.05C7.5,11.3 8.42,12.53 8.55,12.71C8.68,12.88 10.33,15.53 12.87,16.63C15.03,17.55 15.47,17.37 15.94,17.33C16.41,17.29 17.47,16.73 17.69,16.1C17.91,15.47 17.91,14.93 17.84,14.82C17.78,14.71 17.62,14.65 17.39,14.54C17.15,14.43 15.97,13.84 15.75,13.76C15.53,13.68 15.37,13.64 15.21,13.88C15.05,14.12 14.58,14.68 14.44,14.84C14.3,15 14.16,15.03 13.92,14.91C13.69,14.8 12.94,14.55 12.06,13.9C11.37,13.29 10.91,12.53 10.78,12.3C10.65,12.07 10.77,11.95 10.88,11.84C10.98,11.74 11.1,11.59 11.21,11.46C11.32,11.33 11.36,11.23 11.44,11.07C11.5,10.91 11.47,10.78 11.42,10.67C11.37,10.56 10.92,9.45 10.73,9C10.54,8.56 10.35,8.62 10.21,8.62C10.08,8.62 9.92,8.61 9.77,8.61C9.61,8.61 9.36,8.67 9.13,7.62Z"/>
-            </svg>
-            WhatsApp Chat
+                </svg>
+                WhatsApp Chat
             </a>
 
             <!-- Pulsante Chiamata vocale standard -->
@@ -809,7 +805,7 @@
             }
         };
 
-        // --- DIZIONARIO ICONE VETTORIALI ---
+        // --- DIZIONARIO ICD VETTORIALI ---
         const iconTemplates = {
             key: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.78 5.5 5.5 0 0 1 7.777-7.78zM12 12l.5-1.5L14 10l1.5-.5L17 8l1-1h4v4h-2v2h-2v2h-4z"/></svg>`,
             coffee: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>`,
@@ -934,7 +930,12 @@
                     it: "Sita a soli 4 Km dall'EcoRetreat. Offre sia spiaggia libera che lidi attrezzati per una giornata di assoluto comfort e relax.",
                     en: "Located just 4 km from the EcoRetreat. Offering pristine public areas and fully equipped beach clubs for your comfort."
                 },
-                phone: ""
+                phone: "3319907318",
+                bookingUrl: "https://new-widget.spiagge.it/stabilimenti-balneari/prenotazione/it-rg-97014-marza-beach-club/insertPeriod",
+                bookingLabel: {
+                    it: "Prenota",
+                    en: "Book"
+                }
             },
             {
                 id: "vendicari",
@@ -952,7 +953,11 @@
                     en: "An unmissable nature reserve just 20 minutes away by car. Features scenic coastal hikes and untouched golden sand beaches."
                 },
                 phone: "0931468879",
-                bookingUrl: "https://www.riserva-vendicari.it/#google_vignette"
+                bookingUrl: "https://www.riserva-vendicari.it/#google_vignette",
+                bookingLabel: {
+                    it: "Sito Web",
+                    en: "Website"
+                }
             },
             {
                 id: "correnti",
@@ -987,7 +992,11 @@
                     en: "Perfect for archaeological trekking. Explore prehistoric rock tombs and ruins engulfed in wild, deep green gorges."
                 },
                 phone: "",
-                bookingUrl: "https://parchiarcheologici.regione.sicilia.it/kamarina-cava-ispica/biglietti/parco-forza-ispica/"
+                bookingUrl: "https://parchiarcheologici.regione.sicilia.it/kamarina-cava-ispica/biglietti/parco-forza-ispica/",
+                bookingLabel: {
+                    it: "Prenota biglietti",
+                    en: "Book tickets"
+                }
             },
             {
                 id: "marina-ragusa",
@@ -1005,7 +1014,11 @@
                     en: "A popular seaside destination with a vibrant promenade. Great for dining out, coastal strolls, or booking private boat charters."
                 },
                 phone: "",
-                bookingUrl: "https://freedome.it/escursioni-in-barca/marina-di-ragusa/?srsltid=AfmBOoqc_fFIZ1ujnIVSlAD4y-RJB3wmsZUeFgJdmy6Kvma9n0U7qcJy"
+                bookingUrl: "https://freedome.it/escursioni-in-barca/marina-di-ragusa/?srsltid=AfmBOoqc_fFIZ1ujnIVSlAD4y-RJB3wmsZUeFgJdmy6Kvma9n0U7qcJy",
+                bookingLabel: {
+                    it: "Prenota escursione in barca",
+                    en: "Book boat trip"
+                }
             },
 
             // BORGHI E ARTE
@@ -1237,8 +1250,6 @@
         // --- GESTIONE STATO LINGUA & PREFERITI ---
         let currentLang = localStorage.getItem('kinanto_favorites_lang') || 'it';
         let preferiti = JSON.parse(localStorage.getItem('kinanto_favorites')) || [];
-
-        // Stato dei filtri attivi
         let currentFilter = 'tutti';
         let searchQuery = '';
 
@@ -1385,15 +1396,21 @@
             const displayDesc = l.desc[currentLang];
             const svgIcon = iconTemplates[l.icon] || '';
 
+            // Calcolo dinamico dell'etichetta del pulsante basato sul database bilingue
+            let bookingText = currentLang === 'it' ? 'Prenota' : 'Book';
+            if (l.bookingLabel) {
+                bookingText = l.bookingLabel[currentLang];
+            }
+
             return `
                 <div class="card ${isRistorazione ? 'ristorazione-highlight' : ''} ${isRetreat ? 'retreat-highlight' : ''}" data-id="${l.id}">
                     <div class="card-header">
-                        <span class="category-badge" style="${isRetreat ? 'background-color: #e8f4f1; color: var(--color-primary);' : ''}">${categoryLabel}</span>
+                        <span class="category-badge" style="${l.category === 'retreat' ? 'background-color: #e8f4f1; color: var(--color-primary);' : ''}">${categoryLabel}</span>
                         <div style="display: flex; align-items: center; gap: 12px;">
                             ${l.distanceNum > 0 ? `
                             <span class="distance-badge">
                                 <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24">
-                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
+                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5z"/>
                                 </svg>
                                 ${l.distance}
                             </span>
@@ -1444,7 +1461,7 @@
                         ${l.mapsUrl ? `
                         <a href="${l.mapsUrl}" target="_blank" class="action-btn action-btn-secondary">
                             <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24">
-                                <path d="M12,2C15.31,2 18,4.66 18,7.95C18,12.41 12,19 12,19C12,19 6,12.41 6,7.95C6,4.66 8.69,2 12,2M12,6A1.5,1.5 0 1,0 13.5,7.5A1.5,1.5 0 0,0 12,6M20,19C20,20.1 16.41,21 12,21C7.59,21 4,20.1 4,19C4,18.15 6.5,17.43 10,17.15V19.15C7.63,19.38 6,19.78 6,20C6,20.33 8.69,21 12,21C15.31,21 18,20.33 18,20C18,19.78 16.37,19.38 14,19.15V17.15C17.5,17.43 20,18.15 20,19Z" />
+                                <path d="M12,2C15.31,2 18,4.66 18,7.95C18,12.41 12,19 12,19C12,19 6,12.41 6,7.95C6,4.66 8.69,2 12,2M12,6A1.5,1.5 0 1,0 13.5,7.5A1.5,1.5 0 0,0 12,6M20,19C20,20.1 16.41,21 12,21C7.59,21 4,20.1 4,19C4,18.15 6.5,17.43 10,17.15V19.15C7.63,19.38 6,19.78 6,20C6,20.33 8.69,21 12,21C15.31,21 18,20.33 18,20C18,19.78 16.37,19.38 14,19.15V17.15C17.5,17.43 20,18.15 20,19z" />
                             </svg>
                             ${currentLang === 'it' ? 'Naviga' : 'Navigate'}
                         </a>
@@ -1452,9 +1469,9 @@
                         ${l.bookingUrl ? `
                         <a href="${l.bookingUrl}" target="_blank" class="action-btn action-btn-primary" style="${isRetreat ? 'background-color: var(--color-primary);' : ''}">
                             <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24">
-                                <path d="M19 4H18V2H16V4H8V2H6V4H5C3.89 4 3 4.9 3 6V20C3 21.1 3.89 22 5 22H19C20.11 22 21 21.1 21 20V6C21 4.9 20.11 4 19 4M19 20H5V10H19V20M9 14H7V12H9V14M13 14H11V12H13V14M17 14H15V12H17V14M9 17H11V19H9V17M13 18H15V20H13V18Z"/>
+                                <path d="M19 4H18V2H16V4H8V2H6V4H5C3.89 4 3 4.9 3 6V20C3 21.1 3.89 22 5 22H19C20.11 22 21 21.1 21 20V6C21 4.9 20.11 4 19 4M19 20H5V10H19V20M9 14H7V12H9V14M13 14H11V12H13V14M17 14H15V12H17V14M9 17H11V19H9V17M13 18H15V20H13V18z"/>
                             </svg>
-                            ${l.id === 'vendicari' ? (currentLang === 'it' ? 'Sito Web' : 'Website') : (currentLang === 'it' ? 'Prenota' : 'Book')}
+                            ${bookingText}
                         </a>
                         ` : ''}
                         ${l.phone ? `
