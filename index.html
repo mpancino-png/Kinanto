@@ -47,6 +47,7 @@
         .app-container {
             width: 100%;
             max-width: 600px; /* Ottimizzato per lettura mobile ed eleganza desktop centratissima */
+            margin: 0 -10px; /* Consente un allineamento ottimale */
             margin: 0 auto;
             background-color: var(--color-bg);
             min-height: 100vh;
@@ -58,7 +59,7 @@
         .hero {
             position: relative;
             width: 100%;
-            height: 110px; /* Ridotto ulteriormente da 150px a 110px per massima compattezza */
+            height: 110px; 
             background-color: var(--color-primary); 
             overflow: hidden;
             display: flex;
@@ -67,14 +68,14 @@
             align-items: center;
         }
 
-        /* Riproduzione ad alta fedeltà dello stemma ufficiale (proporzionato al nuovo banner ultrasottile) */
+        /* Riproduzione ad alta fedeltà dello stemma ufficiale */
         .brand-badge {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
             background-color: var(--color-bg); 
-            padding: 12px 30px 14px 30px; /* Padding ottimizzato per renderlo ancora più piatto e snello */
+            padding: 12px 30px 14px 30px; 
             border-radius: 0 0 20px 20px; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             text-align: center;
@@ -90,7 +91,7 @@
 
         .brand-title {
             font-family: var(--font-serif);
-            font-size: 24px; /* Ridimensionato in armonia */
+            font-size: 24px; 
             font-weight: 700;
             color: var(--color-primary); /* Testo verde brand */
             letter-spacing: 0.5px;
@@ -118,33 +119,36 @@
             vertical-align: super;
         }
 
-        /* Selettore Lingua in alto a destra nel banner */
+        /* Selettore Lingua in alto a destra nel banner - Modificato per disposizione verticale */
         .lang-selector {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 10px;
+            right: 12px;
             z-index: 100;
             display: flex;
-            gap: 6px;
+            flex-direction: column; /* IT ed EN uno sotto l'altro */
+            gap: 5px; /* Spazio compatto tra i due tasti */
+            align-items: flex-end;
         }
 
         .lang-btn {
             background-color: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.4);
             color: #ffffff;
-            font-size: 11px;
+            font-size: 10px; /* Leggermente più piccolo per la colonna verticale */
             font-weight: 700;
-            padding: 4px 8px;
+            padding: 3px 6px;
             border-radius: 30px;
             cursor: pointer;
             transition: var(--transition);
+            white-space: nowrap;
         }
 
         .lang-btn.active {
             background-color: #ffffff;
             color: var(--color-primary);
             border-color: #ffffff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
 
         .hero-overlay {
@@ -157,12 +161,12 @@
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
-            padding-bottom: 8px; /* Padding inferiore minimo */
+            padding-bottom: 8px; 
         }
 
         .hero h1 {
             font-family: var(--font-serif);
-            font-size: 16px; /* Ridotto da 18px a 16px per evitare qualsiasi sovrapposizione visiva */
+            font-size: 16px; 
             color: #ffffff; 
             font-weight: 700;
             text-align: center;
@@ -172,7 +176,7 @@
 
         /* --- TASTO TORNA A CASA --- */
         .home-direction-bar {
-            padding: 16px 20px 0 20px;
+            padding: 10px 20px 0 20px;
         }
 
         .home-btn {
@@ -181,14 +185,14 @@
             border: 1.5px solid rgba(23, 139, 117, 0.2);
             color: var(--color-primary);
             text-decoration: none;
-            padding: 14px 20px;
-            border-radius: 16px;
+            padding: 8px 16px; 
+            border-radius: 12px; 
             font-weight: 700;
-            font-size: 13.5px;
+            font-size: 13px; 
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px; 
             transition: var(--transition);
             box-shadow: var(--shadow-sm);
         }
@@ -199,8 +203,8 @@
         }
 
         .home-btn svg {
-            width: 20px;
-            height: 20px;
+            width: 18px; 
+            height: 18px; 
             fill: currentColor;
         }
 
@@ -226,22 +230,22 @@
             border-bottom: 1px solid var(--color-border);
         }
 
-        /* Filtri a Griglia Fluida per Mobile (Senza scorrimento orizzontale) */
+        /* Filtri a Griglia Fluida per Mobile */
         .filter-tabs {
             display: flex;
-            flex-wrap: wrap; /* Consente ai bottoni di andare a capo in modo fluido */
-            gap: 6px;       /* Distanza compatta ottimizzata per smartphone */
-            justify-content: center; /* Allineamento ordinato e centrato */
+            flex-wrap: wrap; 
+            gap: 6px;       
+            justify-content: center; 
             padding-bottom: 2px;
         }
 
         .tab-btn {
             background-color: var(--color-card);
             border: 1px solid var(--color-border);
-            padding: 8px 14px; /* Ridotto leggermente per massimizzare lo spazio utile */
+            padding: 8px 14px; 
             border-radius: 30px;
             font-family: var(--font-sans);
-            font-size: 12px; /* Compatto e altamente leggibile */
+            font-size: 12px; 
             font-weight: 600;
             color: var(--color-text-muted);
             cursor: pointer;
@@ -316,17 +320,17 @@
 
         /* --- EVIDENZIAZIONE VISIVA INFO RETREAT (INTERNA) --- */
         .card.retreat-highlight {
-            border-left: 4px solid var(--color-primary); /* Linea sinistra verde brand */
+            border-left: 4px solid var(--color-primary); 
             border-color: #cce5e1;
-            background-color: #f3f8f6; /* Sfondo verde tenue e lussuoso */
+            background-color: #f3f8f6; 
             box-shadow: 0 4px 12px rgba(23, 139, 117, 0.05);
         }
 
         /* --- HIGHLIGHT STRUTTURALE PER LA RISTORAZIONE --- */
         .card.ristorazione-highlight {
-            border-top: 4px solid var(--color-secondary); /* Linea superiore terracotta */
-            box-shadow: 0 8px 24px rgba(201, 125, 82, 0.12); /* Ombra calda */
-            background: linear-gradient(180deg, #fffaf6 0%, #ffffff 100%); /* Sfumatura solare */
+            border-top: 4px solid var(--color-secondary); 
+            box-shadow: 0 8px 24px rgba(201, 125, 82, 0.12); 
+            background: linear-gradient(180deg, #fffaf6 0%, #ffffff 100%); 
         }
 
         /* Tag "Esperienza Gastronomica" */
@@ -345,7 +349,7 @@
         /* Badge Superiore */
         .card-header {
             display: flex;
-            justify-content: space-between;
+            justify-between: space-between;
             align-items: center;
         }
 
@@ -410,7 +414,7 @@
             justify-content: center;
             width: 24px;
             height: 24px;
-            color: var(--color-primary); /* Verde di default */
+            color: var(--color-primary); 
             flex-shrink: 0;
             transition: var(--transition);
         }
@@ -508,12 +512,12 @@
             display: flex;
             gap: 10px;
             margin-top: 4px;
-            flex-wrap: wrap; /* Supporta il wrap elegante se ci sono più di 2 pulsanti */
+            flex-wrap: wrap; 
         }
 
         .action-btn {
             flex: 1;
-            min-width: 100px; /* Assicura che i pulsanti mantengano una dimensione minima quando wrappano */
+            min-width: 100px; 
             padding: 12px;
             border-radius: 12px;
             font-family: var(--font-sans);
@@ -575,19 +579,19 @@
             background-color: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(10px);
             border-top: 1px solid var(--color-border);
-            padding: 6px 12px; /* Ridotto per massima discrezione e compattezza su mobile */
+            padding: 6px 12px; 
             box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6px; /* Spazio raccolto e ordinato */
+            gap: 6px; 
             z-index: 1000;
         }
 
         .call-btn-footer {
             text-decoration: none;
-            padding: 6px 10px; /* Ridotto il padding verticale da 12px a 10px per snellire la barra */
-            border-radius: 20px; /* Adattato proporzionalmente */
-            font-size: 11px; /* Rimpicciolito per non risultare invadente su schermi piccoli */
+            padding: 6px 10px; 
+            border-radius: 20px; 
+            font-size: 11px; 
             font-weight: 700;
             display: inline-flex;
             align-items: center;
@@ -605,7 +609,7 @@
         .call-btn-footer.whatsapp {
             background-color: #25d366;
             color: #ffffff;
-            box-shadow: 0 3px 8px rgba(37, 211, 102, 0.2);
+            box-shadow: 0 3px 8px rgba(37, 211, 102, 0.25);
         }
 
         .call-btn-footer:active {
@@ -613,8 +617,8 @@
         }
 
         .icon-phone-svg {
-            width: 13px; /* Ridotto per adattarsi all'altezza della nuova barra */
-            height: 13px; /* Ridotto per adattarsi all'altezza della nuova barra */
+            width: 13px; 
+            height: 13px; 
             fill: currentColor;
         }
     </style>
@@ -1057,7 +1061,7 @@
                 distanceNum: 19,
                 mapsUrl: "https://www.google.com/maps/search/?api=1&query=Modica",
                 desc: {
-                    it: "Città delle cento chiese, celebre in tutto il mondo per il suo cioccolato artigianale unico fatto a freddo. Consigliata la passeggiata nel tardo pomeriggio.",
+                    it: "Cìttà delle cento chiese, celebre in tutto il mondo per il suo cioccolato artigianale unico fatto a freddo. Consigliata la passeggiata nel tardo pomeriggio.",
                     en: "A UNESCO World Heritage town famous worldwide for its unique, cold-processed Modican chocolate. Beautiful for a sunset walk."
                 },
                 phone: ""
@@ -1364,7 +1368,7 @@
                             ${l.distanceNum > 0 ? `
                             <span class="distance-badge">
                                 <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24">
-                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.25L17,14.92L16.25/svg" />
+                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5z" />
                                 </svg>
                                 ${l.distance}
                             </span>
