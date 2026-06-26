@@ -47,7 +47,6 @@
         .app-container {
             width: 100%;
             max-width: 600px; /* Ottimizzato per lettura mobile ed eleganza desktop centratissima */
-            margin: 0 -10px; /* Consente un allineamento ottimale */
             margin: 0 auto;
             background-color: var(--color-bg);
             min-height: 100vh;
@@ -174,9 +173,12 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.15);
         }
 
-        /* --- TASTO TORNA A CASA --- */
+        /* --- TASTO TORNA A CASA E AGGIUNGI ALLA HOME --- */
         .home-direction-bar {
             padding: 10px 20px 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* Spaziatura tra i due pulsanti di testa */
         }
 
         .home-btn {
@@ -195,6 +197,7 @@
             gap: 8px; 
             transition: var(--transition);
             box-shadow: var(--shadow-sm);
+            cursor: pointer;
         }
 
         .home-btn:active {
@@ -206,6 +209,17 @@
             width: 18px; 
             height: 18px; 
             fill: currentColor;
+        }
+
+        /* Bottone specifico per salvare sul telefono */
+        .save-app-btn {
+            background-color: #ffffff;
+            border: 1.5px solid var(--color-border);
+            color: var(--color-secondary);
+        }
+        
+        .save-app-btn:active {
+            background-color: #fff8f5;
         }
 
         /* --- INTRO --- */
@@ -349,7 +363,7 @@
         /* Badge Superiore */
         .card-header {
             display: flex;
-            justify-between: space-between;
+            justify-content: space-between;
             align-items: center;
         }
 
@@ -568,6 +582,94 @@
             margin-bottom: 12px;
         }
 
+        /* --- CONTROLLI DI SISTEMA: MODAL DI SALVATAGGIO APP --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(2, 2, 5, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 5000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            border: 1.5px solid var(--color-border);
+            border-radius: 24px;
+            padding: 24px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 12px 32px rgba(23, 139, 117, 0.15);
+            transform: translateY(40px);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            color: var(--color-text);
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        .modal-body {
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: var(--color-text);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .instruction-box {
+            background-color: var(--color-bg);
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid var(--color-border);
+        }
+
         /* --- STICKY CONTACT BAR (Doppia azione per smartphone) --- */
         .bottom-contact-bar {
             position: fixed;
@@ -628,6 +730,24 @@
     <!-- Notification Toast Popup -->
     <div id="toast" class="toast-notif">Password copiata!</div>
 
+    <!-- Modal d'installazione/salvataggio manuale sul telefono -->
+    <div id="saveModal" class="modal-overlay" onclick="closeSaveModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title" id="save-modal-title">Salva sul Telefono</h3>
+                <button class="modal-close" onclick="closeSaveModal()" aria-label="Chiudi">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="save-modal-body">
+                <!-- Verrà inserito dinamicamente in base al dispositivo -->
+            </div>
+        </div>
+    </div>
+
     <div class="app-container">
         
         <!-- Hero Copertina con sfondo verde del brand -->
@@ -649,7 +769,7 @@
             </div>
         </div>
 
-        <!-- Tasto di direzione rapida "Torna al Resort" -->
+        <!-- Tasti di direzione e salvataggio -->
         <div class="home-direction-bar">
             <!-- Link di navigazione che punta direttamente alle coordinate del resort (se in Sicilia) -->
             <a href="https://www.google.com/maps/search/?api=1&query=Kinanto+EcoRetreat+Sicily+Ispica" target="_blank" class="home-btn">
@@ -658,6 +778,15 @@
                 </svg>
                 <span id="home-btn-txt">Naviga verso il Kinanto EcoRetreat</span>
             </a>
+            
+            <!-- Nuovo Tasto per Salvare la pagina sul Telefono -->
+            <button onclick="triggerSaveApp()" class="home-btn save-app-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                    <line x1="12" y1="18" x2="12.01" y2="18"/>
+                </svg>
+                <span id="save-app-btn-txt">Salva questa guida nel tuo telefono</span>
+            </button>
         </div>
 
         <!-- Intro breve d'istruzione -->
@@ -738,7 +867,14 @@
                 badgeRetreat: "🌿 Info Soggiorno",
                 highlightGastro: "✨ Esperienza Gastronomica",
                 sectionRetreat: "🌿 Il tuo Soggiorno al Kinanto",
-                sectionTerritory: "🗺️ Esplora il Territorio"
+                sectionTerritory: "🗺️ Esplora il Territorio",
+                
+                // Traduzioni per il salvataggio app aggiornate come richiesto
+                saveBtn: "Salva questa guida nel tuo telefono",
+                modalTitle: "Salva la Guida sul tuo Telefono",
+                modalIOS: "Su <strong>Safari per iPhone / iPad</strong>:<br><div class='instruction-box mt-2 flex flex-col gap-2 text-left text-slate-700'>1. Premi l'icona di condivisione <span class='inline-flex align-middle p-1.5 bg-slate-200 rounded text-black w-8 h-8 justify-center items-center'><svg class='w-4 h-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 3 21 3 21 9'></polyline><polyline points='9 21 3 21 3 15'></polyline><line x1='21' y1='3' x2='14' y2='10'></line><line x1='3' y1='21' x2='10' y2='14'></line></svg></span> in basso.<br>2. Seleziona <strong>'Aggiungi alla schermata Home'</strong>.</div>",
+                modalAndroid: "Su <strong>Chrome per Android</strong>:<br><div class='instruction-box mt-2 text-left text-slate-700'>1. Premi i tre puntini <span class='font-bold'>⋮</span> in alto a destra.<br>2. Seleziona <strong>'Aggiungi a schermata Home'</strong> o <strong>'Installa'</strong>.</div>",
+                modalGeneric: "Usa la funzione <strong>'Aggiungi a schermata Home'</strong> o <strong>'Segnalibri'</strong> del tuo browser per accedere alla guida direttamente come un'app sul telefono."
             },
             en: {
                 heroTitle: "Welcome Home",
@@ -760,7 +896,14 @@
                 badgeRetreat: "🌿 Useful Info",
                 highlightGastro: "✨ Culinary Experience",
                 sectionRetreat: "🌿 Your Stay at Kinanto",
-                sectionTerritory: "🗺️ Explore the Area"
+                sectionTerritory: "🗺️ Explore the Area",
+                
+                // Translations for saving the app updated
+                saveBtn: "Save this guide to your phone",
+                modalTitle: "Save the Guide to your Phone",
+                modalIOS: "On <strong>Safari for iPhone / iPad</strong>:<br><div class='instruction-box mt-2 flex flex-col gap-2 text-left text-slate-700'>1. Tap the share icon <span class='inline-flex align-middle p-1.5 bg-slate-200 rounded text-black w-8 h-8 justify-center items-center'><svg class='w-4 h-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 3 21 3 21 9'></polyline><polyline points='9 21 3 21 3 15'></polyline><line x1='21' y1='3' x2='14' y2='10'></line><line x1='3' y1='21' x2='10' y2='14'></line></svg></span> at the bottom.<br>2. Scroll down and select <strong>'Add to Home Screen'</strong>.</div>",
+                modalAndroid: "On <strong>Chrome for Android</strong>:<br><div class='instruction-box mt-2 text-left text-slate-700'>1. Tap the three dots <span class='font-bold'>⋮</span> in the top right.<br>2. Select <strong>'Add to Home screen'</strong> or <strong>'Install app'</strong>.</div>",
+                modalGeneric: "Use your browser's <strong>'Add to Home Screen'</strong> or <strong>'Add Bookmark'</strong> feature to access this directory like a native app."
             }
         };
 
@@ -1236,6 +1379,10 @@
             document.getElementById('tab-ristorazione').innerText = dict.tabRistorazione;
             document.getElementById('tab-preferiti').innerText = dict.tabPreferiti;
 
+            // Traduci i testi per salvare l'app
+            document.getElementById('save-app-btn-txt').innerText = dict.saveBtn;
+            document.getElementById('save-modal-title').innerText = dict.modalTitle;
+
             // Ricarica le card
             renderCards();
         }
@@ -1368,7 +1515,7 @@
                             ${l.distanceNum > 0 ? `
                             <span class="distance-badge">
                                 <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24">
-                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5z" />
+                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5z" />
                                 </svg>
                                 ${l.distance}
                             </span>
@@ -1446,6 +1593,54 @@
             `;
         }
 
+        // --- GESTIONE SALVATAGGIO APP ---
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Impedisce a Chrome di mostrare automaticamente il banner di installazione
+            e.preventDefault();
+            deferredPrompt = e;
+            // Opzionale: mostra la barra/pulsante di installazione se supportato
+        });
+
+        function triggerSaveApp() {
+            // Se l'installazione nativa è supportata (es. Android Chrome, Desktop)
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('L\'utente ha accettato l\'installazione');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                // Altrimenti, apri il modal con istruzioni personalizzate
+                openSaveModal();
+            }
+        }
+
+        function openSaveModal() {
+            const modal = document.getElementById('saveModal');
+            const body = document.getElementById('save-modal-body');
+            const dict = staticTranslations[currentLang];
+            
+            // Rileva lo user agent del dispositivo per mostrare istruzioni mirate
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                body.innerHTML = dict.modalIOS;
+            } else if (/android/i.test(userAgent)) {
+                body.innerHTML = dict.modalAndroid;
+            } else {
+                body.innerHTML = `<div class='instruction-box text-left text-slate-700'>${dict.modalGeneric}</div>`;
+            }
+            
+            modal.classList.add('show');
+        }
+
+        function closeSaveModal() {
+            document.getElementById('saveModal').classList.remove('show');
+        }
+
         // --- GESTIONE DEI FAVORITI ---
         function toggleFavorite(id, btnElement) {
             const index = preferiti.indexOf(id);
@@ -1478,13 +1673,6 @@
             if (navigator.vibrate) {
                 navigator.vibrate(10);
             }
-        }
-
-        // --- FUNZIONE DI RICERCA DIGITATA ---
-        function handleSearch() {
-            const input = document.getElementById('searchInput');
-            searchQuery = input.value;
-            renderCards();
         }
 
         // --- INIZIALIZZAZIONE ---
