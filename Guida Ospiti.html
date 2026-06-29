@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kinanto EcoRetreat Sicily - Benvenuti a Casa</title>
+    
+    <!-- Google Fonts Premium -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- BRAND IDENTITY & TOKENS --- */
+        :root {
+            --color-primary: #178b75;       /* Verde Brand Kinanto */
+            --color-secondary: #c97d52;     /* Terracotta */
+            --color-accent: #e8f4f1;       /* Verde chiarissimo di sfondo */
+            --color-bg: #f9f8f3;            /* Crema elegantissimo */
+            --color-card: #ffffff;
+            --color-text: #222624;          /* Antracite morbido */
+            --color-text-muted: #5e6661;
+            --color-border: #e8e5dc;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --shadow-sm: 0 2px 8px rgba(23, 139, 117, 0.04);
+            --shadow-md: 0 8px 24px rgba(23, 139, 117, 0.08);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- RESET & LAYOUT --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.5;
+            padding-bottom: 55px; /* Spazio per la barra inferiore ultrasottile */
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 600px; /* Ottimizzato per lettura mobile ed eleganza desktop centratissima */
+            margin: 0 auto;
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- HERO BANNER CON SFONDO VERDE (ULTRASOTTILE) --- */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 110px; 
+            background-color: var(--color-primary); 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        /* Riproduzione ad alta fedeltà dello stemma ufficiale (proporzionato al nuovo banner ultrasottile) */
+        .brand-badge {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-bg); 
+            padding: 12px 30px 14px 30px; 
+            border-radius: 0 0 20px 20px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1.5px solid var(--color-border);
+            border-top: none;
+            width: 80%; 
+            max-width: 280px;
+        }
+
+        .brand-title {
+            font-family: var(--font-serif);
+            font-size: 24px; 
+            font-weight: 700;
+            color: var(--color-primary); /* Testo verde brand */
+            letter-spacing: 0.5px;
+            line-height: 1;
+        }
+
+        .brand-subtitle {
+            font-size: 8.5px; 
+            font-weight: 800;
+            color: var(--color-secondary); /* Sottotitolo terracotta */
+            text-transform: uppercase;
+            letter-spacing: 2.5px; 
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            white-space: nowrap;
+        }
+
+        .brand-trademark {
+            font-size: 6px; 
+            font-weight: 600;
+            margin-left: 2px;
+            vertical-align: super;
+        }
+
+        /* Selettore Lingua in alto a destra nel banner - Modificato per disposizione verticale */
+        .lang-selector {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column; /* IT ed EN uno sotto l'altro */
+            gap: 5px; /* Spazio compatto tra i due tasti */
+            align-items: flex-end;
+        }
+
+        .lang-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            font-size: 10px; /* Leggermente più piccolo per la colonna verticale */
+            font-weight: 700;
+            padding: 3px 6px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .lang-btn.active {
+            background-color: #ffffff;
+            color: var(--color-primary);
+            border-color: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 8px; /* Padding inferiore minimo */
+        }
+
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: 16px; 
+            color: #ffffff; 
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+        }
+
+        /* --- TASTO TORNA A CASA E AGGIUNGI ALLA HOME --- */
+        .home-direction-bar {
+            padding: 10px 20px 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* Spaziatura tra i due pulsanti di testa */
+        }
+
+        .home-btn {
+            width: 100%;
+            background-color: var(--color-accent);
+            border: 1.5px solid rgba(23, 139, 117, 0.2);
+            color: var(--color-primary);
+            text-decoration: none;
+            padding: 8px 16px; 
+            border-radius: 12px; 
+            font-weight: 700;
+            font-size: 13px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; 
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+        }
+
+        .home-btn:active {
+            transform: scale(0.98);
+            background-color: #d8ece8;
+        }
+
+        .home-btn svg {
+            width: 18px; 
+            height: 18px; 
+            fill: currentColor;
+        }
+
+        /* Bottone specifico per salvare sul telefono */
+        .save-app-btn {
+            background-color: #ffffff;
+            border: 1.5px solid var(--color-border);
+            color: var(--color-secondary);
+        }
+        
+        .save-app-btn:active {
+            background-color: #fff8f5;
+        }
+
+        /* --- INTRO --- */
+        .intro-box {
+            padding: 16px 20px 10px 20px;
+            text-align: center;
+        }
+
+        .intro-box p {
+            font-size: 13px;
+            color: var(--color-text-muted);
+            font-style: italic;
+        }
+
+        /* --- FILTRI --- */
+        .sticky-controls {
+            position: sticky;
+            top: 0;
+            background-color: var(--color-bg);
+            z-index: 100;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        /* Filtri a Griglia Fluida per Mobile */
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap; 
+            gap: 6px;       
+            justify-content: center; 
+            padding-bottom: 2px;
+        }
+
+        .tab-btn {
+            background-color: var(--color-card);
+            border: 1px solid var(--color-border);
+            padding: 8px 14px; 
+            border-radius: 30px;
+            font-family: var(--font-sans);
+            font-size: 12px; 
+            font-weight: 600;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .tab-btn.active {
+            background-color: var(--color-primary);
+            color: #ffffff;
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 12px rgba(23, 139, 117, 0.2);
+        }
+
+        /* Tab Ristorazione "Glow" per richiamare l'attenzione */
+        #tab-ristorazione::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            width: 6px;
+            height: 6px;
+            background-color: var(--color-secondary);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--color-secondary);
+        }
+
+        /* --- LISTA LUOGHI (CARDS) --- */
+        .cards-feed {
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card {
+            background-color: var(--color-card);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow: hidden;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        /* Titoli di Separazione delle Sezioni */
+        .feed-section-title {
+            font-family: var(--font-serif);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin: 20px 0 4px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--color-border);
+            letter-spacing: 0.5px;
+            display: block;
+            width: 100%;
+        }
+
+        /* --- EVIDENZIAZIONE VISIVA INFO RETREAT (INTERNA) --- */
+        .card.retreat-highlight {
+            border-left: 4px solid var(--color-primary); /* Linea sinistra verde brand */
+            border-color: #cce5e1;
+            background-color: #f3f8f6; /* Sfondo verde tenue e lussuoso */
+            box-shadow: 0 4px 12px rgba(23, 139, 117, 0.05);
+        }
+
+        /* --- HIGHLIGHT STRUTTURALE PER LA RISTORAZIONE --- */
+        .card.ristorazione-highlight {
+            border-top: 4px solid var(--color-secondary); /* Linea superiore terracotta */
+            box-shadow: 0 8px 24px rgba(201, 125, 82, 0.12); /* Ombra calda */
+            background: linear-gradient(180deg, #fffaf6 0%, #ffffff 100%); /* Sfumatura solare */
+        }
+
+        /* Tag "Esperienza Gastronomica" */
+        .resto-highlight-tag {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Badge Superiore */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-badge {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--color-secondary);
+            background-color: #fff2eb;
+            padding: 4px 10px;
+            border-radius: 50px;
+        }
+
+        .distance-badge {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Azione Preferiti */
+        .fav-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+        }
+
+        .fav-icon {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: #a2aba5;
+            stroke-width: 2;
+            transition: var(--transition);
+        }
+
+        .fav-btn.is-fav .fav-icon {
+            fill: #e05d5d;
+            stroke: #e05d5d;
+            transform: scale(1.15);
+        }
+
+        /* Titolo e Descrizione con Contenitore Icone */
+        .card-title-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 2px;
+        }
+
+        .card-title-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            color: var(--color-primary); /* Verde di default */
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .card-title-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* Icona ristorante in colore terracotta coordinato */
+        .card.ristorazione-highlight .card-title-icon {
+            color: var(--color-secondary);
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .card-title {
+            font-family: var(--font-serif);
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--color-text);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-title:hover {
+            color: var(--color-primary);
+        }
+
+        .maps-indicator-icon {
+            width: 14px;
+            height: 14px;
+            fill: var(--color-secondary);
+        }
+
+        .card-desc {
+            font-size: 13.5px;
+            color: var(--color-text-muted);
+            line-height: 1.45;
+        }
+
+        /* Sotto-informazione specifica (es. password Wifi cliccabile) */
+        .wifi-spec-box {
+            background-color: var(--color-bg);
+            border: 1px dashed var(--color-primary);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 4px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .wifi-click-copy {
+            font-family: monospace;
+            font-weight: 700;
+            color: var(--color-primary);
+            cursor: pointer;
+            border-bottom: 1.5px dotted var(--color-primary);
+            padding: 1px 4px;
+        }
+
+        /* Toast Popup Notifica */
+        .toast-notif {
+            position: fixed;
+            bottom: 110px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: var(--color-text);
+            color: #ffffff;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast-notif.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Pulsanti d'Azione delle Card */
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+            flex-wrap: wrap; 
+        }
+
+        .action-btn {
+            flex: 1;
+            min-width: 100px; 
+            padding: 12px;
+            border-radius: 12px;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .action-btn-primary {
+            background-color: var(--color-primary);
+            color: #ffffff;
+            border: 1px solid var(--color-primary);
+        }
+
+        .action-btn-primary:active {
+            background-color: #0f6c5a;
+        }
+
+        .action-btn-secondary {
+            background-color: #f1f7f5;
+            color: var(--color-primary);
+            border: 1px solid #d4e8e3;
+        }
+
+        .action-btn-secondary:active {
+            background-color: #e3f2ee;
+        }
+
+        /* --- STATO VUOTO (RICERCA SENZA RISULTATI) --- */
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--color-text-muted);
+        }
+
+        .empty-state svg {
+            width: 60px;
+            height: 60px;
+            fill: var(--color-border);
+            margin-bottom: 12px;
+        }
+
+        /* --- CONTROLLI DI SISTEMA: MODAL DI SALVATAGGIO APP --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(2, 2, 5, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 5000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            border: 1.5px solid var(--color-border);
+            border-radius: 24px;
+            padding: 24px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 12px 32px rgba(23, 139, 117, 0.15);
+            transform: translateY(40px);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            color: var(--color-text);
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .modal-title {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+        }
+
+        .modal-body {
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: var(--color-text);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .instruction-box {
+            background-color: var(--color-bg);
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid var(--color-border);
+        }
+
+        /* --- STICKY CONTACT BAR (Doppia azione per smartphone) --- */
+        .bottom-contact-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--color-border);
+            padding: 6px 12px; 
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px; 
+            z-index: 1000;
+        }
+
+        .call-btn-footer {
+            text-decoration: none;
+            padding: 6px 10px; 
+            border-radius: 20px; 
+            font-size: 11px; 
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+
+        .call-btn-footer.phone {
+            background-color: var(--color-primary);
+            color: #ffffff;
+            box-shadow: 0 3px 8px rgba(23, 139, 117, 0.2);
+        }
+
+        .call-btn-footer.whatsapp {
+            background-color: #25d366;
+            color: #ffffff;
+            box-shadow: 0 3px 8px rgba(37, 211, 102, 0.25);
+        }
+
+        .call-btn-footer:active {
+            transform: scale(0.96);
+        }
+
+        .icon-phone-svg {
+            width: 13px; 
+            height: 13px; 
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Notification Toast Popup -->
+    <div id="toast" class="toast-notif">Password copiata!</div>
+
+    <!-- Modal d'installazione/salvataggio manuale sul telefono -->
+    <div id="saveModal" class="modal-overlay" onclick="closeSaveModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title" id="save-modal-title">Salva sul Telefono</h3>
+                <button class="modal-close" onclick="closeSaveModal()" aria-label="Chiudi">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="save-modal-body">
+                <!-- Verrà inserito dinamicamente in base al dispositivo -->
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        
+        <!-- Hero Copertina con sfondo verde del brand -->
+        <div class="hero">
+            <!-- Selettore di Lingua Integrato -->
+            <div class="lang-selector">
+                <button class="lang-btn active" id="lang-it-btn" onclick="setLanguage('it')">🇮🇹 IT</button>
+                <button class="lang-btn" id="lang-en-btn" onclick="setLanguage('en')">🇬🇧 EN</button>
+            </div>
+
+            <!-- Il Logo Ufficiale appeso, conforme al file Vistaprint Giulia F.pdf, magnificamente ingrandito -->
+            <div class="brand-badge">
+                <span class="brand-title">Kinanto</span>
+                <span class="brand-subtitle">EcoRetreat Sicily <span class="brand-trademark">®</span></span>
+            </div>
+            
+            <div class="hero-overlay">
+                <h1 id="hero-title">Benvenuti a Casa</h1>
+            </div>
+        </div>
+
+        <!-- Tasti di direzione e salvataggio -->
+        <div class="home-direction-bar">
+            <!-- Link di navigazione che punta direttamente alle coordinate del resort (se in Sicilia) -->
+            <a href="https://www.google.com/maps/search/?api=1&query=Kinanto+EcoRetreat+Sicily+Ispica" target="_blank" class="home-btn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5z" />
+                </svg>
+                <span id="home-btn-txt">Naviga verso il Kinanto EcoRetreat</span>
+            </a>
+            
+            <!-- Nuovo Tasto per Salvare la pagina sul Telefono -->
+            <button onclick="triggerSaveApp()" class="home-btn save-app-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                    <line x1="12" y1="18" x2="12.01" y2="18"/>
+                </svg>
+                <span id="save-app-btn-txt">Salva questa guida nel tuo telefono</span>
+            </button>
+        </div>
+
+        <!-- Intro breve d'istruzione -->
+        <div class="intro-box">
+            <p id="intro-text">Abbiamo selezionato per voi i migliori luoghi del territorio. Cliccate su una destinazione per aprire direttamente il navigatore su Google Maps!</p>
+        </div>
+
+        <!-- Barra di Selezione Categorie Fisse allo scorrimento -->
+        <div class="sticky-controls">
+            <!-- Tabs Categoria -->
+            <div class="filter-tabs">
+                <button class="tab-btn active" id="tab-tutti" onclick="filterCategory('tutti', this)">✨ Tutti</button>
+                <button class="tab-btn" id="tab-retreat" onclick="filterCategory('retreat', this)">🌿 EcoRetreat Info</button>
+                <button class="tab-btn" id="tab-mare" onclick="filterCategory('mare', this)">🏖️ Mare & Natura</button>
+                <button class="tab-btn" id="tab-borghi" onclick="filterCategory('borghi', this)">🏛️ Borghi & Arte</button>
+                <button class="tab-btn" id="tab-ristorazione" onclick="filterCategory('ristorazione', this)">🍽️ Ristorazione</button>
+                <button class="tab-btn" id="tab-eventi" onclick="filterCategory('eventi', this)">📅 Eventi</button>
+                <button class="tab-btn" id="tab-preferiti" onclick="filterCategory('preferiti', this)">❤️ Preferiti</button>
+            </div>
+        </div>
+
+        <!-- Feed dei Luoghi -->
+        <div class="cards-feed" id="cardsFeed">
+            <!-- Le card verranno generate dinamicamente tramite JavaScript -->
+        </div>
+
+        <!-- Messaggio nessun risultato -->
+        <div class="empty-state" id="emptyState">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.5,14H14.71L14.44,13.73C15.41,12.59 16,11.11 16,9.5A6.5,6.5 0 0,0 9.5,3A6.5,6.5 0 0,0 3,9.5A6.5,6.5 0 0,0 9.5,16C11.11,16 12.59,15.41 13.73,14.44L14.44,14.71V15.5L19.5,20.5L21,19L15.5,14M9.5,14C7,14 5,12 5,9.5C5,7 7,5 9.5,5C12,5 14,7 14,9.5C14,12 12,14 9.5,14Z" />
+            </svg>
+            <p id="emptyStateText">Nessun luogo trovato corrispondente ai criteri inseriti.</p>
+        </div>
+
+        <div class="spacer-footer"></div>
+
+        <!-- Barra di Contatto Sticky Doppia Azione -->
+        <div class="bottom-contact-bar">
+            <!-- Pulsante WhatsApp -->
+            <a href="https://wa.me/393895285803?text=Salve%20reception%20Kinanto,%20avrei%20bisogno%20di%20assistenza" target="_blank" class="call-btn-footer whatsapp">
+                <svg class="icon-phone-svg" viewBox="0 0 24 24">
+                    <path d="M12.04 2C6.58 2 2.13 6.41 2.13,11.5C2.13,13.3 2.5 15.03 3.39,16.83L2,22L5.67,20.55C7.03,21.36 8.7,21.75 10.36,21.75C16.5,21.75 21,17.3 21,12.5C21.05,6.41 16.5,2 12,2M12,3.5C16.14,3.5 19.5,6.53 19.5,9.5C19.5,12.86 16.1,16.5 12,16.5C10.74,16.5 9.47,16.13 8.35,15.47L8.09,15.31L5.9,16.17L6.47,14.07L6.29,13.79C5.55,12.63 5.13,11.17 5.13,9.5C5.13,6.53 8.5,3.5 12,3.5M9.13,7.62C8.94,7.62 8.63,7.7 8.39,7.93C8.15,8.16 7.5,8.79 7.5,10.05C7.5,11.3 8.42,12.53 8.55,12.71C8.68,12.88 10.33,15.53 12.87,16.63C15.03,17.55 15.47,17.37 15.94,17.33C16.41,17.29 17.47,16.73 17.69,16.1C17.91,15.47 17.91,14.93 17.84,14.82C17.78,14.71 17.62,14.65 17.39,14.54C17.15,14.43 15.97,13.84 15.75,13.76C15.53,13.68 15.37,13.64 15.21,13.88C15.05,14.12 14.58,14.68 14.44,14.84C14.3,15 14.16,15.03 13.92,14.91C13.69,14.8 12.94,14.55 12.06,13.9C11.37,13.29 10.91,12.53 10.78,12.3C10.65,12.07 10.77,11.95 10.88,11.84C10.98,11.74 11.1,11.59 11.21,11.46C11.32,11.33 11.36,11.23 11.44,11.07C11.5,10.91 11.47,10.78 11.42,10.67C11.37,10.56 10.92,9.45 10.73,9C10.54,8.56 10.35,8.62 10.21,8.62C10.08,8.62 9.92,8.61 9.77,8.61C9.61,8.61 9.36,8.67 9.13,7.62Z"/>
+                </svg>
+                WhatsApp Chat
+            </a>
+
+            <!-- Pulsante Chiamata vocale standard -->
+            <a href="tel:+393895285803" class="call-btn-footer phone">
+                <svg class="icon-phone-svg" viewBox="0 0 24 24">
+                    <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+                </svg>
+                <span id="call-btn-txt">Chiama Reception</span>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT DI GESTIONE DATI ED INTERAZIONI INTERNE -->
+    <script>
+        // --- DIZIONARIO TRADUZIONI STATISTICHE ---
+        const staticTranslations = {
+            it: {
+                heroTitle: "Benvenuti a Casa",
+                homeBtn: "Naviga verso il Kinanto EcoRetreat",
+                introText: "Abbiamo selezionato per voi i migliori luoghi del territorio. Cliccate su una destinazione per aprire direttamente il navigatore su Google Maps!",
+                tabTutti: "✨ Tutti",
+                tabRetreat: "🌿 EcoRetreat Info",
+                tabMare: "🏖️ Mare & Natura",
+                tabBorghi: "🏛️ Borghi & Arte",
+                tabRistorazione: "🍽️ Ristorazione",
+                tabEventi: "📅 Eventi",
+                tabPreferiti: "❤️ Preferiti",
+                emptyNoFavs: "Non hai ancora salvato alcun luogo tra i preferiti. Clicca sull'icona a cuore delle card per aggiuntarili qui!",
+                emptyNoResult: "Nessun risultato trovato corrispondente alla ricerca.",
+                callBtn: "Chiama Reception",
+                toastCopy: "Password copiata!",
+                badgeMare: "🏖️ Mare & Natura",
+                badgeBorghi: "🏛️ Borgo & Arte",
+                badgeRisto: "🍽️ Ristorazione",
+                badgeRetreat: "🌿 Info Soggiorno",
+                badgeEventi: "📅 Eventi & Tradizioni",
+                highlightGastro: "✨ Esperienza Gastronomica",
+                sectionRetreat: "🌿 Il tuo Soggiorno al Kinanto",
+                sectionTerritory: "🗺️ Esplora il Territorio",
+                sectionEvents: "📅 Eventi & Tradizioni",
+                
+                // Traduzioni per il salvataggio app aggiornate come richiesto
+                saveBtn: "Salva questa guida nel tuo telefono",
+                modalTitle: "Salva la Guida sul tuo Telefono",
+                modalIOS: "Su <strong>Safari per iPhone / iPad</strong>:<br><div class='instruction-box mt-2 flex flex-col gap-2 text-left text-slate-700'>1. Premi l'icona di condivisione <span class='inline-flex align-middle p-1.5 bg-slate-200 rounded text-black w-8 h-8 justify-center items-center'><svg class='w-4 h-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 3 21 3 21 9'></polyline><polyline points='9 21 3 21 3 15'></polyline><line x1='21' y1='3' x2='14' y2='10'></line><line x1='3' y1='21' x2='10' y2='14'></line></svg></span> in basso.<br>2. Seleziona <strong>'Aggiungi alla schermata Home'</strong>.</div>",
+                modalAndroid: "Su <strong>Chrome per Android</strong>:<br><div class='instruction-box mt-2 text-left text-slate-700'>1. Premi i tre puntini <span class='font-bold'>⋮</span> in alto a destra.<br>2. Seleziona <strong>'Aggiungi a schermata Home'</strong> o <strong>'Installa'</strong>.</div>",
+                modalGeneric: "Usa la funzione <strong>'Aggiungi a schermata Home'</strong> o <strong>'Segnalibri'</strong> del tuo browser per accedere alla guida direttamente come un'app sul telefono."
+            },
+            en: {
+                heroTitle: "Welcome Home",
+                homeBtn: "Navigate back to Kinanto EcoRetreat",
+                introText: "We have handpicked the finest spots around Sicily. Click on a destination to launch turn-by-turn navigation on Google Maps!",
+                tabTutti: "✨ All",
+                tabRetreat: "🌿 EcoRetreat Info",
+                tabMare: "🏖️ Beach & Nature",
+                tabBorghi: "🏛️ Towns & Art",
+                tabRistorazione: "🍽️ Dining & Food",
+                tabEventi: "📅 Events",
+                tabPreferiti: "❤️ Saved",
+                emptyNoFavs: "You haven't saved any locations yet. Tap the heart icon on any card to add them to your personalized itinerary!",
+                emptyNoResult: "No matching results found.",
+                callBtn: "Call Reception",
+                toastCopy: "Password copied!",
+                badgeMare: "🏖️ Beach & Nature",
+                badgeBorghi: "🏛️ Town & Art",
+                badgeRisto: "🍽️ Dining",
+                badgeRetreat: "🌿 Useful Info",
+                badgeEventi: "📅 Events & Culture",
+                highlightGastro: "✨ Culinary Experience",
+                sectionRetreat: "🌿 Your Stay at Kinanto",
+                sectionTerritory: "🗺️ Explore the Area",
+                sectionEvents: "📅 Local Events & Culture",
+                
+                // Translations for saving the app updated
+                saveBtn: "Save this guide to your phone",
+                modalTitle: "Save the Guide to your Phone",
+                modalIOS: "On <strong>Safari for iPhone / iPad</strong>:<br><div class='instruction-box mt-2 flex flex-col gap-2 text-left text-slate-700'>1. Tap the share icon <span class='inline-flex align-middle p-1.5 bg-slate-200 rounded text-black w-8 h-8 justify-center items-center'><svg class='w-4 h-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 3 21 3 21 9'></polyline><polyline points='9 21 3 21 3 15'></polyline><line x1='21' y1='3' x2='14' y2='10'></line><line x1='3' y1='21' x2='10' y2='14'></line></svg></span> at the bottom.<br>2. Scroll down and select <strong>'Add to Home Screen'</strong>.</div>",
+                modalAndroid: "On <strong>Chrome for Android</strong>:<br><div class='instruction-box mt-2 text-left text-slate-700'>1. Tap the three dots <span class='font-bold'>⋮</span> in the top right.<br>2. Select <strong>'Add to Home screen'</strong> or <strong>'Instacle app'</strong>.</div>",
+                modalGeneric: "Use your browser's <strong>'Add to Home Screen'</strong> or <strong>'Add Bookmark'</strong> feature to access this directory like a native app."
+            }
+        };
+
+        // --- DIZIONARIO ICD VETTORIALI ---
+        const iconTemplates = {
+            key: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.78 5.5 5.5 0 0 1 7.777-7.78zM12 12l.5-1.5L14 10l1.5-.5L17 8l1-1h4v4h-2v2h-2v2h-4z"/></svg>`,
+            coffee: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>`,
+            pool: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1M2 14a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1M2 8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>`,
+            leaf: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 21 2c-1 5.5-2.2 7.7-6.1 11.8A7 7 0 0 1 11 20z"/><path d="M9 11l3 3M12.9 8.1l2.5 2.5"/></svg>`,
+            umbrella: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 12a11.02 11.02 0 0 0-22 0h22zM12 12v8a2 2 0 0 0 4 0M12 2v10"/></svg>`,
+            nature: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 22h20L12 2zM12 9l-6 10h12l-6-10z"/></svg>`,
+            hiking: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l8 12M3 20h18M12 8l9 12H3l9-12z"/></svg>`,
+            boat: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17l2-9h16l2 9H2zM12 8V2.5l4 3L12 8zM2 20h20"/></svg>`,
+            town: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-4 7 4v13M9 13h6M9 17h6"/></svg>`,
+            laundry: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><circle cx="12" cy="14" r="5"/><circle cx="12" cy="14" r="2"/><circle cx="8" cy="5" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="16" cy="5" r="1"/></svg>`,
+            farm: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22h20M12 2v18M12 7c-2-1-4 0-4 2s2 3 4 2M12 12c2-1 4 0 4 2s-2 3-4 2"/></svg>`,
+            pizza: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 11l-6 6M12 2a10 10 0 0 1 8 4.2L12 22 4 6.2A10 10 0 0 1 12 2zM9 8a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM14 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg>`,
+            seafood: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 12c0-3-4-5-9-5a12 12 0 0 0-4 .7c-1-1-3-1-4-.7-1 .3-2 1.5-2 2.5a8 8 0 0 0 2 2.5 12 12 0 0 0 4 .7c5 0 9-2 9-5zM17 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>`,
+            gelato: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4c0 1.2.5 2.3 1.3 3.1L12 22l2.7-12.9C15.5 8.3 16 7.2 16 6a4 4 0 0 0-4-4z"/><circle cx="12" cy="7" r="1"/></svg>`,
+            bakery: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-.4 0-.8.2-1 .5l-2 3c-.4.6-.3 1.4.3 1.8l2.2 1.5c-.3.7-.5 1.5-.5 2.2V22h2v-11c0-.7-.2-1.5-.5-2.2l2.2-1.5c.6-.4.7-1.2.3-1.8l-2-3c-.2-.3-.6-.5-1-.5zm0 2.2l1.2 1.8-1.2.8-1.2-.8L12 4.2zM12 8l1.5 1-1.5 1-1.5-1L12 8z"/></svg>`,
+            calendar: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`
+        };
+
+        // --- DATABASE LUOGHI KINANTO ECORETREAT (BILINGUE) ---
+        const luoghiData = [
+            // INFO SOGGIORNO (RETREAT INFO)
+            {
+                id: "wifi",
+                category: "retreat",
+                icon: "key",
+                title: {
+                    it: "🔑 Connessione Wi-Fi Ospiti",
+                    en: "🔑 Guest Wi-Fi Network"
+                },
+                distance: "0 km",
+                distanceNum: 0,
+                mapsUrl: "",
+                desc: {
+                    it: "Il Kinanto è coperto da Wi-Fi gratuito. Clicca sulla password qui sotto per copiarla automaticamente sul tuo smartphone:",
+                    en: "High-speed Wi-Fi is available throughout the retreat. Tap the password below to automatically copy it to your clipboard:"
+                },
+                phone: "",
+                wifi: "243648581"
+            },
+            {
+                id: "breakfast",
+                category: "retreat",
+                icon: "coffee",
+                title: {
+                    it: "☕ Servizio Colazione",
+                    en: "☕ Breakfast Service"
+                },
+                distance: "0 km",
+                distanceNum: 0,
+                mapsUrl: "",
+                desc: {
+                    it: "La nostra colazione biologica e artigianale viene servita ogni mattina dalle <strong>08:30 alle 10:30</strong> sotto la pompeiana. Se hai intolleranze alimentari, ti invitiamo a segnalarcelo preventivamente.",
+                    en: "Our organic, artisan breakfast is served every morning from <strong>08:30 AM to 10:30 AM</strong> under the pergola. Please notify our reception of any food allergies or dietary restrictions."
+                },
+                phone: ""
+            },
+            {
+                id: "pool-rules",
+                category: "retreat",
+                icon: "pool",
+                title: {
+                    it: "🏊‍♂️ Piscina e Solarium",
+                    en: "🏊‍♂️ Pool & Solarium"
+                },
+                distance: "0 km",
+                distanceNum: 0,
+                mapsUrl: "",
+                desc: {
+                    it: "La piscina è aperta tutti i giorni dalle <strong>09:00 alle 19:30</strong>. Per salvaguardare la pace di tutti gli ospiti, si prega di evitare tuffi e schiamazzi rumorosi. Si prega di utilizzare teli da piscina.",
+                    en: "Our swimming pool is open daily from <strong>09:00 AM to 07:30 PM</strong>. To preserve tranquility for all, please refrain from diving or running. Pool towels are available upon request."
+                },
+                phone: ""
+            },
+            {
+                id: "laundry",
+                category: "retreat",
+                icon: "laundry",
+                title: {
+                    it: "🧺 Servizio Lavanderia",
+                    en: "🧺 Laundry Service"
+                },
+                distance: "0 km",
+                distanceNum: 0,
+                mapsUrl: "",
+                desc: {
+                    it: "Gli ospiti possono accedere liberamente al nostro locale lavanderia, dove troveranno a disposizione tutto il necessario (lavatrice, detersivi, asse e ferro da stiro) per lavare e prendersi cura dei propri capi.",
+                    en: "Guests have free access to our laundry room, where they will find everything needed (washing machine, detergents, ironing board, and iron) to wash and care for their clothes."
+                },
+                phone: ""
+            },
+            {
+                id: "ecology",
+                category: "retreat",
+                icon: "leaf",
+                title: {
+                    it: "♻️ Filosofia Green & Riciclaggio",
+                    en: "♻️ Green Philosophy & Recycling"
+                },
+                distance: "0 km",
+                distanceNum: 0,
+                mapsUrl: "",
+                desc: {
+                    it: "Kinanto è un EcoRetreat incentrato sulla sostenibilità. Ti invitiamo a non sprecare acqua ed energia spegnendo il climatizzatore quando esci. Troverai i bidoni della differenziata nell'isola ecologica comune.",
+                    en: "Kinanto is an EcoRetreat devoted to sustainability. Kindly prevent water and power waste by switching off your A/C unit when leaving. Sorting bins are located in the designated common recycling area."
+                },
+                phone: ""
+            },
+
+            // MARE E NATURA
+            {
+                id: "marza",
+                category: "mare",
+                icon: "umbrella",
+                title: {
+                    it: "Spiaggia di Marzà",
+                    en: "Marzà Beach"
+                },
+                distance: "4 km",
+                distanceNum: 4,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Marza+Ispica",
+                desc: {
+                    it: "Sita a soli 4 Km dall'EcoRetreat. Offre sia spiaggia libera che lidi attrezzati per una giornata di assoluto comfort e relax.",
+                    en: "Located just 4 km from the EcoRetreat. Offering pristine public areas and fully equipped beach clubs for your comfort."
+                },
+                phone: "3319907318",
+                bookingUrl: "https://new-widget.spiagge.it/stabilimenti-balneari/prenotazione/it-rg-97014-marza-beach-club/insertPeriod",
+                bookingLabel: {
+                    it: "Prenota",
+                    en: "Book"
+                }
+            },
+            {
+                id: "cavallo-focallo",
+                category: "mare",
+                icon: "hiking",
+                title: {
+                    it: "🐴 Passeggiata a Cavallo a Santa Maria del Focallo",
+                    en: "🐴 Horseback Riding at Santa Maria del Focallo"
+                },
+                distance: "6 km",
+                distanceNum: 6,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Santa+Maria+del+Focallo",
+                desc: {
+                    it: "Un'indimenticabile passeggiata a cavallo tra le dune dorate e la spiaggia incontaminata di Santa Maria del Focallo, ideale al tramonto e a stretto contatto con la natura.",
+                    en: "An unforgettable horseback ride along the golden dunes and pristine beach of Santa Maria del Focallo, perfect at sunset and deeply connected with nature."
+                },
+                phone: "",
+                bookingUrl: "https://www.holidoit.com/e/passeggiate-a-cavallo-in-spiaggia-e-nella-riserva-di-santa-maria-del-focallo-vicino-pozzallo?sP=%5B%7B%22id%22%3A90%2C%22q%22%3A2%7D%5D&sV=4798",
+                bookingLabel: {
+                    it: "Prenota escursione",
+                    en: "Book horseback ride"
+                }
+            },
+            {
+                id: "vendicari",
+                category: "mare",
+                icon: "nature",
+                title: {
+                    it: "Oasi di Vendicari",
+                    en: "Vendicari Nature Reserve"
+                },
+                distance: "23 km",
+                distanceNum: 23,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Oasi+di+Vendicari",
+                desc: {
+                    it: "Sita a circa 20 minuti di macchina dall'EcoRetreat. Prevede un biglietto d’ingresso ed una suggestiva passeggiata naturalistica per raggiungere le prime spiagge incontaminate.",
+                    en: "An unmissable nature reserve just 20 minutes away by car. Features scenic coastal hikes and untouched golden sand beaches."
+                },
+                phone: "0931468879",
+                bookingUrl: "https://www.riserva-vendicari.it/#google_vignette",
+                bookingLabel: {
+                    it: "Sito Web",
+                    en: "Website"
+                }
+            },
+            {
+                id: "correnti",
+                category: "mare",
+                icon: "umbrella",
+                title: {
+                    it: "Isola delle Correnti",
+                    en: "Isola delle Correnti"
+                },
+                distance: "20 km",
+                distanceNum: 20,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Isola+delle+Correnti",
+                desc: {
+                    it: "Punto d'incontro spettacolare tra il Mar Ionio e il Canale di Sicilia, situato a soli 20 minuti di auto dall'EcoRetreat.",
+                    en: "A mesmerizing meeting point where the Ionian Sea clashes with the Sicilian Channel. Located 20 minutes south."
+                },
+                phone: ""
+            },
+            {
+                id: "cava-ispica",
+                category: "mare",
+                icon: "hiking",
+                title: {
+                    it: "Cava di Ispica",
+                    en: "Cava d'Ispica Gorge"
+                },
+                distance: "8 km",
+                distanceNum: 8,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Cava+di+Ispica",
+                desc: {
+                    it: "L'ideale per un'emozionante escursione di trekking archeologico immersi nella natura incontaminata e nella storia millenaria della Sicilia.",
+                    en: "Perfect for archaeological trekking. Explore prehistoric rock tombs and ruins engulfed in wild, deep green gorges."
+                },
+                phone: "",
+                bookingUrl: "https://parchiarcheologici.regione.sicilia.it/kamarina-cava-ispica/biglietti/parco-forza-ispica/",
+                bookingLabel: {
+                    it: "Prenota biglietti",
+                    en: "Book tickets"
+                }
+            },
+            {
+                id: "marina-ragusa",
+                category: "mare",
+                icon: "boat",
+                title: {
+                    it: "Marina di Ragusa",
+                    en: "Marina di Ragusa"
+                },
+                distance: "33 km",
+                distanceNum: 33,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Marina+di+Ragusa",
+                desc: {
+                    it: "Località marina rinomata ed attrezzata, consigliata per passeggiate serali o per organizzare splendide escursioni e gite in barca.",
+                    en: "A popular seaside destination with a vibrant promenade. Great for dining out, coastal strolls, or booking private boat charters."
+                },
+                phone: "",
+                bookingUrl: "https://freedome.it/escursioni-in-barca/marina-di-ragusa/?srsltid=AfmBOoqc_fFIZ1ujnIVSlAD4y-RJB3wmsZUeFgJdmy6Kvma9n0U7qcJy",
+                bookingLabel: {
+                    it: "Prenota escursione in barca",
+                    en: "Book boat trip"
+                }
+            },
+
+            // BORGHI E ARTE
+            {
+                id: "enjoy-barocco",
+                category: "borghi",
+                icon: "town",
+                title: {
+                    it: "🗺️ Percorsi ed Itinerari Enjoy Barocco",
+                    en: "🗺️ Enjoy Barocco Itineraries & Routes"
+                },
+                distance: "Ispica e dintorni",
+                distanceNum: 0,
+                mapsUrl: "",
+                desc: {
+                    it: "Esplora la straordinaria ricchezza della Sicilia sud-orientale attraverso itinerari tematici. Scopri i percorsi barocchi, naturalistici, archeologici e gastronomici raccomandati per arricchire la tua vacanza.",
+                    en: "Explore the extraordinary richness of South-Eastern Sicily through thematic itineraries. Discover recommended Baroque, natural, archaeological, and gastronomic routes to enhance your holiday."
+                },
+                phone: "",
+                bookingUrl: "https://www.enjoybarocco.com/percorsi/",
+                bookingLabel: {
+                    it: "Esplora i percorsi",
+                    en: "Explore routes"
+                }
+            },
+            {
+                id: "enjoy-barocco-ispica",
+                category: "borghi",
+                icon: "town",
+                title: {
+                    it: "🏛️ Ispica su Enjoy Barocco",
+                    en: "🏛️ Ispica on Enjoy Barocco"
+                },
+                distance: "6 km",
+                distanceNum: 6,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Corso+Umberto+I+Ispica",
+                desc: {
+                    it: "Scopri la storia, i capolavori architettonici, i palazzi in stile Liberty (come Palazzo Bruno di Belmonte) e i suggestivi itinerari urbani di Ispica direttamente sulla pagina di approfondimento ufficiale di Enjoy Barocco.",
+                    en: "Discover the history, architectural masterpieces, Art Nouveau palaces (like Palazzo Bruno di Belmonte), and evocative urban itineraries of Ispica directly on the official Enjoy Barocco guide page."
+                },
+                phone: "",
+                bookingUrl: "https://www.enjoybarocco.com/paesi/ispica/",
+                bookingLabel: {
+                    it: "Esplora Ispica",
+                    en: "Explore Ispica"
+                }
+            },
+            {
+                id: "marzamemi",
+                category: "borghi",
+                icon: "town",
+                title: {
+                    it: "Marzamemi",
+                    en: "Marzamemi"
+                },
+                distance: "20 km",
+                distanceNum: 20,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Marzamemi",
+                desc: {
+                    it: "Incantevole borgo di pescatori da visitare rigorosamente dalle 18:00 in poi. Ottimo per aperitivi e street-food. Per la cena si consiglia il <strong>Ristorante da Nassa</strong>. Prodotti tipici acquistabili da <strong>Campisi</strong>.",
+                    en: "An iconic, picturesque fishing village best visited after 6 PM. Ideal for romantic sunset aperitifs. We recommend dinner at <strong>Ristorante da Nassa</strong> and gourmet shopping at <strong>Campisi</strong>."
+                },
+                phone: ""
+            },
+            {
+                id: "noto",
+                category: "borghi",
+                icon: "town",
+                title: {
+                    it: "Noto",
+                    en: "Noto"
+                },
+                distance: "23 km",
+                distanceNum: 23,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Noto",
+                desc: {
+                    it: "La capitale indiscussa del Barocco, da esplorare nel tardo pomeriggio. Per cena consigliamo il ristorante <strong>Ci:Vulia</strong> a Marina D’Avola (circa 15 minuti da Noto, 25 km dall'EcoRetreat).",
+                    en: "The undisputed capital of Sicilian Baroque, marvelous under the golden hour light. For dinner, we suggest <strong>Ci:Vulia</strong> in Marina D’Avola, about 15 minutes further."
+                },
+                phone: ""
+            },
+            {
+                id: "ragusa-ibla",
+                category: "borghi",
+                icon: "town",
+                title: {
+                    it: "Ragusa (IBLA)",
+                    en: "Ragusa Ibla"
+                },
+                distance: "33 km",
+                distanceNum: 33,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ragusa+Ibla",
+                desc: {
+                    it: "Un gioiello barocco mozzafiato arroccato sulla colina. Da visitare nel tardo pomeriggio, perdersi nei vicoli storici e cenare in uno dei ristorantini tipici.",
+                    en: "A jaw-dropping historic town perched on a ridge. Visit in the late afternoon, get lost in its alleys, and enjoy a traditional dinner."
+                },
+                phone: ""
+            },
+            {
+                id: "scicli",
+                category: "borghi",
+                icon: "town",
+                title: {
+                    it: "Scicli",
+                    en: "Scicli"
+                },
+                distance: "27 km",
+                distanceNum: 27,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Scicli",
+                desc: {
+                    it: "Meravigliosa città barocca, set naturale del celebre telefilm 'Il Commissario Montalbano'. Ottima per una visita serale ricca di cultura e gastronomia.",
+                    en: "A refined Baroque gem nestled in valleys, famously serving as the filming set for 'Inspector Montalbano'. Outstanding night atmosphere."
+                },
+                phone: ""
+            },
+            {
+                id: "modica",
+                category: "borghi",
+                icon: "town",
+                title: {
+                    it: "Modica",
+                    en: "Modica"
+                },
+                distance: "19 km",
+                distanceNum: 19,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Modica",
+                desc: {
+                    it: "Cìttà delle cento chiese, celebre in tutto il mondo per il suo cioccolato artigianale unico fatto a freddo. Consigliata la passeggiata nel tardo pomeriggio.",
+                    en: "A UNESCO World Heritage town famous worldwide for its unique, cold-processed Modican chocolate. Beautiful for a sunset walk."
+                },
+                phone: ""
+            },
+            {
+                id: "siracusa",
+                category: "borghi",
+                icon: "town",
+                title: {
+                    it: "Siracusa & Ortigia",
+                    en: "Syracuse & Ortigia Island"
+                },
+                distance: "55 km",
+                distanceNum: 55,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Siracusa",
+                desc: {
+                    it: "Antica potenza della Magna Grecia. Imperdibile una passeggiata sull'Isola di Ortigia e la visita al parco archeologico della Neapolis.",
+                    en: "An ancient Greek superpower. Do not miss Ortigia Island, a labyrinth of white limestone alleys surrounded by clear turquoise waters."
+                },
+                phone: ""
+            },
+
+            // EVENTI (ENTRO 40 KM)
+            {
+                id: "valdinoto-eventi",
+                category: "eventi",
+                icon: "calendar",
+                title: {
+                    it: "📅 Calendario Eventi Val di Noto",
+                    en: "📅 Val di Noto Events Calendar"
+                },
+                distance: "Ispica e dintorni",
+                distanceNum: 0,
+                mapsUrl: "",
+                desc: {
+                    it: "Vuoi scoprire tutti gli altri eventi, concerti, mostre, feste patronali e manifestazioni della stagione estiva e invernale? Consulta la guida aggiornata del portale ufficiale Val di Noto.",
+                    en: "Want to discover all other events, concerts, exhibitions, patronal feasts and seasonal highlights? Check the official Val di Noto updated portal directory."
+                },
+                phone: "",
+                bookingUrl: "https://eventi.valdinoto.it/",
+                bookingLabel: {
+                    it: "Scopri tutti gli eventi",
+                    en: "Discover all events"
+                }
+            },
+            {
+                id: "ispica-eventi-comunali",
+                category: "eventi",
+                icon: "calendar",
+                title: {
+                    it: "🏛️ Eventi Ufficiali del Comune di Ispica",
+                    en: "🏛️ Ispica Municipality Official Events"
+                },
+                distance: "0 km (Centro Storico)",
+                distanceNum: 0,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Piazza+Unita+d+Italia+Ispica",
+                desc: {
+                    it: "Consulta direttamente il portale turistico e istituzionale del Comune di Ispica per la programmazione ufficiale della ricca <b>Estate Ispicese</b>, della Festa Patronale della Madonna del Carmelo (16 Luglio) e delle mostre d'arte.",
+                    en: "Consult the institutional tourist portal of the Municipality of Ispica for the official schedule of the vibrant <b>Estate Ispicese (Summer Fest)</b>, the Patronal Feast of Madonna del Carmelo (July 16th), and local art exhibitions."
+                },
+                phone: "",
+                bookingUrl: "https://www.comune.ispica.rg.it/it/vivere/eventi",
+                bookingLabel: {
+                    it: "Sito Web Comune di Ispica",
+                    en: "Ispica Town Official Website"
+                }
+            },
+            {
+                id: "infiorata",
+                category: "eventi",
+                icon: "calendar",
+                title: {
+                    it: "🌸 Infiorata di Noto",
+                    en: "🌸 Noto Flower Festival"
+                },
+                distance: "23 km",
+                distanceNum: 23,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Via+Corrado+Nicolaci+Noto",
+                desc: {
+                    it: "Uno degli eventi più famosi della Sicilia, che si tiene ogni anno la terza domenica di maggio. Via Nicolaci si trasforma in un meraviglioso tappeto di petali colorati che riproducono splendide opere d'arte.",
+                    en: "One of Sicily's most spectacular traditional events, held annually during the third weekend of May. Via Nicolaci becomes a stunning, vibrant carpet of mosaic designs crafted entirely from flower petals."
+                },
+                phone: ""
+            },
+            {
+                id: "sagra-pomodoro",
+                category: "eventi",
+                icon: "calendar",
+                title: {
+                    it: "🍅 Sagra del Pomodoro (Pachino)",
+                    en: "🍅 Pachino Tomato Festival"
+                },
+                distance: "16 km",
+                distanceNum: 16,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Piazza+Vittorio+Emanuele+Pachino",
+                desc: {
+                    it: "Una vivace festa estiva che si svolge solitamente a Pachino. Celebra il famoso oro rosso del territorio (il pomodoro ciliegino IGP) con degustazioni tipiche, spettacoli di strada, concerti e mercatini.",
+                    en: "A lively, authentic summer food festival celebrating the region's famous 'red gold' (IGP Cherry Tomato) with traditional tastings, street performances, live music, and artisanal stands."
+                },
+                phone: ""
+            },
+            {
+                id: "san-giorgio",
+                category: "eventi",
+                icon: "calendar",
+                title: {
+                    it: "🛡️ Festa di San Giorgio (Ibla)",
+                    en: "🛡️ Feast of St. George (Ibla)"
+                },
+                distance: "33 km",
+                distanceNum: 33,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Duomo+di+San+Giorgio+Ragusa+Ibla",
+                desc: {
+                    it: "Spettacolare festa patronale che si tiene a fine maggio a Ragusa Ibla. Caratterizzata dalla suggestiva processione del simulacro a spalla e da un finale con sbalorditivi giochi d'artificio e spettacoli piromusicali.",
+                    en: "A majestic, deeply felt patron saint festival held in late May in Ragusa Ibla. Showcases a historic processional carrying of the saint's statue and a breathtaking, musical firework finale above the Baroque domes."
+                },
+                phone: ""
+            },
+
+            // RISTORAZIONE
+            {
+                id: "casa-azzurra",
+                category: "ristorazione",
+                icon: "farm",
+                title: {
+                    it: "Agriturismo Casa Azzurra",
+                    en: "Casa Azzurra Farmhouse"
+                },
+                distance: "5 km",
+                distanceNum: 5,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Agriturismo+Casa+Azzurra+Ispica",
+                desc: {
+                    it: "Cucina casalinga, genuina e locale. Menù fisso tipico in ambiente rustico e cordiale. Ottimo rapporto qualità/prezzo (circa € 20/25 a persona). <strong style='color: var(--color-secondary);'>È consigliatissima la prenotazione.</strong>",
+                    en: "Authentic homestyle local cuisine. Typical set menu in a simple, friendly farmhouse. Exceptional value (around € 20-25 per person). <strong style='color: var(--color-secondary);'>Reservations are highly recommended.</strong>"
+                },
+                phone: "3393200306"
+            },
+            {
+                id: "incavo",
+                category: "ristorazione",
+                icon: "pizza",
+                title: {
+                    it: "Incavo Pizzeria",
+                    en: "Incavo Gourmet Pizzeria"
+                },
+                distance: "9 km",
+                distanceNum: 9,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Incavo+Pizzeria+Ispica",
+                desc: {
+                    it: "Pizzeria situata nella suggestiva cornice storica della Cava di Ispica. Location magica ed atmosfera unica accoppiate ad eccellenti pizze gourmet (costo medio € 25/35 a persona).",
+                    en: "A stunning pizzeria located inside a rock cave at Cava d'Ispica. A unique, romantic setting offering exceptional gourmet pizzas."
+                },
+                phone: "3463732741"
+            },
+            {
+                id: "giardino-sapori",
+                category: "ristorazione",
+                icon: "seafood",
+                title: {
+                    it: "Il Giardino dei Sapori",
+                    en: "Il Giardino dei Sapori"
+                },
+                distance: "6 km",
+                distanceNum: 6,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Il+Giardino+dei+Sapori+Ispica",
+                desc: {
+                    it: "Ristorante di pesce molto semplice ma con cucina casalinga a base di pescato freschissimo. Situato ad Ispica centro (costo medio € 45/55 a persona). <strong style='color: var(--color-secondary);'>Consigliata la prenotazione.</strong>",
+                    en: "An informal, cozy fish restaurant in downtown Ispica. Excellent, simple seafood dishes. <strong style='color: var(--color-secondary);'>Reservations are highly recommended.</strong>"
+                },
+                phone: "0932959323"
+            },
+            {
+                id: "a-valata",
+                category: "ristorazione",
+                icon: "seafood",
+                title: {
+                    it: "A’ Valata",
+                    en: "A’ Valata Seafood Restaurant"
+                },
+                distance: "10 km",
+                distanceNum: 10,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ristorante+A+Valata+Pozzallo",
+                desc: {
+                    it: "Elegante ristorante di pesce sul lungomare di Pozzallo (zona portuale). Offre una splendida vista sul mare e pescato freschissimo tutti i giorni cucinato con maestria (costo medio € 75/85 a persona).",
+                    en: "Upscale seafood dining near the harbor in Pozzallo. Offers amazing ocean views and super fresh catches cooked with absolute mastery."
+                },
+                phone: "3341544320"
+            },
+            {
+                id: "ci-vulia",
+                category: "ristorazione",
+                icon: "seafood",
+                title: {
+                    it: "Cì Vulia",
+                    en: "Cì Vulia Restaurant"
+                },
+                distance: "25 km",
+                distanceNum: 25,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ci+Vulia+Marina+di+Avola",
+                desc: {
+                    it: "Di giorno pescheria locale, la sera si trasforma in ristorante di pesce favoloso con pescato del giorno. Ottima tappa post-visita della splendida città di Noto (costo medio € 55/65 a persona).",
+                    en: "A fishmonger by day, a spectacular seafood restaurant by night. A perfect culinary stop after exploring the baroque city of Noto."
+                },
+                phone: "0931562227"
+            },
+            {
+                id: "artigianale",
+                category: "ristorazione",
+                icon: "gelato",
+                title: {
+                    it: "L’Artigianale (Gelateria)",
+                    en: "L’Artigianale Artisanal Gelato"
+                },
+                distance: "10 km",
+                distanceNum: 10,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=L+Artigianale+Pozzallo",
+                desc: {
+                    it: "Sita sul lungomare di Pozzallo. Gelateria d'eccellenza ideale per una prima colazione o merenda rinfrescante con granite siciliane memorabili ed eccellenti gelati d'autore.",
+                    en: "Located on Pozzallo's seaside promenade. Elite ice cream and world-class traditional Sicilian granite (shaved ice) for a hot day."
+                },
+                phone: "0932958438"
+            },
+            {
+                id: "panificio-asta",
+                category: "ristorazione",
+                icon: "bakery",
+                title: {
+                    it: "Panificio Astar",
+                    en: "Panificio Asta (Bakery)"
+                },
+                distance: "6 km",
+                distanceNum: 6,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Panificio+Asta+Ispica",
+                desc: {
+                    it: "Nel cuore di Ispica. Emblema dell'artigianalità panificatrice: ogni giorno sfornano 'scacce' ragusane, arancine calde, focacce e sfiziosi dolci della tradizione siciliana a km 0.",
+                    en: "Located in downtown Ispica. An artisanal bakery producing traditional 'scacce' flatbreads, warm arancini, and typical dry sweets."
+                },
+                phone: "09321917532"
+            }
+        ];
+
+        // --- GESTIONE STATO LINGUA & PREFERITI ---
+        let currentLang = localStorage.getItem('kinanto_favorites_lang') || 'it';
+        let preferiti = JSON.parse(localStorage.getItem('kinanto_favorites')) || [];
+        let currentFilter = 'tutti';
+        let searchQuery = '';
+
+        // --- CAMBIO LINGUA DINAMICO ---
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('kinanto_favorites_lang', lang);
+
+            // Attiva graficamente i pulsanti del menu lingua
+            document.getElementById('lang-it-btn').classList.toggle('active', lang === 'it');
+            document.getElementById('lang-en-btn').classList.toggle('active', lang === 'en');
+
+            // Traduci elementi statici del DOM
+            const dict = staticTranslations[lang];
+            document.getElementById('hero-title').innerText = dict.heroTitle;
+            document.getElementById('home-btn-txt').innerText = dict.homeBtn;
+            document.getElementById('intro-text').innerText = dict.introText;
+            document.getElementById('call-btn-txt').innerText = dict.callBtn;
+            
+            // Traduci i tasti delle categorie
+            document.getElementById('tab-tutti').innerText = dict.tabTutti;
+            document.getElementById('tab-retreat').innerText = dict.tabRetreat;
+            document.getElementById('tab-mare').innerText = dict.tabMare;
+            document.getElementById('tab-borghi').innerText = dict.tabBorghi;
+            document.getElementById('tab-ristorazione').innerText = dict.tabRistorazione;
+            document.getElementById('tab-eventi').innerText = dict.tabEventi;
+            document.getElementById('tab-preferiti').innerText = dict.tabPreferiti;
+
+            // Traduci i testi per salvare l'app
+            document.getElementById('save-app-btn-txt').innerText = dict.saveBtn;
+            document.getElementById('save-modal-title').innerText = dict.modalTitle;
+
+            // Ricarica le card
+            renderCards();
+        }
+
+        // --- CALCOLO MATEMATICO DINAMICO DELLE DATE DEGLI EVENTI ---
+        function getThirdSundayOfMay(year) {
+            let date = new Date(year, 4, 1); // 1 Maggio
+            let SundayCount = 0;
+            while (SundayCount < 3) {
+                if (date.getDay() === 0) {
+                    SundayCount++;
+                }
+                if (SundayCount < 3) {
+                    date.setDate(date.getDate() + 1);
+                }
+            }
+            return date;
+        }
+
+        // --- CALCOLO DELL'ULTIMA DOMENICA DI MAGGIO ---
+        function getLastSundayOfMay(year) {
+            let date = new Date(year, 4, 31); // 31 Maggio
+            while (date.getDay() !== 0) {
+                date.setDate(date.getDate() - 1);
+            }
+            return date;
+        }
+
+        function getDynamicEventDate(id, lang) {
+            const currentYear = new Date().getFullYear();
+            
+            if (id === 'infiorata') {
+                const thirdSunday = getThirdSundayOfMay(currentYear);
+                const startDay = new Date(thirdSunday);
+                startDay.setDate(thirdSunday.getDate() - 2); // Venerdì precedente
+                
+                const options = { day: 'numeric', month: 'long' };
+                const startStr = startDay.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', options);
+                const endStr = thirdSunday.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+                
+                return lang === 'it' ? `Dal ${startStr} al ${endStr}` : `From ${startStr} to ${endStr}`;
+            }
+            
+            if (id === 'san-giorgio') {
+                const lastSunday = getLastSundayOfMay(currentYear);
+                const startDay = new Date(lastSunday);
+                startDay.setDate(lastSunday.getDate() - 2); // Venerdì precedente
+                
+                const options = { day: 'numeric', month: 'long' };
+                const startStr = startDay.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', options);
+                const endStr = lastSunday.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+                
+                return lang === 'it' ? `Dal ${startStr} al ${endStr}` : `From ${startStr} to ${endStr}`;
+            }
+            
+            if (id === 'sagra-pomodoro') {
+                return lang === 'it' ? `Agosto ${currentYear} (Date variabili)` : `August ${currentYear} (Variable dates)`;
+            }
+            
+            return null;
+        }
+
+        // --- GESTIONE COPIA CODICE WI-FI ---
+        function copyToClipboard(text) {
+            const tempInput = document.createElement("input");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            const toast = document.getElementById("toast");
+            toast.innerText = staticTranslations[currentLang].toastCopy;
+            toast.classList.add("show");
+            
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+        // --- GENERAZIONE CARD DIGITALI ---
+        function renderCards() {
+            const container = document.getElementById('cardsFeed');
+            const emptyState = document.getElementById('emptyState');
+            container.innerHTML = '';
+
+            let filteredList = luoghiData;
+
+            // Filtro barra di ricerca applicato globalmente prima di dividere
+            if (searchQuery.trim() !== '') {
+                const query = searchQuery.toLowerCase().trim();
+                filteredList = filteredList.filter(l => {
+                    const titleMatch = (l.title.it.toLowerCase().includes(query) || l.title.en.toLowerCase().includes(query));
+                    const descMatch = (l.desc.it.toLowerCase().includes(query) || l.desc.en.toLowerCase().includes(query));
+                    return titleMatch || descMatch;
+                });
+            }
+
+            const dict = staticTranslations[currentLang];
+
+            // 1. GESTIONE SEZIONE DEDICATA TAB "TUTTI"
+            if (currentFilter === 'tutti') {
+                const retreatList = filteredList.filter(l => l.category === 'retreat');
+                const territorioList = filteredList.filter(l => l.category !== 'retreat' && l.category !== 'eventi');
+                const eventiList = filteredList.filter(l => l.category === 'eventi');
+
+                if (retreatList.length === 0 && territorioList.length === 0 && eventiList.length === 0) {
+                    container.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    document.getElementById('emptyStateText').innerText = dict.emptyNoResult;
+                    return;
+                }
+
+                container.style.display = 'flex';
+                emptyState.style.display = 'none';
+
+                // Renderizza Sezione Soggiorno Kinanto se popolata
+                if (retreatList.length > 0) {
+                    container.insertAdjacentHTML('beforeend', `<div class="feed-section-title">${dict.sectionRetreat}</div>`);
+                    retreatList.forEach(l => container.insertAdjacentHTML('beforeend', getCardHtml(l)));
+                }
+
+                // Renderizza Sezione Eventi & Tradizioni se popolata (Massimo 40 km)
+                if (eventiList.length > 0) {
+                    container.insertAdjacentHTML('beforeend', `<div class="feed-section-title">${dict.sectionEvents}</div>`);
+                    eventiList.forEach(l => container.insertAdjacentHTML('beforeend', getCardHtml(l)));
+                }
+
+                // Renderizza Sezione Esplora il Territorio se popolata
+                if (territorioList.length > 0) {
+                    container.insertAdjacentHTML('beforeend', `<div class="feed-section-title">${dict.sectionTerritory}</div>`);
+                    territorioList.forEach(l => container.insertAdjacentHTML('beforeend', getCardHtml(l)));
+                }
+                
+                return;
+            }
+
+            // 2. GESTIONE DELLE ALTRE SCHEDE SINGOLE (Filtri dedicati o Preferiti)
+            if (currentFilter === 'preferiti') {
+                filteredList = filteredList.filter(l => preferiti.includes(l.id));
+            } else {
+                filteredList = filteredList.filter(l => l.category === currentFilter);
+            }
+
+            // Gestione Stato Vuoto
+            if (filteredList.length === 0) {
+                container.style.display = 'none';
+                emptyState.style.display = 'block';
+                if (currentFilter === 'preferiti') {
+                    document.getElementById('emptyStateText').innerText = dict.emptyNoFavs;
+                } else {
+                    document.getElementById('emptyStateText').innerText = dict.emptyNoResult;
+                }
+                return;
+            } else {
+                container.style.display = 'flex';
+                emptyState.style.display = 'none';
+            }
+
+            // Stampa le card filtrate normalmente
+            filteredList.forEach(l => {
+                container.insertAdjacentHTML('beforeend', getCardHtml(l));
+            });
+        }
+
+        // --- FUNZIONE DI SUPPORTO GENERAZIONE HTML CARD SINGOLA ---
+        function getCardHtml(l) {
+            const isFav = preferiti.includes(l.id);
+            const isRistorazione = l.category === 'ristorazione';
+            const isRetreat = l.category === 'retreat';
+            const isEventi = l.category === 'eventi';
+            
+            let categoryLabel = "";
+            const dict = staticTranslations[currentLang];
+            if(l.category === "mare") categoryLabel = dict.badgeMare;
+            if(l.category === "borghi") categoryLabel = dict.badgeBorghi;
+            if(l.category === "ristorazione") categoryLabel = dict.badgeRisto;
+            if(l.category === "retreat") categoryLabel = dict.badgeRetreat;
+            if(l.category === "eventi") categoryLabel = dict.badgeEventi;
+
+            const displayTitle = l.title[currentLang];
+            const displayDesc = l.desc[currentLang];
+            const svgIcon = iconTemplates[l.icon] || '';
+
+            // Calcolo dinamico dell'etichetta del pulsante basato sul database bilingue
+            let bookingText = currentLang === 'it' ? 'Prenota' : 'Book';
+            if (l.bookingLabel) {
+                bookingText = l.bookingLabel[currentLang];
+            }
+
+            return `
+                <div class="card ${isRistorazione ? 'ristorazione-highlight' : ''} ${isRetreat ? 'retreat-highlight' : ''}" data-id="${l.id}">
+                    <div class="card-header">
+                        <span class="category-badge" style="${l.category === 'retreat' ? 'background-color: #e8f4f1; color: var(--color-primary);' : ''}">${categoryLabel}</span>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            ${l.distanceNum > 0 || l.distance !== '' ? `
+                            <span class="distance-badge">
+                                <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24">
+                                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z" />
+                                </svg>
+                                ${l.distance}
+                            </span>
+                            ` : ''}
+                            <button class="fav-btn ${isFav ? 'is-fav' : ''}" onclick="toggleFavorite('${l.id}', this)" aria-label="Save Place">
+                                <svg class="fav-icon" viewBox="0 0 24 24">
+                                    <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.41,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
+                                </svg>
+                                </button>
+                        </div>
+                    </div>
+
+                    <div class="card-info">
+                        ${isRistorazione ? `
+                        <div class="resto-highlight-tag">
+                            <svg style="width: 12px; height: 12px; fill: currentColor;" viewBox="0 0 24 24">
+                                <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"/>
+                            </svg>
+                            ${dict.highlightGastro}
+                        </div>
+                        ` : ''}
+
+                        <div class="card-title-container">
+                            ${svgIcon ? `<div class="card-title-icon" style="${isEventi ? 'color: var(--color-secondary);' : ''}">${svgIcon}</div>` : ''}
+                            ${l.mapsUrl ? `
+                            <a href="${l.mapsUrl}" target="_blank" class="card-title">
+                                ${displayTitle}
+                                <svg class="maps-indicator-icon" viewBox="0 0 24 24">
+                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M11,17H13V15H11V17M11,13H13V7H11V13Z" />
+                                </svg>
+                            </a>
+                            ` : `<h3 class="card-title" style="pointer-events: none;">${displayTitle}</h3>`}
+                        </div>
+                        
+                        <!-- Badge dinamico della data per gli eventi -->
+                        ${isEventi && getDynamicEventDate(l.id, currentLang) ? `
+                        <div class="event-date-badge" style="font-size: 12.5px; font-weight: 700; color: var(--color-secondary); margin-top: 2px; display: flex; align-items: center; gap: 6px;">
+                            <svg style="width: 15px; height: 15px; fill: currentColor;" viewBox="0 0 24 24">
+                                <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,14H12V16H17V14Z"/>
+                            </svg>
+                            <span>${getDynamicEventDate(l.id, currentLang)}</span>
+                        </div>
+                        ` : ''}
+                        
+                        <p class="card-desc" style="margin-top: 2.5px;">${displayDesc}</p>
+                        
+                        <!-- Box dedicato password Wi-Fi cliccabile -->
+                        ${l.wifi ? `
+                        <div class="wifi-spec-box" style="background-color: ${isRetreat ? '#ffffff' : 'var(--color-bg)'};">
+                            Password: <span class="wifi-click-copy" onclick="copyToClipboard('${l.wifi}')">${l.wifi}</span> (tap to copy)
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    <!-- Azioni interattive esterne -->
+                    ${l.mapsUrl || l.phone || l.bookingUrl ? `
+                    <div class="card-actions">
+                        ${l.mapsUrl ? `
+                        <a href="${l.mapsUrl}" target="_blank" class="action-btn action-btn-secondary">
+                            <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24">
+                                <path d="M12,2C15.31,2 18,4.66 18,7.95C18,12.41 12,19 12,19C12,19 6,12.41 6,7.95C6,4.66 8.69,2 12,2M12,6A1.5,1.5 0 1,0 13.5,7.5A1.5,1.5 0 0,0 12,6M20,19C20,20.1 16.41,21 12,21C7.59,21 4,20.1 4,19C4,18.15 6.5,17.43 10,17.15V19.15C7.63,19.38 6,19.78 6,20C6,20.33 8.69,21 12,21C15.31,21 18,20.33 18,20C18,19.78 16.37,19.38 14,19.15V17.15C17.5,17.43 20,18.15 20,19z" />
+                            </svg>
+                            ${currentLang === 'it' ? 'Naviga' : 'Navigate'}
+                        </a>
+                        ` : ''}
+                        ${l.bookingUrl ? `
+                        <a href="${l.bookingUrl}" target="_blank" class="action-btn action-btn-primary" style="${isRetreat ? 'background-color: var(--color-primary);' : ''}">
+                            <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24">
+                                <path d="M19 4H18V2H16V4H8V2H6V4H5C3.89 4 3 4.9 3 6V20C3 21.1 3.89 22 5 22H19C20.11 22 21 21.1 21 20V6C21 4.9 20.11 4 19 4M19 20H5V10H19V20M9 14H7V12H9V14M13 14H11V12H13V14M17 14H15V12H17V14M9 17H11V19H9V17M13 18H15V20H13V18z"/>
+                            </svg>
+                            ${bookingText}
+                        </a>
+                        ` : ''}
+                        ${l.phone ? `
+                        <a href="tel:${l.phone}" class="action-btn action-btn-primary">
+                            <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24">
+                                <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+                            </svg>
+                            ${l.category === 'ristorazione' ? (currentLang === 'it' ? 'Prenota' : 'Book') : (currentLang === 'it' ? 'Chiama' : 'Call')}
+                        </a>
+                        ` : ''}
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // --- GESTIONE SALVATAGGIO APP ---
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Impedisce a Chrome di mostrare automaticamente il banner di installazione
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        function triggerSaveApp() {
+            // Se l'installazione nativa è supportata (es. Android Chrome, Desktop)
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('L\'utente ha accettato l\'installazione');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                // Altrimenti, apri il modal con istruzioni personalizzate
+                openSaveModal();
+            }
+        }
+
+        function openSaveModal() {
+            const modal = document.getElementById('saveModal');
+            const body = document.getElementById('save-modal-body');
+            const dict = staticTranslations[currentLang];
+            
+            // Rileva lo user agent del dispositivo per mostrare istruzioni mirate
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                body.innerHTML = dict.modalIOS;
+            } else if (/android/i.test(userAgent)) {
+                body.innerHTML = dict.modalAndroid;
+            } else {
+                body.innerHTML = `<div class='instruction-box text-left text-slate-700'>${dict.modalGeneric}</div>`;
+            }
+            
+            modal.classList.add('show');
+        }
+
+        // --- CHIUSURA MODAL ---
+        function closeSaveModal() {
+            document.getElementById('saveModal').classList.remove('show');
+        }
+
+        // --- GESTIONE DEI FAVORITI ---
+        function toggleFavorite(id, btnElement) {
+            const index = preferiti.indexOf(id);
+            if (index === -1) {
+                preferiti.push(id);
+                btnElement.classList.add('is-fav');
+            } else {
+                preferiti.splice(index, 1);
+                btnElement.classList.remove('is-fav');
+            }
+            localStorage.setItem('kinanto_favorites', JSON.stringify(preferiti));
+
+            // Se l'utente si trova sulla scheda dei preferiti, rigenera all'istante
+            if (currentFilter === 'preferiti') {
+                renderCards();
+            }
+        }
+
+        // --- FILTRAGGIO DELLE CATEGORIE ---
+        function filterCategory(category, btnElement) {
+            // Aggiorna lo stato dei bottoni attivi
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            currentFilter = category;
+            renderCards();
+
+            // Effetto feedback tattile mobile soft
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        }
+
+        // --- INIZIALIZZAZIONE ---
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCards();
+            // Inizializza lingua corrente all'avvio
+            document.getElementById('lang-it-btn').classList.toggle('active', currentLang === 'it');
+            document.getElementById('lang-en-btn').classList.toggle('active', currentLang === 'en');
+            setLanguage(currentLang);
+        });
+    </script>
+
+</body>
+</html>
