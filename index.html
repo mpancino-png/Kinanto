@@ -67,7 +67,7 @@
             align-items: center;
         }
 
-        /* Riproduzione ad alta fedeltà dello stemma ufficiale */
+        /* Riproduzione ad alta fedeltà dello stemma ufficiale (proporzionato al nuovo banner ultrasottile) */
         .brand-badge {
             position: absolute;
             top: 0;
@@ -160,7 +160,7 @@
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
-            padding-bottom: 8px; 
+            padding-bottom: 8px; /* Padding inferiore minimo */
         }
 
         .hero h1 {
@@ -334,17 +334,17 @@
 
         /* --- EVIDENZIAZIONE VISIVA INFO RETREAT (INTERNA) --- */
         .card.retreat-highlight {
-            border-left: 4px solid var(--color-primary); 
+            border-left: 4px solid var(--color-primary); /* Linea sinistra verde brand */
             border-color: #cce5e1;
-            background-color: #f3f8f6; 
+            background-color: #f3f8f6; /* Sfondo verde tenue e lussuoso */
             box-shadow: 0 4px 12px rgba(23, 139, 117, 0.05);
         }
 
         /* --- HIGHLIGHT STRUTTURALE PER LA RISTORAZIONE --- */
         .card.ristorazione-highlight {
-            border-top: 4px solid var(--color-secondary); 
-            box-shadow: 0 8px 24px rgba(201, 125, 82, 0.12); 
-            background: linear-gradient(180deg, #fffaf6 0%, #ffffff 100%); 
+            border-top: 4px solid var(--color-secondary); /* Linea superiore terracotta */
+            box-shadow: 0 8px 24px rgba(201, 125, 82, 0.12); /* Ombra calda */
+            background: linear-gradient(180deg, #fffaf6 0%, #ffffff 100%); /* Sfumatura solare */
         }
 
         /* Tag "Esperienza Gastronomica" */
@@ -428,7 +428,7 @@
             justify-content: center;
             width: 24px;
             height: 24px;
-            color: var(--color-primary); 
+            color: var(--color-primary); /* Verde di default */
             flex-shrink: 0;
             transition: var(--transition);
         }
@@ -639,7 +639,7 @@
         .modal-close {
             background: none;
             border: none;
-            color: var(--color-text-muted);
+            color: var(--text-muted);
             cursor: pointer;
             padding: 4px;
             display: flex;
@@ -774,7 +774,7 @@
             <!-- Link di navigazione che punta direttamente alle coordinate del resort (se in Sicilia) -->
             <a href="https://www.google.com/maps/search/?api=1&query=Kinanto+EcoRetreat+Sicily+Ispica" target="_blank" class="home-btn">
                 <svg viewBox="0 0 24 24">
-                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6V11H17V13H12V18L7,12L12,6Z"/>
+                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5z" />
                 </svg>
                 <span id="home-btn-txt">Naviga verso il Kinanto EcoRetreat</span>
             </a>
@@ -803,6 +803,7 @@
                 <button class="tab-btn" id="tab-mare" onclick="filterCategory('mare', this)">🏖️ Mare & Natura</button>
                 <button class="tab-btn" id="tab-borghi" onclick="filterCategory('borghi', this)">🏛️ Borghi & Arte</button>
                 <button class="tab-btn" id="tab-ristorazione" onclick="filterCategory('ristorazione', this)">🍽️ Ristorazione</button>
+                <button class="tab-btn" id="tab-eventi" onclick="filterCategory('eventi', this)">📅 Eventi</button>
                 <button class="tab-btn" id="tab-preferiti" onclick="filterCategory('preferiti', this)">❤️ Preferiti</button>
             </div>
         </div>
@@ -856,8 +857,9 @@
                 tabMare: "🏖️ Mare & Natura",
                 tabBorghi: "🏛️ Borghi & Arte",
                 tabRistorazione: "🍽️ Ristorazione",
+                tabEventi: "📅 Eventi",
                 tabPreferiti: "❤️ Preferiti",
-                emptyNoFavs: "Non hai ancora salvato alcun luogo tra i preferiti. Clicca sull'icona a cuore delle card per aggiungerli qui!",
+                emptyNoFavs: "Non hai ancora salvato alcun luogo tra i preferiti. Clicca sull'icona a cuore delle card per aggiuntarili qui!",
                 emptyNoResult: "Nessun risultato trovato corrispondente alla ricerca.",
                 callBtn: "Chiama Reception",
                 toastCopy: "Password copiata!",
@@ -865,9 +867,11 @@
                 badgeBorghi: "🏛️ Borgo & Arte",
                 badgeRisto: "🍽️ Ristorazione",
                 badgeRetreat: "🌿 Info Soggiorno",
+                badgeEventi: "📅 Eventi & Tradizioni",
                 highlightGastro: "✨ Esperienza Gastronomica",
                 sectionRetreat: "🌿 Il tuo Soggiorno al Kinanto",
                 sectionTerritory: "🗺️ Esplora il Territorio",
+                sectionEvents: "📅 Eventi & Tradizioni",
                 
                 // Traduzioni per il salvataggio app aggiornate come richiesto
                 saveBtn: "Salva questa guida nel tuo telefono",
@@ -885,6 +889,7 @@
                 tabMare: "🏖️ Beach & Nature",
                 tabBorghi: "🏛️ Towns & Art",
                 tabRistorazione: "🍽️ Dining & Food",
+                tabEventi: "📅 Events",
                 tabPreferiti: "❤️ Saved",
                 emptyNoFavs: "You haven't saved any locations yet. Tap the heart icon on any card to add them to your personalized itinerary!",
                 emptyNoResult: "No matching results found.",
@@ -894,15 +899,17 @@
                 badgeBorghi: "🏛️ Town & Art",
                 badgeRisto: "🍽️ Dining",
                 badgeRetreat: "🌿 Useful Info",
+                badgeEventi: "📅 Events & Culture",
                 highlightGastro: "✨ Culinary Experience",
                 sectionRetreat: "🌿 Your Stay at Kinanto",
                 sectionTerritory: "🗺️ Explore the Area",
+                sectionEvents: "📅 Local Events & Culture",
                 
                 // Translations for saving the app updated
                 saveBtn: "Save this guide to your phone",
                 modalTitle: "Save the Guide to your Phone",
                 modalIOS: "On <strong>Safari for iPhone / iPad</strong>:<br><div class='instruction-box mt-2 flex flex-col gap-2 text-left text-slate-700'>1. Tap the share icon <span class='inline-flex align-middle p-1.5 bg-slate-200 rounded text-black w-8 h-8 justify-center items-center'><svg class='w-4 h-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 3 21 3 21 9'></polyline><polyline points='9 21 3 21 3 15'></polyline><line x1='21' y1='3' x2='14' y2='10'></line><line x1='3' y1='21' x2='10' y2='14'></line></svg></span> at the bottom.<br>2. Scroll down and select <strong>'Add to Home Screen'</strong>.</div>",
-                modalAndroid: "On <strong>Chrome for Android</strong>:<br><div class='instruction-box mt-2 text-left text-slate-700'>1. Tap the three dots <span class='font-bold'>⋮</span> in the top right.<br>2. Select <strong>'Add to Home screen'</strong> or <strong>'Install app'</strong>.</div>",
+                modalAndroid: "On <strong>Chrome for Android</strong>:<br><div class='instruction-box mt-2 text-left text-slate-700'>1. Tap the three dots <span class='font-bold'>⋮</span> in the top right.<br>2. Select <strong>'Add to Home screen'</strong> or <strong>'Instacle app'</strong>.</div>",
                 modalGeneric: "Use your browser's <strong>'Add to Home Screen'</strong> or <strong>'Add Bookmark'</strong> feature to access this directory like a native app."
             }
         };
@@ -923,7 +930,8 @@
             pizza: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 11l-6 6M12 2a10 10 0 0 1 8 4.2L12 22 4 6.2A10 10 0 0 1 12 2zM9 8a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM14 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg>`,
             seafood: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 12c0-3-4-5-9-5a12 12 0 0 0-4 .7c-1-1-3-1-4-.7-1 .3-2 1.5-2 2.5a8 8 0 0 0 2 2.5 12 12 0 0 0 4 .7c5 0 9-2 9-5zM17 11a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>`,
             gelato: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4c0 1.2.5 2.3 1.3 3.1L12 22l2.7-12.9C15.5 8.3 16 7.2 16 6a4 4 0 0 0-4-4z"/><circle cx="12" cy="7" r="1"/></svg>`,
-            bakery: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-.4 0-.8.2-1 .5l-2 3c-.4.6-.3 1.4.3 1.8l2.2 1.5c-.3.7-.5 1.5-.5 2.2V22h2v-11c0-.7-.2-1.5-.5-2.2l2.2-1.5c.6-.4.7-1.2.3-1.8l-2-3c-.2-.3-.6-.5-1-.5zm0 2.2l1.2 1.8-1.2.8-1.2-.8L12 4.2zM12 8l1.5 1-1.5 1-1.5-1L12 8z"/></svg>`
+            bakery: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-.4 0-.8.2-1 .5l-2 3c-.4.6-.3 1.4.3 1.8l2.2 1.5c-.3.7-.5 1.5-.5 2.2V22h2v-11c0-.7-.2-1.5-.5-2.2l2.2-1.5c.6-.4.7-1.2.3-1.8l-2-3c-.2-.3-.6-.5-1-.5zm0 2.2l1.2 1.8-1.2.8-1.2-.8L12 4.2zM12 8l1.5 1-1.5 1-1.5-1L12 8z"/></svg>`,
+            calendar: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`
         };
 
         // --- DATABASE LUOGHI KINANTO ECORETREAT (BILINGUE) ---
@@ -1037,6 +1045,28 @@
                 bookingLabel: {
                     it: "Prenota",
                     en: "Book"
+                }
+            },
+            {
+                id: "cavallo-focallo",
+                category: "mare",
+                icon: "hiking",
+                title: {
+                    it: "🐴 Passeggiata a Cavallo a Santa Maria del Focallo",
+                    en: "🐴 Horseback Riding at Santa Maria del Focallo"
+                },
+                distance: "6 km",
+                distanceNum: 6,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Santa+Maria+del+Focallo",
+                desc: {
+                    it: "Un'indimenticabile passeggiata a cavallo tra le dune dorate e la spiaggia incontaminata di Santa Maria del Focallo, ideale al tramonto e a stretto contatto con la natura.",
+                    en: "An unforgettable horseback ride along the golden dunes and pristine beach of Santa Maria del Focallo, perfect at sunset and deeply connected with nature."
+                },
+                phone: "",
+                bookingUrl: "https://www.holidoit.com/e/passeggiate-a-cavallo-in-spiaggia-e-nella-riserva-di-santa-maria-del-focallo-vicino-pozzallo?sP=%5B%7B%22id%22%3A90%2C%22q%22%3A2%7D%5D&sV=4798",
+                bookingLabel: {
+                    it: "Prenota escursione",
+                    en: "Book horseback ride"
                 }
             },
             {
@@ -1227,6 +1257,103 @@
                 phone: ""
             },
 
+            // EVENTI (ENTRO 40 KM)
+            {
+                id: "ispica-eventi-comunali",
+                category: "eventi",
+                icon: "calendar",
+                title: {
+                    it: "🏛️ Eventi Ufficiali del Comune di Ispica",
+                    en: "🏛️ Ispica Municipality Official Events"
+                },
+                distance: "0 km (Centro Storico)",
+                distanceNum: 0,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Piazza+Unita+d+Italia+Ispica",
+                desc: {
+                    it: "Consulta direttamente il portale turistico e istituzionale del Comune di Ispica per la programmazione ufficiale della ricca <b>Estate Ispicese</b>, della Festa Patronale della Madonna del Carmelo (16 Luglio) e delle mostre d'arte.",
+                    en: "Consult the institutional tourist portal of the Municipality of Ispica for the official schedule of the vibrant <b>Estate Ispicese (Summer Fest)</b>, the Patronal Feast of Madonna del Carmelo (July 16th), and local art exhibitions."
+                },
+                phone: "",
+                bookingUrl: "https://www.comune.ispica.rg.it/it/vivere/eventi",
+                bookingLabel: {
+                    it: "Sito Web Comune di Ispica",
+                    en: "Ispica Town Official Website"
+                }
+            },
+            {
+                id: "infiorata",
+                category: "eventi",
+                icon: "calendar",
+                title: {
+                    it: "🌸 Infiorata di Noto",
+                    en: "🌸 Noto Flower Festival"
+                },
+                distance: "23 km",
+                distanceNum: 23,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Via+Corrado+Nicolaci+Noto",
+                desc: {
+                    it: "Uno degli eventi più famosi della Sicilia, che si tiene ogni anno la terza domenica di maggio. Via Nicolaci si trasforma in un meraviglioso tappeto di petali colorati che riproducono splendide opere d'arte.",
+                    en: "One of Sicily's most spectacular traditional events, held annually during the third weekend of May. Via Nicolaci becomes a stunning, vibrant carpet of mosaic designs crafted entirely from flower petals."
+                },
+                phone: ""
+            },
+            {
+                id: "sagra-pomodoro",
+                category: "eventi",
+                icon: "calendar",
+                title: {
+                    it: "🍅 Sagra del Pomodoro (Pachino)",
+                    en: "🍅 Pachino Tomato Festival"
+                },
+                distance: "16 km",
+                distanceNum: 16,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Piazza+Vittorio+Emanuele+Pachino",
+                desc: {
+                    it: "Una vivace festa estiva che si svolge solitamente a Pachino. Celebra il famoso oro rosso del territorio (il pomodoro ciliegino IGP) con degustazioni tipiche, spettacoli di strada, concerti e mercatini.",
+                    en: "A lively, authentic summer food festival celebrating the region's famous 'red gold' (IGP Cherry Tomato) with traditional tastings, street performances, live music, and artisanal stands."
+                },
+                phone: ""
+            },
+            {
+                id: "san-giorgio",
+                category: "eventi",
+                icon: "calendar",
+                title: {
+                    it: "🛡️ Festa di San Giorgio (Ibla)",
+                    en: "🛡️ Feast of St. George (Ibla)"
+                },
+                distance: "33 km",
+                distanceNum: 33,
+                mapsUrl: "https://www.google.com/maps/search/?api=1&query=Duomo+di+San+Giorgio+Ragusa+Ibla",
+                desc: {
+                    it: "Spettacolare festa patronale che si tiene a fine maggio a Ragusa Ibla. Caratterizzata dalla suggestiva processione del simulacro a spalla e da un finale con sbalorditivi giochi d'artificio e spettacoli piromusicali.",
+                    en: "A majestic, deeply felt patron saint festival held in late May in Ragusa Ibla. Showcases a historic processional carrying of the saint's statue and a breathtaking, musical firework finale above the Baroque domes."
+                },
+                phone: ""
+            },
+            {
+                id: "valdinoto-eventi",
+                category: "eventi",
+                icon: "calendar",
+                title: {
+                    it: "📅 Calendario Eventi Val di Noto",
+                    en: "📅 Val di Noto Events Calendar"
+                },
+                distance: "Ispica e dintorni",
+                distanceNum: 0,
+                mapsUrl: "",
+                desc: {
+                    it: "Vuoi scoprire tutti gli altri eventi, concerti, mostre, feste patronali e manifestazioni della stagione estiva e invernale? Consulta la guida aggiornata del portale ufficiale Val di Noto.",
+                    en: "Want to discover all other events, concerts, exhibitions, patronal feasts and seasonal highlights? Check the official Val di Noto updated portal directory."
+                },
+                phone: "",
+                bookingUrl: "https://eventi.valdinoto.it/",
+                bookingLabel: {
+                    it: "Scopri tutti gli eventi",
+                    en: "Discover all events"
+                }
+            },
+
             // RISTORAZIONE
             {
                 id: "casa-azzurra",
@@ -1335,7 +1462,7 @@
                 category: "ristorazione",
                 icon: "bakery",
                 title: {
-                    it: "Panificio Asta",
+                    it: "Panificio Astar",
                     en: "Panificio Asta (Bakery)"
                 },
                 distance: "6 km",
@@ -1377,6 +1504,7 @@
             document.getElementById('tab-mare').innerText = dict.tabMare;
             document.getElementById('tab-borghi').innerText = dict.tabBorghi;
             document.getElementById('tab-ristorazione').innerText = dict.tabRistorazione;
+            document.getElementById('tab-eventi').innerText = dict.tabEventi;
             document.getElementById('tab-preferiti').innerText = dict.tabPreferiti;
 
             // Traduci i testi per salvare l'app
@@ -1385,6 +1513,64 @@
 
             // Ricarica le card
             renderCards();
+        }
+
+        // --- CALCOLO MATEMATICO DINAMICO DELLE DATE DEGLI EVENTI ---
+        function getThirdSundayOfMay(year) {
+            let date = new Date(year, 4, 1); // 1 Maggio
+            let SundayCount = 0;
+            while (SundayCount < 3) {
+                if (date.getDay() === 0) {
+                    SundayCount++;
+                }
+                if (SundayCount < 3) {
+                    date.setDate(date.getDate() + 1);
+                }
+            }
+            return date;
+        }
+
+        // --- CALCOLO DELL'ULTIMA DOMENICA DI MAGGIO ---
+        function getLastSundayOfMay(year) {
+            let date = new Date(year, 4, 31); // 31 Maggio
+            while (date.getDay() !== 0) {
+                date.setDate(date.getDate() - 1);
+            }
+            return date;
+        }
+
+        function getDynamicEventDate(id, lang) {
+            const currentYear = new Date().getFullYear();
+            
+            if (id === 'infiorata') {
+                const thirdSunday = getThirdSundayOfMay(currentYear);
+                const startDay = new Date(thirdSunday);
+                startDay.setDate(thirdSunday.getDate() - 2); // Venerdì precedente
+                
+                const options = { day: 'numeric', month: 'long' };
+                const startStr = startDay.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', options);
+                const endStr = thirdSunday.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+                
+                return lang === 'it' ? `Dal ${startStr} al ${endStr}` : `From ${startStr} to ${endStr}`;
+            }
+            
+            if (id === 'san-giorgio') {
+                const lastSunday = getLastSundayOfMay(currentYear);
+                const startDay = new Date(lastSunday);
+                startDay.setDate(lastSunday.getDate() - 2); // Venerdì precedente
+                
+                const options = { day: 'numeric', month: 'long' };
+                const startStr = startDay.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', options);
+                const endStr = lastSunday.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+                
+                return lang === 'it' ? `Dal ${startStr} al ${endStr}` : `From ${startStr} to ${endStr}`;
+            }
+            
+            if (id === 'sagra-pomodoro') {
+                return lang === 'it' ? `Agosto ${currentYear} (Date variabili)` : `August ${currentYear} (Variable dates)`;
+            }
+            
+            return null;
         }
 
         // --- GESTIONE COPIA CODICE WI-FI ---
@@ -1429,9 +1615,10 @@
             // 1. GESTIONE SEZIONE DEDICATA TAB "TUTTI"
             if (currentFilter === 'tutti') {
                 const retreatList = filteredList.filter(l => l.category === 'retreat');
-                const territorioList = filteredList.filter(l => l.category !== 'retreat');
+                const territorioList = filteredList.filter(l => l.category !== 'retreat' && l.category !== 'eventi');
+                const eventiList = filteredList.filter(l => l.category === 'eventi');
 
-                if (retreatList.length === 0 && territorioList.length === 0) {
+                if (retreatList.length === 0 && territorioList.length === 0 && eventiList.length === 0) {
                     container.style.display = 'none';
                     emptyState.style.display = 'block';
                     document.getElementById('emptyStateText').innerText = dict.emptyNoResult;
@@ -1445,6 +1632,12 @@
                 if (retreatList.length > 0) {
                     container.insertAdjacentHTML('beforeend', `<div class="feed-section-title">${dict.sectionRetreat}</div>`);
                     retreatList.forEach(l => container.insertAdjacentHTML('beforeend', getCardHtml(l)));
+                }
+
+                // Renderizza Sezione Eventi & Tradizioni se popolata (Massimo 40 km)
+                if (eventiList.length > 0) {
+                    container.insertAdjacentHTML('beforeend', `<div class="feed-section-title">${dict.sectionEvents}</div>`);
+                    eventiList.forEach(l => container.insertAdjacentHTML('beforeend', getCardHtml(l)));
                 }
 
                 // Renderizza Sezione Esplora il Territorio se popolata
@@ -1489,6 +1682,7 @@
             const isFav = preferiti.includes(l.id);
             const isRistorazione = l.category === 'ristorazione';
             const isRetreat = l.category === 'retreat';
+            const isEventi = l.category === 'eventi';
             
             let categoryLabel = "";
             const dict = staticTranslations[currentLang];
@@ -1496,6 +1690,7 @@
             if(l.category === "borghi") categoryLabel = dict.badgeBorghi;
             if(l.category === "ristorazione") categoryLabel = dict.badgeRisto;
             if(l.category === "retreat") categoryLabel = dict.badgeRetreat;
+            if(l.category === "eventi") categoryLabel = dict.badgeEventi;
 
             const displayTitle = l.title[currentLang];
             const displayDesc = l.desc[currentLang];
@@ -1512,10 +1707,10 @@
                     <div class="card-header">
                         <span class="category-badge" style="${l.category === 'retreat' ? 'background-color: #e8f4f1; color: var(--color-primary);' : ''}">${categoryLabel}</span>
                         <div style="display: flex; align-items: center; gap: 12px;">
-                            ${l.distanceNum > 0 ? `
+                            ${l.distanceNum > 0 || l.distance !== '' ? `
                             <span class="distance-badge">
                                 <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24">
-                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5z" />
+                                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z" />
                                 </svg>
                                 ${l.distance}
                             </span>
@@ -1539,7 +1734,7 @@
                         ` : ''}
 
                         <div class="card-title-container">
-                            ${svgIcon ? `<div class="card-title-icon">${svgIcon}</div>` : ''}
+                            ${svgIcon ? `<div class="card-title-icon" style="${isEventi ? 'color: var(--color-secondary);' : ''}">${svgIcon}</div>` : ''}
                             ${l.mapsUrl ? `
                             <a href="${l.mapsUrl}" target="_blank" class="card-title">
                                 ${displayTitle}
@@ -1550,7 +1745,17 @@
                             ` : `<h3 class="card-title" style="pointer-events: none;">${displayTitle}</h3>`}
                         </div>
                         
-                        <p class="card-desc">${displayDesc}</p>
+                        <!-- Badge dinamico della data per gli eventi -->
+                        ${isEventi && getDynamicEventDate(l.id, currentLang) ? `
+                        <div class="event-date-badge" style="font-size: 12.5px; font-weight: 700; color: var(--color-secondary); margin-top: 2px; display: flex; align-items: center; gap: 6px;">
+                            <svg style="width: 15px; height: 15px; fill: currentColor;" viewBox="0 0 24 24">
+                                <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,14H12V16H17V14Z"/>
+                            </svg>
+                            <span>${getDynamicEventDate(l.id, currentLang)}</span>
+                        </div>
+                        ` : ''}
+                        
+                        <p class="card-desc" style="margin-top: 2.5px;">${displayDesc}</p>
                         
                         <!-- Box dedicato password Wi-Fi cliccabile -->
                         ${l.wifi ? `
@@ -1599,7 +1804,6 @@
             // Impedisce a Chrome di mostrare automaticamente il banner di installazione
             e.preventDefault();
             deferredPrompt = e;
-            // Opzionale: mostra la barra/pulsante di installazione se supportato
         });
 
         function triggerSaveApp() {
@@ -1637,6 +1841,7 @@
             modal.classList.add('show');
         }
 
+        // --- CHIUSURA MODAL ---
         function closeSaveModal() {
             document.getElementById('saveModal').classList.remove('show');
         }
