@@ -918,7 +918,7 @@
         const iconTemplates = {
             key: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.78 5.5 5.5 0 0 1 7.777-7.78zM12 12l.5-1.5L14 10l1.5-.5L17 8l1-1h4v4h-2v2h-2v2h-4z"/></svg>`,
             coffee: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>`,
-            pool: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1M2 14a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1M2 8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>`,
+            pool: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1M2 14a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1M2 8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>`,
             leaf: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 21 2c-1 5.5-2.2 7.7-6.1 11.8A7 7 0 0 1 11 20z"/><path d="M9 11l3 3M12.9 8.1l2.5 2.5"/></svg>`,
             umbrella: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 12a11.02 11.02 0 0 0-22 0h22zM12 12v8a2 2 0 0 0 4 0M12 2v10"/></svg>`,
             nature: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 22h20L12 2zM12 9l-6 10h12l-6-10z"/></svg>`,
@@ -953,7 +953,7 @@
                     en: "High-speed Wi-Fi is available throughout the retreat. Tap the password below to automatically copy it to your clipboard:"
                 },
                 phone: "",
-                wifi: "243648581"
+                wifi: "24364851"
             },
             {
                 id: "breakfast",
@@ -1850,8 +1850,8 @@
             deferredPrompt = e;
         });
 
+        // --- TRIGGER SALVATAGGIO APP ---
         function triggerSaveApp() {
-            // Se l'installazione nativa è supportata (es. Android Chrome, Desktop)
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
@@ -1861,17 +1861,15 @@
                     deferredPrompt = null;
                 });
             } else {
-                // Altrimenti, apri il modal con istruzioni personalizzate
                 openSaveModal();
             }
         }
 
+        // --- APERTURA MODAL ISTRUZIONI ---
         function openSaveModal() {
             const modal = document.getElementById('saveModal');
             const body = document.getElementById('save-modal-body');
             const dict = staticTranslations[currentLang];
-            
-            // Rileva lo user agent del dispositivo per mostrare istruzioni mirate
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
             
             if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
@@ -1902,7 +1900,6 @@
             }
             localStorage.setItem('kinanto_favorites', JSON.stringify(preferiti));
 
-            // Se l'utente si trova sulla scheda dei preferiti, rigenera all'istante
             if (currentFilter === 'preferiti') {
                 renderCards();
             }
@@ -1910,7 +1907,6 @@
 
         // --- FILTRAGGIO DELLE CATEGORIE ---
         function filterCategory(category, btnElement) {
-            // Aggiorna lo stato dei bottoni attivi
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             btnElement.classList.add('active');
@@ -1918,7 +1914,6 @@
             currentFilter = category;
             renderCards();
 
-            // Effetto feedback tattile mobile soft
             if (navigator.vibrate) {
                 navigator.vibrate(10);
             }
@@ -1927,7 +1922,6 @@
         // --- INIZIALIZZAZIONE ---
         window.addEventListener('DOMContentLoaded', () => {
             renderCards();
-            // Inizializza lingua corrente all'avvio
             document.getElementById('lang-it-btn').classList.toggle('active', currentLang === 'it');
             document.getElementById('lang-en-btn').classList.toggle('active', currentLang === 'en');
             setLanguage(currentLang);
