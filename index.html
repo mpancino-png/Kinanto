@@ -1292,21 +1292,37 @@
             if (!container) return;
             container.innerHTML = '';
             
-            let allReviews = [];
+            let aggregatedLocations = [];
+            
+            // Aggrega le singole recensioni nei Luoghi
             Object.keys(window.dbReviews).forEach(locId => {
+                let rList = window.dbReviews[locId];
+                if (!rList || rList.length === 0) return;
+
                 let locData = window.luoghiData.find(l => l.id === locId);
                 if (!locData) return;
-                let rList = window.dbReviews[locId];
+
+                let totalRating = 0;
+                let totalLikes = 0;
                 rList.forEach(r => {
-                    allReviews.push({
-                        ...r,
-                        locationId: locId,
-                        locationTitle: locData.title[window.currentLang]
-                    });
+                    totalRating += r.rating;
+                    totalLikes += (r.likes ? r.likes.length : 0);
+                });
+                
+                let avgRating = totalRating / rList.length;
+
+                aggregatedLocations.push({
+                    locationId: locId,
+                    locationTitle: locData.title[window.currentLang],
+                    category: locData.category,
+                    reviews: rList,
+                    avgRating: avgRating,
+                    totalLikes: totalLikes,
+                    reviewCount: rList.length
                 });
             });
 
-            if (allReviews.length === 0) {
+            if (aggregatedLocations.length === 0) {
                 container.style.display = 'none';
                 if (emptyState) emptyState.style.display = 'block';
                 return;
@@ -1315,53 +1331,79 @@
             container.style.display = 'flex';
             if (emptyState) emptyState.style.display = 'none';
 
-            // Classifica: Prima per stelle, poi per numero di Like
-            allReviews.sort((a, b) => {
-                if (b.rating !== a.rating) return b.rating - a.rating;
-                let aLikes = a.likes ? a.likes.length : 0;
-                let bLikes = b.likes ? b.likes.length : 0;
-                if (bLikes !== aLikes) return bLikes - aLikes;
-                return b.timestamp - a.timestamp;
+            // Classifica: Prima per media stelle, poi per numero recensioni, infine per like totali
+            aggregatedLocations.sort((a, b) => {
+                if (b.avgRating !== a.avgRating) return b.avgRating - a.avgRating;
+                if (b.reviewCount !== a.reviewCount) return b.reviewCount - a.reviewCount;
+                return b.totalLikes - a.totalLikes;
             });
 
             const currentUserId = window.currentUserId || 'offline-user';
 
-            allReviews.forEach((r, index) => {
-                let stars = '';
-                for (let i = 1; i <= 5; i++) { stars += i <= r.rating ? '★' : '☆'; }
-                let rDateStr = r.timestamp ? new Date(r.timestamp).toLocaleDateString(window.currentLang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
-                
-                let likeCount = r.likes ? r.likes.length : 0;
-                let isLiked = r.likes && r.likes.includes(currentUserId);
-                let adminDeleteBtn = window.isModerator ? `<span style="cursor: pointer; margin-left: 10px; font-size: 13px;" onclick="window.deleteReview('${r.locationId}', '${r.userId}')">🗑️</span>` : '';
-                
+            aggregatedLocations.forEach((loc, index) => {
                 let rankTrophy = '';
                 if (index === 0) rankTrophy = '🏆 1°';
                 else if (index === 1) rankTrophy = '🥈 2°';
                 else if (index === 2) rankTrophy = '🥉 3°';
                 else rankTrophy = `#${index + 1}`;
 
+                let avgStarsStr = loc.avgRating.toFixed(1);
+                let reviewLabel = window.currentLang === 'it' ? (loc.reviewCount === 1 ? 'recensione' : 'recensioni') : (loc.reviewCount === 1 ? 'review' : 'reviews');
+                
+                let reviewsHtml = '<div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">';
+                
+                // Ordina le singole recensioni all'interno del luogo per like e data
+                let sortedReviews = [...loc.reviews].sort((a, b) => {
+                    let aL = a.likes ? a.likes.length : 0;
+                    let bL = b.likes ? b.likes.length : 0;
+                    if(bL !== aL) return bL - aL;
+                    return b.timestamp - a.timestamp;
+                });
+
+                sortedReviews.forEach(r => {
+                    let rStars = '';
+                    for (let i = 1; i <= 5; i++) { rStars += i <= r.rating ? '★' : '☆'; }
+                    let rDateStr = r.timestamp ? new Date(r.timestamp).toLocaleDateString(window.currentLang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+                    let likeCount = r.likes ? r.likes.length : 0;
+                    let isLiked = r.likes && r.likes.includes(currentUserId);
+                    let adminDeleteBtn = window.isModerator ? `<span style="cursor: pointer; margin-left: 10px; font-size: 13px;" onclick="window.deleteReview('${loc.locationId}', '${r.userId}')">🗑️</span>` : '';
+                    
+                    reviewsHtml += `
+                        <div style="background-color: var(--color-bg); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--color-border);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--color-text);">
+                                <span style="font-size: 12px;">👤 ${r.userName} <span style="font-weight: normal; font-size: 10px; margin-left: 4px; color: var(--color-text-muted);">${rDateStr}</span> ${adminDeleteBtn}</span>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: var(--color-secondary); font-size: 12px; letter-spacing: 0.5px;">${rStars}</span>
+                                    <button onclick="window.toggleLike('${loc.locationId}', '${r.userId}')" class="like-btn-action ${isLiked ? 'liked' : 'unliked'}" style="padding: 2px 6px; font-size: 10px; background-color: ${isLiked ? 'var(--color-accent)' : '#ffffff'};">
+                                        <svg style="width: 10px; height: 10px; fill: currentColor; margin-bottom: 1px;" viewBox="0 0 24 24"><path d="M23 10a2 2 0 0 0-2-2h-6.32l.96-4.57c.02-.1.03-.21.03-.32 0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.58C7.22 7.95 7 8.45 7 9v10a2 2 0 0 0 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05A1.976 1.976 0 0 0 23 12v-2M1 21h4V9H1v12z"/></svg>
+                                        ${likeCount}
+                                    </button>
+                                </div>
+                            </div>
+                            ${r.comment ? `<p style="font-style: italic; margin-top: 4px; line-height: 1.4; color: var(--color-text-muted); font-size: 12px;">"${r.comment}"</p>` : ''}
+                        </div>
+                    `;
+                });
+                reviewsHtml += '</div>';
+
+                let categoryLabel = window.staticTranslations[window.currentLang][`cat${loc.category.charAt(0).toUpperCase() + loc.category.slice(1)}`] || loc.category;
+
                 container.insertAdjacentHTML('beforeend', `
                     <div class="card" style="padding: 16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 8px; margin-bottom: 8px;">
-                            <div style="font-size: 11px; text-transform: uppercase; color: var(--color-primary); font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;" onclick="window.goToLocation('${r.locationId}')" title="Vai al luogo">
-                                📍 ${r.locationTitle}
-                                <svg style="width: 14px; height: 14px; fill: currentColor; opacity: 0.7;" viewBox="0 0 24 24"><path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" /></svg>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--color-border); padding-bottom: 12px;">
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <div style="font-size: 10px; text-transform: uppercase; color: var(--color-secondary); font-weight: 800;">${categoryLabel}</div>
+                                <div style="font-size: 16px; font-family: var(--font-serif); font-weight: 700; color: var(--color-primary); cursor: pointer; display: inline-flex; align-items: center; gap: 4px;" onclick="window.goToLocation('${loc.locationId}')" title="Vai al luogo">
+                                    ${loc.locationTitle}
+                                    <svg style="width: 14px; height: 14px; fill: currentColor; opacity: 0.7;" viewBox="0 0 24 24"><path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" /></svg>
+                                </div>
+                                <div style="font-size: 12px; font-weight: 700; color: var(--color-text-muted); display: flex; align-items: center; gap: 4px;">
+                                    <span style="color: var(--color-secondary); font-size: 14px;">★</span> ${avgStarsStr}/5.0 <span style="font-weight: normal; font-size: 11px;">(${loc.reviewCount} ${reviewLabel})</span>
+                                </div>
                             </div>
-                            <div style="font-size: 11px; font-weight: 800; color: var(--color-primary); background-color: var(--color-accent); padding: 2px 8px; border-radius: 20px;">${rankTrophy}</div>
+                            <div style="font-size: 12px; font-weight: 800; color: var(--color-primary); background-color: var(--color-accent); padding: 4px 10px; border-radius: 20px;">${rankTrophy}</div>
                         </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-weight: 700; font-size: 13px; color: var(--color-text);">👤 ${r.userName} <span style="font-weight: normal; font-size: 10px; margin-left: 4px; color: var(--color-text-muted);">${rDateStr}</span> ${adminDeleteBtn}</span>
-                            <span style="color: var(--color-secondary); font-size: 15px; letter-spacing: 1px;">${stars}</span>
-                        </div>
-                        ${r.comment ? `<p style="font-style: italic; color: var(--color-text-muted); font-size: 13px; margin-top: 4px; line-height: 1.5;">"${r.comment}"</p>` : ''}
-                        
-                        <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
-                            <button onclick="window.toggleLike('${r.locationId}', '${r.userId}')" class="like-btn-action ${isLiked ? 'liked' : 'unliked'}">
-                                <svg style="width: 14px; height: 14px; fill: currentColor; margin-bottom: 2px;" viewBox="0 0 24 24"><path d="M23 10a2 2 0 0 0-2-2h-6.32l.96-4.57c.02-.1.03-.21.03-.32 0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.58C7.22 7.95 7 8.45 7 9v10a2 2 0 0 0 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05A1.976 1.976 0 0 0 23 12v-2M1 21h4V9H1v12z"/></svg>
-                                ${likeCount}
-                            </button>
-                        </div>
+                        ${reviewsHtml}
                     </div>
                 `);
             });
