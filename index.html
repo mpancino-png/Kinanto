@@ -349,12 +349,12 @@
         .favorites-empty-prompt { background-color: var(--color-card); border: 1px dashed var(--color-border); border-radius: 16px; padding: 20px; text-align: center; font-size: 12.5px; color: var(--color-text-muted); }
 
         /* --- EXPLORATION VIEW BARRA SUPERIORE --- */
-        .explore-top-nav { background-color: var(--color-bg); padding: 14px 20px 8px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); }
-        .back-home-btn { background-color: #ffffff; border: 1.5px solid var(--color-border); color: var(--color-primary); border-radius: 10px; padding: 6px 12px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: var(--shadow-sm); transition: var(--transition); }
+        .explore-top-nav { background-color: var(--color-bg); padding: 14px 20px 8px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid var(--color-border); position: sticky; top: 0; z-index: 150; }
+        .back-home-btn { background-color: #ffffff; border: 1.5px solid var(--color-border); color: var(--color-primary); border-radius: 10px; padding: 6px 12px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: var(--shadow-sm); transition: var(--transition); flex-shrink: 0;}
         .back-home-btn:active { transform: scale(0.96); background-color: var(--color-accent); }
 
         /* --- FILTRI STICKY IN ESPLORAZIONE --- */
-        .sticky-controls { position: sticky; top: 0; background-color: var(--color-bg); z-index: 100; padding: 12px 20px; border-bottom: 1px solid var(--color-border); }
+        .sticky-controls { background-color: var(--color-bg); padding: 12px 20px; border-bottom: 1px solid var(--color-border); }
         .filter-tabs { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding-bottom: 2px; }
         .tab-btn { background-color: var(--color-card); border: 1px solid var(--color-border); padding: 8px 14px; border-radius: 30px; font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: var(--color-text-muted); cursor: pointer; white-space: nowrap; transition: var(--transition); display: flex; align-items: center; gap: 5px; box-shadow: var(--shadow-sm); position: relative; }
         .tab-btn.active { background-color: var(--color-primary); color: #ffffff; border-color: var(--color-primary); box-shadow: 0 4px 12px rgba(23, 139, 117, 0.2); }
@@ -497,6 +497,11 @@
         .user-review-action-link { color: var(--color-primary); cursor: pointer; font-weight: 700; transition: var(--transition); text-decoration: none; }
         .user-review-action-link:hover { color: var(--color-secondary); }
         .user-review-comment { font-style: italic; color: var(--color-text-muted); line-height: 1.45; }
+        
+        .like-btn-action { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 20px; font-size: 12px; font-weight: 800; cursor: pointer; border: 1.5px solid transparent; transition: var(--transition); }
+        .like-btn-action:active { transform: scale(0.95); }
+        .like-btn-action.liked { color: var(--color-primary); background-color: var(--color-accent); border-color: var(--color-primary); }
+        .like-btn-action.unliked { color: var(--color-text-muted); background-color: #f1f3f2; border-color: transparent; }
     </style>
 </head>
 <body>
@@ -666,6 +671,18 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="dashboard-section-header" id="db-reviews-title">Le vostre preferenze ⭐</div>
+            <div style="padding: 0 20px 10px 20px;">
+                <div class="category-card span-2" style="background: linear-gradient(135deg, #fffaf6 0%, #ffffff 100%); border-color: var(--color-secondary);" onclick="window.navigateToReviews()">
+                    <div class="category-card-icon" style="background-color: #fff2eb; color: var(--color-secondary);">💬</div>
+                    <div class="category-card-info">
+                        <div class="category-card-title" id="cat-title-reviews" style="color: var(--color-secondary);">Bacheca Recensioni</div>
+                        <div class="category-card-count" id="cat-count-reviews">Leggi la classifica e vota</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="dashboard-section-header" id="db-favorites-title">I Tuoi Preferiti ❤️</div>
             <div class="favorites-widget">
                 <div class="favorites-carousel" id="favoritesCarousel"></div>
@@ -677,7 +694,7 @@
             <div class="explore-top-nav">
                 <button class="back-home-btn" onclick="window.backToDashboard()">
                     <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20,11H7.83L13.41,5.41L12,4L4,12L12,20L13.41,18.59L7.83,13H20V11Z" /></svg>
-                    <span id="btn-back-text">Indietro</span>
+                    <span class="btn-back-text">Indietro</span>
                 </button>
             </div>
             <div class="sticky-controls">
@@ -692,6 +709,22 @@
                 </div>
             </div>
             <div class="cards-feed" id="cardsFeed"></div>
+        </div>
+
+        <!-- VIEW 3: GUEST REVIEWS AGGREGATED LIST -->
+        <div id="view-reviews" class="spa-view">
+            <div class="explore-top-nav">
+                <button class="back-home-btn" onclick="window.backToDashboard()">
+                    <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20,11H7.83L13.41,5.41L12,4L4,12L12,20L13.41,18.59L7.83,13H20V11Z" /></svg>
+                    <span class="btn-back-text">Indietro</span>
+                </button>
+                <h2 id="reviews-top-title" style="font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--color-primary); margin: 0;">Classifica Recensioni</h2>
+            </div>
+            <div class="cards-feed" id="all-reviews-feed"></div>
+            <div class="empty-state" id="emptyReviewsState">
+                <svg viewBox="0 0 24 24"><path d="M20,2H4A2,2 0 0,0 2,4V22L6,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M20,16H6L4,18V4H20"/></svg>
+                <p id="emptyReviewsText">Nessuna recensione pubblicata al momento.</p>
+            </div>
         </div>
 
         <div class="empty-state" id="emptyState">
@@ -832,7 +865,12 @@
                 adminBtn: "Sblocca Moderazione",
                 adminOn: "Modalità Moderatore ATTIVATA.",
                 adminOff: "Modalità Moderatore DISATTIVATA.",
-                adminErr: "PIN errato."
+                adminErr: "PIN errato.",
+                dbReviewsTitle: "Le vostre preferenze ⭐",
+                catTitleReviews: "Bacheca Recensioni",
+                catCountReviews: "Leggi la classifica e vota",
+                reviewsTopTitle: "Classifica Recensioni",
+                reviewsEmpty: "Nessuna recensione pubblicata al momento."
             },
             en: {
                 heroTitle: "Welcome Home",
@@ -899,7 +937,12 @@
                 adminBtn: "Unlock Moderation",
                 adminOn: "Moderator Mode ACTIVATED.",
                 adminOff: "Moderator Mode DEACTIVATED.",
-                adminErr: "Wrong PIN."
+                adminErr: "Wrong PIN.",
+                dbReviewsTitle: "Guestbook ⭐",
+                catTitleReviews: "Guest Reviews",
+                catCountReviews: "Read the top ranked",
+                reviewsTopTitle: "Reviews Ranking",
+                reviewsEmpty: "No reviews published yet."
             }
         };
 
@@ -986,7 +1029,9 @@
             setTxt('db-welcome-desc', dict.dbWelcomeDesc);
             setTxt('db-categories-title', dict.dbCategories);
             setTxt('db-favorites-title', dict.dbFavorites);
-            setTxt('btn-back-text', dict.btnBack);
+            
+            document.querySelectorAll('.btn-back-text').forEach(el => el.innerText = dict.btnBack);
+            
             setTxt('cat-title-retreat', dict.catRetreat);
             setTxt('cat-title-mare', dict.catMare);
             setTxt('cat-title-borghi', dict.catBorghi);
@@ -1007,6 +1052,12 @@
             setTxt('cat-count-ristorazione', `${window.countCategory('ristorazione')} ${dict.unitResto}`);
             setTxt('cat-count-eventi', `${window.countCategory('eventi')} ${dict.unitTrad}`);
             
+            setTxt('db-reviews-title', dict.dbReviewsTitle);
+            setTxt('cat-title-reviews', dict.catTitleReviews);
+            setTxt('cat-count-reviews', dict.catCountReviews);
+            setTxt('reviews-top-title', dict.reviewsTopTitle);
+            setTxt('emptyReviewsText', dict.reviewsEmpty);
+
             const adminTitleEl = document.getElementById('admin-modal-title');
             const adminDescEl = document.getElementById('admin-modal-desc');
             const adminBtnEl = document.getElementById('admin-modal-btn');
@@ -1016,6 +1067,7 @@
 
             window.renderCards();
             window.renderFavoritesCarousel();
+            window.renderAllReviews();
         };
 
         window.triggerAdminMode = function() {
@@ -1029,6 +1081,7 @@
                     localStorage.removeItem('kinanto_admin');
                     window.showToast(window.staticTranslations[window.currentLang].adminOff);
                     window.renderCards();
+                    window.renderAllReviews();
                 } else {
                     document.getElementById('adminModal').classList.add('show');
                 }
@@ -1045,6 +1098,7 @@
                 window.showToast(window.staticTranslations[window.currentLang].adminOn);
                 document.getElementById('admin-pin-input').value = '';
                 window.renderCards();
+                window.renderAllReviews();
             } else {
                 window.showToast(window.staticTranslations[window.currentLang].adminErr);
             }
@@ -1054,7 +1108,9 @@
         window.closeContactSheet = function() { 
             const sheet = document.getElementById('contactSheetOverlay'); 
             if (sheet) sheet.classList.remove('show'); 
-            const activeTabName = document.getElementById('view-dashboard').classList.contains('active-view') ? 'home' : (window.currentFilter === 'preferiti' ? 'favorites' : 'explore');
+            const dashboardActive = document.getElementById('view-dashboard').classList.contains('active-view');
+            const reviewsActive = document.getElementById('view-reviews').classList.contains('active-view');
+            const activeTabName = dashboardActive ? 'home' : (reviewsActive ? 'home' : (window.currentFilter === 'preferiti' ? 'favorites' : 'explore'));
             window.updateBottomBarActiveState(activeTabName); 
         };
 
@@ -1073,16 +1129,21 @@
             window.updateBottomBarActiveState(tab);
             const viewDashboard = document.getElementById('view-dashboard');
             const viewExplore = document.getElementById('view-explore');
+            const viewReviews = document.getElementById('view-reviews');
+            
             if (tab === 'home') {
                 if (viewExplore) viewExplore.classList.remove('active-view');
+                if (viewReviews) viewReviews.classList.remove('active-view');
                 if (viewDashboard) viewDashboard.classList.add('active-view');
                 window.renderFavoritesCarousel();
             } else if (tab === 'explore') {
                 if (viewDashboard) viewDashboard.classList.remove('active-view');
+                if (viewReviews) viewReviews.classList.remove('active-view');
                 if (viewExplore) viewExplore.classList.add('active-view');
                 window.filterCategory('tutti', document.getElementById('tab-tutti'));
             } else if (tab === 'favorites') {
                 if (viewDashboard) viewDashboard.classList.remove('active-view');
+                if (viewReviews) viewReviews.classList.remove('active-view');
                 if (viewExplore) viewExplore.classList.add('active-view');
                 window.filterCategory('preferiti', document.getElementById('tab-preferiti'));
             }
@@ -1106,9 +1167,23 @@
             window.renderCards();
             const viewDashboard = document.getElementById('view-dashboard');
             const viewExplore = document.getElementById('view-explore');
+            const viewReviews = document.getElementById('view-reviews');
             if (viewDashboard) viewDashboard.classList.remove('active-view');
+            if (viewReviews) viewReviews.classList.remove('active-view');
             if (viewExplore) viewExplore.classList.add('active-view');
             window.updateBottomBarActiveState('explore');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.navigateToReviews = function() {
+            window.safeVibrate(12);
+            window.renderAllReviews();
+            const viewDashboard = document.getElementById('view-dashboard');
+            const viewExplore = document.getElementById('view-explore');
+            const viewReviews = document.getElementById('view-reviews');
+            if (viewDashboard) viewDashboard.classList.remove('active-view');
+            if (viewExplore) viewExplore.classList.remove('active-view');
+            if (viewReviews) viewReviews.classList.add('active-view');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
@@ -1116,7 +1191,9 @@
             window.safeVibrate(10);
             const viewDashboard = document.getElementById('view-dashboard');
             const viewExplore = document.getElementById('view-explore');
+            const viewReviews = document.getElementById('view-reviews');
             if (viewExplore) viewExplore.classList.remove('active-view');
+            if (viewReviews) viewReviews.classList.remove('active-view');
             if (viewDashboard) viewDashboard.classList.add('active-view');
             window.updateBottomBarActiveState('home');
             window.renderFavoritesCarousel();
@@ -1165,6 +1242,129 @@
             if (btnElement) btnElement.classList.add('active');
             window.currentFilter = category;
             window.renderCards();
+        };
+
+        window.goToLocation = function(locationId) {
+            window.safeVibrate(12);
+            const locData = window.luoghiData.find(l => l.id === locationId);
+            if (!locData) return;
+
+            // Naviga verso la categoria corretta
+            window.navigateToExplore(locData.category);
+
+            // Attende il rendering e lo scroll a zero, poi esegue lo scroll mirato sulla card
+            setTimeout(() => {
+                const cardEl = document.querySelector(`.card[data-id="${locationId}"]`);
+                if (cardEl) {
+                    // Calcola l'altezza tenendo conto della barra fissa in alto (filtri)
+                    const y = cardEl.getBoundingClientRect().top + window.pageYOffset - 130;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                    
+                    // Effetto highlight temporaneo per evidenziare la card scelta
+                    cardEl.style.transition = 'all 0.4s ease';
+                    cardEl.style.transform = 'scale(1.02)';
+                    cardEl.style.borderColor = 'var(--color-primary)';
+                    cardEl.style.boxShadow = '0 12px 24px rgba(23, 139, 117, 0.2)';
+                    
+                    setTimeout(() => {
+                        cardEl.style.transform = '';
+                        cardEl.style.borderColor = '';
+                        cardEl.style.boxShadow = '';
+                    }, 1500);
+                }
+            }, 150);
+        };
+
+        window.toggleLike = function(locationId, reviewUserId) {
+            window.safeVibrate(8);
+            if (!navigator.onLine) {
+                window.showToast(window.staticTranslations[window.currentLang].offlineMessage);
+                return;
+            }
+            if (window.firebaseToggleLikeReview) {
+                window.firebaseToggleLikeReview(locationId, reviewUserId);
+            }
+        };
+
+        window.renderAllReviews = function() {
+            const container = document.getElementById('all-reviews-feed');
+            const emptyState = document.getElementById('emptyReviewsState');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            let allReviews = [];
+            Object.keys(window.dbReviews).forEach(locId => {
+                let locData = window.luoghiData.find(l => l.id === locId);
+                if (!locData) return;
+                let rList = window.dbReviews[locId];
+                rList.forEach(r => {
+                    allReviews.push({
+                        ...r,
+                        locationId: locId,
+                        locationTitle: locData.title[window.currentLang]
+                    });
+                });
+            });
+
+            if (allReviews.length === 0) {
+                container.style.display = 'none';
+                if (emptyState) emptyState.style.display = 'block';
+                return;
+            }
+            
+            container.style.display = 'flex';
+            if (emptyState) emptyState.style.display = 'none';
+
+            // Classifica: Prima per stelle, poi per numero di Like
+            allReviews.sort((a, b) => {
+                if (b.rating !== a.rating) return b.rating - a.rating;
+                let aLikes = a.likes ? a.likes.length : 0;
+                let bLikes = b.likes ? b.likes.length : 0;
+                if (bLikes !== aLikes) return bLikes - aLikes;
+                return b.timestamp - a.timestamp;
+            });
+
+            const currentUserId = window.currentUserId || 'offline-user';
+
+            allReviews.forEach((r, index) => {
+                let stars = '';
+                for (let i = 1; i <= 5; i++) { stars += i <= r.rating ? '★' : '☆'; }
+                let rDateStr = r.timestamp ? new Date(r.timestamp).toLocaleDateString(window.currentLang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+                
+                let likeCount = r.likes ? r.likes.length : 0;
+                let isLiked = r.likes && r.likes.includes(currentUserId);
+                let adminDeleteBtn = window.isModerator ? `<span style="cursor: pointer; margin-left: 10px; font-size: 13px;" onclick="window.deleteReview('${r.locationId}', '${r.userId}')">🗑️</span>` : '';
+                
+                let rankTrophy = '';
+                if (index === 0) rankTrophy = '🏆 1°';
+                else if (index === 1) rankTrophy = '🥈 2°';
+                else if (index === 2) rankTrophy = '🥉 3°';
+                else rankTrophy = `#${index + 1}`;
+
+                container.insertAdjacentHTML('beforeend', `
+                    <div class="card" style="padding: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-border); padding-bottom: 8px; margin-bottom: 8px;">
+                            <div style="font-size: 11px; text-transform: uppercase; color: var(--color-primary); font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;" onclick="window.goToLocation('${r.locationId}')" title="Vai al luogo">
+                                📍 ${r.locationTitle}
+                                <svg style="width: 14px; height: 14px; fill: currentColor; opacity: 0.7;" viewBox="0 0 24 24"><path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" /></svg>
+                            </div>
+                            <div style="font-size: 11px; font-weight: 800; color: var(--color-primary); background-color: var(--color-accent); padding: 2px 8px; border-radius: 20px;">${rankTrophy}</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 700; font-size: 13px; color: var(--color-text);">👤 ${r.userName} <span style="font-weight: normal; font-size: 10px; margin-left: 4px; color: var(--color-text-muted);">${rDateStr}</span> ${adminDeleteBtn}</span>
+                            <span style="color: var(--color-secondary); font-size: 15px; letter-spacing: 1px;">${stars}</span>
+                        </div>
+                        ${r.comment ? `<p style="font-style: italic; color: var(--color-text-muted); font-size: 13px; margin-top: 4px; line-height: 1.5;">"${r.comment}"</p>` : ''}
+                        
+                        <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
+                            <button onclick="window.toggleLike('${r.locationId}', '${r.userId}')" class="like-btn-action ${isLiked ? 'liked' : 'unliked'}">
+                                <svg style="width: 14px; height: 14px; fill: currentColor; margin-bottom: 2px;" viewBox="0 0 24 24"><path d="M23 10a2 2 0 0 0-2-2h-6.32l.96-4.57c.02-.1.03-.21.03-.32 0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.58C7.22 7.95 7 8.45 7 9v10a2 2 0 0 0 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05A1.976 1.976 0 0 0 23 12v-2M1 21h4V9H1v12z"/></svg>
+                                ${likeCount}
+                            </button>
+                        </div>
+                    </div>
+                `);
+            });
         };
 
         window.renderCards = function() {
@@ -1279,15 +1479,23 @@
                         rDateStr = new Date(r.timestamp).toLocaleDateString(window.currentLang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' });
                     }
                     
+                    let likeCount = r.likes ? r.likes.length : 0;
+                    let isLiked = r.likes && r.likes.includes(currentUserId);
                     let adminDeleteBtn = window.isModerator ? `<span style="cursor: pointer; margin-left: 10px; font-size: 13px;" onclick="window.deleteReview('${l.id}', '${r.userId}')">🗑️</span>` : '';
                     
                     allReviewsHtml += `
                         <div style="font-size: 12px; margin-bottom: 8px; color: var(--color-text-muted);">
-                            <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--color-text);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--color-text);">
                                 <span>👤 ${r.userName} <span style="font-weight: normal; font-size: 10px; margin-left: 4px;">${rDateStr}</span> ${adminDeleteBtn}</span>
-                                <span style="color: var(--color-secondary); letter-spacing: 0.5px;">${stars}</span>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="color: var(--color-secondary); letter-spacing: 0.5px;">${stars}</span>
+                                    <button onclick="window.toggleLike('${l.id}', '${r.userId}')" class="like-btn-action ${isLiked ? 'liked' : 'unliked'}" style="padding: 2px 6px; font-size: 10px;">
+                                        <svg style="width: 10px; height: 10px; fill: currentColor; margin-bottom: 1px;" viewBox="0 0 24 24"><path d="M23 10a2 2 0 0 0-2-2h-6.32l.96-4.57c.02-.1.03-.21.03-.32 0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.58C7.22 7.95 7 8.45 7 9v10a2 2 0 0 0 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05A1.976 1.976 0 0 0 23 12v-2M1 21h4V9H1v12z"/></svg>
+                                        ${likeCount}
+                                    </button>
+                                </div>
                             </div>
-                            ${r.comment ? `<p style="font-style: italic; margin-top: 2px;">"${r.comment}"</p>` : ''}
+                            ${r.comment ? `<p style="font-style: italic; margin-top: 4px; line-height: 1.4;">"${r.comment}"</p>` : ''}
                         </div>
                     `;
                 });
@@ -1503,6 +1711,7 @@
         window.addEventListener('DOMContentLoaded', () => {
             window.renderCards();
             window.renderFavoritesCarousel();
+            window.renderAllReviews();
 
             const langItBtn = document.getElementById('lang-it-btn');
             const langEnBtn = document.getElementById('lang-en-btn');
@@ -1575,6 +1784,7 @@
                                 window.dbReviews[doc.id] = doc.data().reviewsList || [];
                             });
                             if (typeof window.renderCards === 'function') window.renderCards();
+                            if (typeof window.renderAllReviews === 'function') window.renderAllReviews();
                         }, (error) => console.error(error));
                     }
                 });
@@ -1584,7 +1794,7 @@
                 const currentUser = auth.currentUser;
                 if (!currentUser) { window.showToast(msgAuthErr); return; }
                 const userId = currentUser.uid;
-                const newReview = { userId, userName: guestName, rating, comment, timestamp: Date.now() };
+                const newReview = { userId, userName: guestName, rating, comment, timestamp: Date.now(), likes: [] };
                 const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'reviews', id);
                 let reviewsList = [];
                 try {
@@ -1616,6 +1826,32 @@
                     await setDoc(docRef, { reviewsList });
                     window.showToast(msgSuccess);
                 } catch (e) {}
+            };
+
+            window.firebaseToggleLikeReview = async function(locationId, reviewUserId) {
+                const currentUser = auth.currentUser;
+                if (!currentUser) return;
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'reviews', locationId);
+                try {
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        let reviewsList = docSnap.data().reviewsList || [];
+                        const rIndex = reviewsList.findIndex(r => r.userId === reviewUserId);
+                        if (rIndex > -1) {
+                            let likes = reviewsList[rIndex].likes || [];
+                            const lIndex = likes.indexOf(currentUser.uid);
+                            if (lIndex > -1) {
+                                likes.splice(lIndex, 1);
+                            } else {
+                                likes.push(currentUser.uid);
+                            }
+                            reviewsList[rIndex].likes = likes;
+                            await setDoc(docRef, { reviewsList });
+                        }
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
             };
 
             initAuthAndSync();
