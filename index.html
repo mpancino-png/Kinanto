@@ -509,8 +509,11 @@
     <!-- Native Splash Screen -->
     <div id="app-splash">
         <div style="text-align:center; transform: translateY(-20px);">
-            <div style="font-family: var(--font-serif); font-size: 40px; font-weight: 700; color: var(--color-primary); letter-spacing: 1.5px; line-height: 1;">Kinanto</div>
-            <div style="font-size: 11px; font-weight: 800; color: var(--color-secondary); text-transform: uppercase; letter-spacing: 3px; margin-top: 6px;">EcoRetreat Sicily</div>
+            <img src="logo.png" alt="Kinanto Logo" style="max-height: 80px; margin-bottom: 15px; display: none;" onload="this.style.display='inline-block'; document.getElementById('splash-text-logo').style.display='none';">
+            <div id="splash-text-logo">
+                <div style="font-family: var(--font-serif); font-size: 40px; font-weight: 700; color: var(--color-primary); letter-spacing: 1.5px; line-height: 1;">Kinanto</div>
+                <div style="font-size: 11px; font-weight: 800; color: var(--color-secondary); text-transform: uppercase; letter-spacing: 3px; margin-top: 6px;">EcoRetreat Sicily</div>
+            </div>
             <div class="splash-spinner"></div>
         </div>
     </div>
@@ -605,8 +608,11 @@
                 <button class="lang-btn" id="lang-en-btn" onclick="window.setLanguage('en')">🇬🇧 EN</button>
             </div>
             <div class="brand-badge" onclick="window.triggerAdminMode()">
-                <span class="brand-title">Kinanto</span>
-                <span class="brand-subtitle">EcoRetreat Sicily <span class="brand-trademark">®</span></span>
+                <img src="logo.png" alt="Kinanto Logo" style="max-height: 40px; display: none;" onload="this.style.display='block'; document.getElementById('hero-text-logo').style.display='none';">
+                <div id="hero-text-logo" style="display: flex; flex-direction: column; align-items: center;">
+                    <span class="brand-title">Kinanto</span>
+                    <span class="brand-subtitle">EcoRetreat Sicily <span class="brand-trademark">®</span></span>
+                </div>
             </div>
             <div class="hero-overlay">
                 <h1 id="hero-title">Benvenuti a Casa</h1>
