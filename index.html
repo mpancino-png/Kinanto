@@ -349,7 +349,7 @@
         .favorites-empty-prompt { background-color: var(--color-card); border: 1px dashed var(--color-border); border-radius: 16px; padding: 20px; text-align: center; font-size: 12.5px; color: var(--color-text-muted); }
 
         /* --- EXPLORATION VIEW BARRA SUPERIORE --- */
-        .explore-top-nav { background-color: var(--color-bg); padding: 14px 20px 8px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid var(--color-border); position: sticky; top: 0; z-index: 150; }
+        .explore-top-nav { background-color: var(--color-bg); padding: 14px 20px 8px 20px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid var(--color-border); position: sticky; top: 0; z-index: 150; justify-content: space-between; }
         .back-home-btn { background-color: #ffffff; border: 1.5px solid var(--color-border); color: var(--color-primary); border-radius: 10px; padding: 6px 12px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: var(--shadow-sm); transition: var(--transition); flex-shrink: 0;}
         .back-home-btn:active { transform: scale(0.96); background-color: var(--color-accent); }
 
@@ -502,6 +502,24 @@
         .like-btn-action:active { transform: scale(0.95); }
         .like-btn-action.liked { color: var(--color-primary); background-color: var(--color-accent); border-color: var(--color-primary); }
         .like-btn-action.unliked { color: var(--color-text-muted); background-color: #f1f3f2; border-color: transparent; }
+
+        /* ================= STILI SPECIFICI COMPONENTE STAFF ================= */
+        .staff-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 16px 20px; }
+        .staff-card { background-color: var(--color-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 20px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: var(--shadow-sm); }
+        .staff-photo { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; margin-bottom: 14px; border: 3px solid var(--color-accent); background-color: var(--color-bg); box-shadow: 0 4px 12px rgba(23, 139, 117, 0.1); cursor: pointer; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .staff-photo:active { transform: scale(0.92); }
+        .staff-name { font-family: var(--font-serif); font-size: 16px; font-weight: 700; color: var(--color-primary); margin-bottom: 4px; }
+        .staff-role { font-size: 10px; font-weight: 800; color: var(--color-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .staff-desc { font-size: 12px; color: var(--color-text-muted); line-height: 1.4; }
+
+        /* --- MODAL IMMAGINE (LIGHTBOX STAFF) --- */
+        .image-modal-overlay { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 6000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .image-modal-overlay.show { opacity: 1; pointer-events: auto; }
+        .image-modal-img { max-width: 100%; max-height: 80vh; border-radius: 16px; box-shadow: 0 12px 40px rgba(0,0,0,0.6); transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15); object-fit: contain; }
+        .image-modal-overlay.show .image-modal-img { transform: scale(1); }
+        .image-modal-close { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); border: none; color: #ffffff; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+        .image-modal-close:active { background: rgba(255,255,255,0.4); transform: scale(0.90); }
+        .image-modal-close svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; }
     </style>
 </head>
 <body>
@@ -509,7 +527,9 @@
     <!-- Native Splash Screen -->
     <div id="app-splash">
         <div style="text-align:center; transform: translateY(-20px);">
+            <!-- LOGO ORIGINALE (Caricamento): Sostituisci 'logo.png' con il tuo link -->
             <img src="logo.png" alt="Kinanto Logo" style="max-height: 80px; margin-bottom: 15px; display: none;" onload="this.style.display='inline-block'; document.getElementById('splash-text-logo').style.display='none';">
+            
             <div id="splash-text-logo">
                 <div style="font-family: var(--font-serif); font-size: 40px; font-weight: 700; color: var(--color-primary); letter-spacing: 1.5px; line-height: 1;">Kinanto</div>
                 <div style="font-size: 11px; font-weight: 800; color: var(--color-secondary); text-transform: uppercase; letter-spacing: 3px; margin-top: 6px;">EcoRetreat Sicily</div>
@@ -559,6 +579,14 @@
         </div>
     </div>
 
+    <!-- Modal per ingrandire le immagini (Lightbox) -->
+    <div id="imageModal" class="image-modal-overlay" onclick="window.closeImageModal()">
+        <button class="image-modal-close" onclick="window.closeImageModal()" aria-label="Chiudi">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <img id="image-modal-content" class="image-modal-img" src="" alt="Fullscreen Photo" onclick="event.stopPropagation()">
+    </div>
+
     <!-- ================= BOTTOM SHEET SLIDE-UP MODAL (Reception Contacts) ================= -->
     <div id="contactSheetOverlay" class="sheet-overlay" onclick="window.closeContactSheet()">
         <div class="contact-sheet" onclick="event.stopPropagation()">
@@ -590,6 +618,11 @@
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
             <span class="bottom-tab-label" id="tab-label-explore">Esplora</span>
         </button>
+        <!-- NUOVO TAB: STAFF -->
+        <button class="bottom-tab-item" id="tab-nav-staff" onclick="window.handleBottomTab('staff')">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span class="bottom-tab-label" id="tab-label-staff">Staff</span>
+        </button>
         <button class="bottom-tab-item tab-fav" id="tab-nav-favorites" onclick="window.handleBottomTab('favorites')">
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             <span class="bottom-tab-label" id="tab-label-favorites">Preferiti</span>
@@ -608,7 +641,9 @@
                 <button class="lang-btn" id="lang-en-btn" onclick="window.setLanguage('en')">🇬🇧 EN</button>
             </div>
             <div class="brand-badge" onclick="window.triggerAdminMode()">
+                <!-- LOGO ORIGINALE (Barra Header): Sostituisci 'logo.png' con il tuo link -->
                 <img src="logo.png" alt="Kinanto Logo" style="max-height: 40px; display: none;" onload="this.style.display='block'; document.getElementById('hero-text-logo').style.display='none';">
+                
                 <div id="hero-text-logo" style="display: flex; flex-direction: column; align-items: center;">
                     <span class="brand-title">Kinanto</span>
                     <span class="brand-subtitle">EcoRetreat Sicily <span class="brand-trademark">®</span></span>
@@ -623,7 +658,7 @@
         <div id="view-dashboard" class="spa-view active-view">
             <div class="dashboard-welcome">
                 <h2 id="db-welcome-title">La tua Guida Esclusiva</h2>
-                <p id="db-welcome-desc">Questa guida è una collezione di mete autentiche, esplorate e selezionate personalmente dal nostro staff. Aiutaci ad arricchirla: racconta le tue impressioni e lascia un voto a stelle sui luoghi che visiti!</p>
+                <p id="db-welcome-desc">Questa è una selezione esclusiva preparata direttamente dallo staff del Kinanto per i propri ospiti, frutto di una continua verifica sul territorio. Condividi la tua esperienza lasciando un commento e una classifica di gradimento utilizzando le stelline!</p>
             </div>
             <div class="dashboard-actions">
                 <a href="https://www.google.com/maps/search/?api=1&query=Kinanto+EcoRetreat+Sicily+Ispica" target="_blank" class="dashboard-action-btn">
@@ -733,6 +768,23 @@
             </div>
         </div>
 
+        <!-- VIEW 4: STAFF DIRECTORY -->
+        <div id="view-staff" class="spa-view">
+            <div class="explore-top-nav">
+                <button class="back-home-btn" onclick="window.backToDashboard()">
+                    <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20,11H7.83L13.41,5.41L12,4L4,12L12,20L13.41,18.59L7.83,13H20V11Z" /></svg>
+                    <span class="btn-back-text">Indietro</span>
+                </button>
+                <h2 id="staff-top-title" style="font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--color-primary); margin: 0;">Il Nostro Team</h2>
+            </div>
+            <div class="dashboard-welcome">
+                <p id="staff-intro-desc" style="font-size: 13.5px; color: var(--color-text-muted); line-height: 1.5; margin-top: 10px;">Dietro ogni dettaglio del Kinanto c'è la passione e l'impegno di persone vere. Scopri chi si prende cura del tuo soggiorno ogni giorno.</p>
+            </div>
+            <div class="staff-grid" id="staff-grid-container">
+                <!-- Verrà popolato da JS -->
+            </div>
+        </div>
+
         <div class="empty-state" id="emptyState">
             <svg viewBox="0 0 24 24"><path d="M15.5,14H14.71L14.44,13.73C15.41,12.59 16,11.11 16,9.5A6.5,6.5 0 0,0 9.5,3A6.5,6.5 0 0,0 3,9.5A6.5,6.5 0 0,0 9.5,16C11.11,16 12.59,15.41 13.73,14.44L14.44,14.71V15.5L19.5,20.5L21,19L15.5,14M9.5,14C7,14 5,12 5,9.5C5,7 7,5 9.5,5C12,5 14,7 14,9.5C14,12 12,14 9.5,14Z" /></svg>
             <p id="emptyStateText">Nessun luogo trovato corrispondente ai criteri inseriti.</p>
@@ -757,6 +809,50 @@
         // Recupero preferiti locali
         let preferiti = [];
         try { preferiti = JSON.parse(localStorage.getItem('kinanto_favorites')) || []; if (!Array.isArray(preferiti)) preferiti = []; } catch (e) { preferiti = []; }
+
+        // --- DATI STAFF MOCKUP ---
+        window.staffData = [
+            {
+                id: "giulia",
+                name: "Giulia",
+                role: { it: "Host", en: "Host" },
+                photo: "giulia.jpg",
+                desc: { 
+                    it: "Il volto dell'accoglienza al Kinanto. Attenta e premurosa, si assicurerà che il tuo soggiorno sia impeccabile dal primo all'ultimo giorno.", 
+                    en: "The welcoming face of Kinanto. Attentive and caring, she will ensure your stay is flawless from the first to the last day." 
+                }
+            },
+            {
+                id: "concita",
+                name: "Concita",
+                role: { it: "Maître Pâtissier", en: "Maître Pâtissier" },
+                photo: "concita.jpg",
+                desc: { 
+                    it: "La regina delle colazioni. Le sue dolci creazioni artigianali e i prodotti appena sfornati sono la magia che risveglia i nostri ospiti ogni mattina.", 
+                    en: "The queen of breakfast. Her artisan sweet creations and freshly baked goods are the magic that awakens our guests every morning." 
+                }
+            },
+            {
+                id: "housekeepers",
+                name: "Giorgia, Maria e Giovanna",
+                role: { it: "Housekeepers", en: "Housekeepers" },
+                photo: "team.jpg",
+                desc: { 
+                    it: "Le fate del pulito. Si prendono cura di ogni dettaglio delle camere per garantirti un ambiente fresco, profumato e immacolato ogni singolo giorno.", 
+                    en: "Our cleanliness fairies. They meticulously care for every room detail to ensure a fresh, spotless, and welcoming environment every single day." 
+                }
+            },
+            {
+                id: "lisa",
+                name: "Lisa",
+                role: { it: "Groundskeeper", en: "Groundskeeper" },
+                photo: "lisa.jpg",
+                desc: { 
+                    it: "L'anima green della struttura. Con dedizione e cura mantiene in perfetta salute i nostri giardini, i percorsi e tutti i rilassanti spazi esterni dell'EcoRetreat.", 
+                    en: "The green soul of the retreat. With dedication and care, she keeps our gardens, pathways, and all relaxing outdoor spaces in pristine condition." 
+                }
+            }
+        ];
 
         // --- FUNZIONI DI UTILITÀ BASE ---
         window.safeVibrate = function(duration) {
@@ -809,7 +905,7 @@
             it: {
                 heroTitle: "Benvenuti a Casa",
                 homeBtn: "Naviga verso il Kinanto",
-                introText: "Questa guida è una collezione di mete autentiche, esplorate e selezionate personalmente dal nostro staff. Aiutaci ad arricchirla: racconta le tue impressioni e lascia un voto a stelle sui luoghi che visiti!",
+                introText: "Questa è una selezione esclusiva preparata direttamente dallo staff del Kinanto per i propri ospiti, frutto di una continua verifica sul territorio. Condividi la tua esperienza lasciando un commento e una classifica di gradimento utilizzando le stelline!",
                 tabTutti: "✨ Tutti",
                 tabRetreat: "🌿 EcoRetreat Info",
                 tabMare: "🏖️ Mare & Natura",
@@ -839,7 +935,7 @@
                 offlineMessage: "Connessione persa. Le recensioni sono disabilitate offline.",
                 onlineMessage: "Connessione ripristinata!",
                 dbWelcomeTitle: "La tua Guida Esclusiva",
-                dbWelcomeDesc: "Questa guida è una collezione di mete autentiche, esplorate e selezionate personalmente dal nostro staff. Aiutaci ad arricchirla: racconta le tue impressioni e lascia un voto a stelle sui luoghi che visiti!",
+                dbWelcomeDesc: "Questa è una selezione esclusiva preparata direttamente dallo staff del Kinanto per i propri ospiti, frutto di una continua verifica sul territorio. Condividi la tua esperienza lasciando un commento e una classifica di gradimento utilizzando le stelline!",
                 dbCategories: "Esplora per Categoria",
                 dbFavorites: "I Tuoi Preferiti ❤️",
                 btnBack: "Indietro",
@@ -876,12 +972,14 @@
                 catTitleReviews: "Bacheca Recensioni",
                 catCountReviews: "Leggi la classifica e vota",
                 reviewsTopTitle: "Classifica Recensioni",
-                reviewsEmpty: "Nessuna recensione pubblicata al momento."
+                reviewsEmpty: "Nessuna recensione pubblicata al momento.",
+                staffTopTitle: "Il Nostro Team",
+                staffIntroDesc: "Dietro ogni dettaglio del Kinanto c'è la passione e l'impegno di persone vere. Scopri chi si prende cura del tuo soggiorno ogni giorno."
             },
             en: {
                 heroTitle: "Welcome Home",
                 homeBtn: "Navigate back to Kinanto",
-                introText: "This guide is a curated collection of authentic destinations, personally explored and selected by our staff. Help us enrich it: share your impressions and leave a star rating on the places you visit!",
+                introText: "This is an exclusive selection prepared directly by the Kinanto staff for our guests, the result of continuous verification in the area. Share your experience by leaving a comment and a rating using the stars!",
                 tabTutti: "✨ All",
                 tabRetreat: "🌿 EcoRetreat Info",
                 tabMare: "🏖️ Beach & Nature",
@@ -911,7 +1009,7 @@
                 offlineMessage: "Connection lost. Reviews are disabled offline.",
                 onlineMessage: "Back online!",
                 dbWelcomeTitle: "Your Exclusive Guide",
-                dbWelcomeDesc: "This guide is a curated collection of authentic destinations, personally explored and selected by our staff. Help us enrich it: share your impressions and leave a star rating on the places you visit!",
+                dbWelcomeDesc: "This is an exclusive selection prepared directly by the Kinanto staff for our guests, the result of continuous verification in the area. Share your experience by leaving a comment and a rating using the stars!",
                 dbCategories: "Explore by Category",
                 dbFavorites: "Your Favorites ❤️",
                 btnBack: "Back",
@@ -948,7 +1046,9 @@
                 catTitleReviews: "Guest Reviews",
                 catCountReviews: "Read the top ranked",
                 reviewsTopTitle: "Reviews Ranking",
-                reviewsEmpty: "No reviews published yet."
+                reviewsEmpty: "No reviews published yet.",
+                staffTopTitle: "Our Team",
+                staffIntroDesc: "Behind every detail of Kinanto is the passion and dedication of real people. Discover who takes care of your stay every day."
             }
         };
 
@@ -1051,6 +1151,7 @@
             setTxt('tab-label-explore', lang === 'it' ? 'Esplora' : 'Explore');
             setTxt('tab-label-favorites', lang === 'it' ? 'Preferiti' : 'Saved');
             setTxt('tab-label-contacts', lang === 'it' ? 'Contatti' : 'Contact');
+            setTxt('tab-label-staff', lang === 'it' ? 'Staff' : 'Staff');
             
             setTxt('cat-count-retreat', `${window.countCategory('retreat')} ${dict.unitItems}`);
             setTxt('cat-count-mare', `${window.countCategory('mare')} ${dict.unitRoutes}`);
@@ -1063,6 +1164,8 @@
             setTxt('cat-count-reviews', dict.catCountReviews);
             setTxt('reviews-top-title', dict.reviewsTopTitle);
             setTxt('emptyReviewsText', dict.reviewsEmpty);
+            setTxt('staff-top-title', dict.staffTopTitle);
+            setTxt('staff-intro-desc', dict.staffIntroDesc);
 
             const adminTitleEl = document.getElementById('admin-modal-title');
             const adminDescEl = document.getElementById('admin-modal-desc');
@@ -1074,6 +1177,7 @@
             window.renderCards();
             window.renderFavoritesCarousel();
             window.renderAllReviews();
+            window.renderStaff();
         };
 
         window.triggerAdminMode = function() {
@@ -1116,7 +1220,8 @@
             if (sheet) sheet.classList.remove('show'); 
             const dashboardActive = document.getElementById('view-dashboard').classList.contains('active-view');
             const reviewsActive = document.getElementById('view-reviews').classList.contains('active-view');
-            const activeTabName = dashboardActive ? 'home' : (reviewsActive ? 'home' : (window.currentFilter === 'preferiti' ? 'favorites' : 'explore'));
+            const staffActive = document.getElementById('view-staff').classList.contains('active-view');
+            const activeTabName = dashboardActive ? 'home' : (reviewsActive ? 'home' : (staffActive ? 'staff' : (window.currentFilter === 'preferiti' ? 'favorites' : 'explore')));
             window.updateBottomBarActiveState(activeTabName); 
         };
 
@@ -1133,25 +1238,27 @@
             const contactSheetOverlay = document.getElementById('contactSheetOverlay');
             if (contactSheetOverlay) contactSheetOverlay.classList.remove('show');
             window.updateBottomBarActiveState(tab);
+            
             const viewDashboard = document.getElementById('view-dashboard');
             const viewExplore = document.getElementById('view-explore');
             const viewReviews = document.getElementById('view-reviews');
+            const viewStaff = document.getElementById('view-staff');
             
+            [viewDashboard, viewExplore, viewReviews, viewStaff].forEach(view => {
+                if(view) view.classList.remove('active-view');
+            });
+
             if (tab === 'home') {
-                if (viewExplore) viewExplore.classList.remove('active-view');
-                if (viewReviews) viewReviews.classList.remove('active-view');
                 if (viewDashboard) viewDashboard.classList.add('active-view');
                 window.renderFavoritesCarousel();
             } else if (tab === 'explore') {
-                if (viewDashboard) viewDashboard.classList.remove('active-view');
-                if (viewReviews) viewReviews.classList.remove('active-view');
                 if (viewExplore) viewExplore.classList.add('active-view');
                 window.filterCategory('tutti', document.getElementById('tab-tutti'));
             } else if (tab === 'favorites') {
-                if (viewDashboard) viewDashboard.classList.remove('active-view');
-                if (viewReviews) viewReviews.classList.remove('active-view');
                 if (viewExplore) viewExplore.classList.add('active-view');
                 window.filterCategory('preferiti', document.getElementById('tab-preferiti'));
+            } else if (tab === 'staff') {
+                if (viewStaff) viewStaff.classList.add('active-view');
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
@@ -1171,12 +1278,17 @@
             if (activeTab) { activeTab.classList.add('active'); }
             window.currentFilter = category;
             window.renderCards();
+            
             const viewDashboard = document.getElementById('view-dashboard');
             const viewExplore = document.getElementById('view-explore');
             const viewReviews = document.getElementById('view-reviews');
-            if (viewDashboard) viewDashboard.classList.remove('active-view');
-            if (viewReviews) viewReviews.classList.remove('active-view');
+            const viewStaff = document.getElementById('view-staff');
+            
+            [viewDashboard, viewReviews, viewStaff].forEach(view => {
+                if(view) view.classList.remove('active-view');
+            });
             if (viewExplore) viewExplore.classList.add('active-view');
+            
             window.updateBottomBarActiveState('explore');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
@@ -1184,12 +1296,17 @@
         window.navigateToReviews = function() {
             window.safeVibrate(12);
             window.renderAllReviews();
+            
             const viewDashboard = document.getElementById('view-dashboard');
             const viewExplore = document.getElementById('view-explore');
             const viewReviews = document.getElementById('view-reviews');
-            if (viewDashboard) viewDashboard.classList.remove('active-view');
-            if (viewExplore) viewExplore.classList.remove('active-view');
+            const viewStaff = document.getElementById('view-staff');
+            
+            [viewDashboard, viewExplore, viewStaff].forEach(view => {
+                if(view) view.classList.remove('active-view');
+            });
             if (viewReviews) viewReviews.classList.add('active-view');
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
@@ -1198,9 +1315,13 @@
             const viewDashboard = document.getElementById('view-dashboard');
             const viewExplore = document.getElementById('view-explore');
             const viewReviews = document.getElementById('view-reviews');
-            if (viewExplore) viewExplore.classList.remove('active-view');
-            if (viewReviews) viewReviews.classList.remove('active-view');
+            const viewStaff = document.getElementById('view-staff');
+            
+            [viewExplore, viewReviews, viewStaff].forEach(view => {
+                if(view) view.classList.remove('active-view');
+            });
             if (viewDashboard) viewDashboard.classList.add('active-view');
+            
             window.updateBottomBarActiveState('home');
             window.renderFavoritesCarousel();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1290,6 +1411,26 @@
             if (window.firebaseToggleLikeReview) {
                 window.firebaseToggleLikeReview(locationId, reviewUserId);
             }
+        };
+
+        window.renderStaff = function() {
+            const container = document.getElementById('staff-grid-container');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            window.staffData.forEach(person => {
+                const roleText = person.role[window.currentLang];
+                const descText = person.desc[window.currentLang];
+                
+                container.insertAdjacentHTML('beforeend', `
+                    <div class="staff-card">
+                        <img src="${person.photo}" alt="${person.name}" class="staff-photo">
+                        <div class="staff-name">${person.name}</div>
+                        <div class="staff-role">${roleText}</div>
+                        <div class="staff-desc">${descText}</div>
+                    </div>
+                `);
+            });
         };
 
         window.renderAllReviews = function() {
@@ -1527,8 +1668,6 @@
                         rDateStr = new Date(r.timestamp).toLocaleDateString(window.currentLang === 'it' ? 'it-IT' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' });
                     }
                     
-                    let likeCount = r.likes ? r.likes.length : 0;
-                    let isLiked = r.likes && r.likes.includes(currentUserId);
                     let adminDeleteBtn = window.isModerator ? `<span style="cursor: pointer; margin-left: 10px; font-size: 13px;" onclick="window.deleteReview('${l.id}', '${r.userId}')">🗑️</span>` : '';
                     
                     allReviewsHtml += `
@@ -1753,6 +1892,41 @@
         window.closeSaveModal = function() {
             const modalOverlay = document.getElementById('saveModal');
             if (modalOverlay) modalOverlay.classList.remove('show');
+        };
+
+        window.openImageModal = function(imgSrc) {
+            window.safeVibrate(10);
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('image-modal-content');
+            if(modal && modalImg) {
+                modalImg.src = imgSrc;
+                modal.classList.add('show');
+            }
+        };
+
+        window.closeImageModal = function() {
+            const modal = document.getElementById('imageModal');
+            if(modal) modal.classList.remove('show');
+        };
+
+        window.renderStaff = function() {
+            const container = document.getElementById('staff-grid-container');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            window.staffData.forEach(person => {
+                const roleText = person.role[window.currentLang];
+                const descText = person.desc[window.currentLang];
+                
+                container.insertAdjacentHTML('beforeend', `
+                    <div class="staff-card">
+                        <img src="${person.photo}" alt="${person.name}" class="staff-photo" onclick="window.openImageModal('${person.photo}')">
+                        <div class="staff-name">${person.name}</div>
+                        <div class="staff-role">${roleText}</div>
+                        <div class="staff-desc">${descText}</div>
+                    </div>
+                `);
+            });
         };
 
         // --- INIZIALIZZAZIONE AL DOM LOAD ---
