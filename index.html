@@ -384,58 +384,29 @@
                 <p id="db-welcome-desc">Questa è una selezione esclusiva preparata direttamente dallo staff del Kinanto per i propri ospiti, frutto di una continua verifica sul territorio. Condividi la tua esperienza lasciando un commento e una classifica di gradimento utilizzando le stelline!</p>
             </div>
             <div class="dashboard-actions">
-                <a href="https://www.google.com/maps/search/?api=1&query=Kinanto+EcoRetreat+Sicily+Ispica" target="_blank" class="dashboard-action-btn">
-                    <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5z"/></svg>
-                    Naviga al Resort
-                </a>
                 <button onclick="window.triggerSaveApp()" class="dashboard-action-btn save-app">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
                     Salva sul Telefono
                 </button>
+                <a href="https://www.google.com/maps/search/?api=1&query=Kinanto+EcoRetreat+Sicily+Ispica" target="_blank" class="dashboard-action-btn">
+                    <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5z"/></svg>
+                    Naviga al Resort
+                </a>
             </div>
 
             <div style="padding: 16px 20px 0 20px;">
                 <div class="category-card span-2 hero-retreat-card" onclick="window.navigateToExplore('retreat')">
                     <div class="category-card-icon">🌿</div>
-                    <div class="category-card-info">
-                        <div class="category-card-title" id="cat-title-retreat">Soggiorno al Kinanto</div>
-                        <div class="category-card-count" id="cat-count-retreat">5 info utili</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- NUOVA TABELLA ESPERIENZE KINANTO -->
-            <div style="padding: 16px 20px 0 20px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <h3 style="font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--color-primary); margin: 0;" id="db-esperienze-table-title">Esperienze Kinanto</h3>
-                    <button id="admin-add-exp-btn" onclick="window.openExpModal()" style="display: none; background: var(--color-primary); color: white; border: none; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: var(--shadow-sm);">+ Nuova</button>
-                </div>
-                <div style="background-color: var(--color-card); border: 1.5px solid var(--color-border); border-radius: 16px; box-shadow: var(--shadow-sm); overflow: hidden;">
-                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
-                        <tbody id="esperienze-table-body">
-                            <tr>
-                                <td style="padding: 24px 20px; color: var(--color-text-muted); text-align: center; font-style: italic;" id="esperienze-empty-text">
-                                    Nessuna esperienza inserita al momento.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- SEZIONE INSTAGRAM -->
-            <div style="padding: 16px 20px 0 20px;">
-                <a href="https://www.instagram.com/kinantoecoretreat/" target="_blank" style="text-decoration: none; display: block; outline: none; -webkit-tap-highlight-color: transparent;">
-                    <div class="category-card span-2" style="background: linear-gradient(135deg, #fdf4f4 0%, #ffffff 100%); border-color: #fce4e4; min-height: auto; padding: 16px; flex-direction: row; align-items: center;">
-                        <div class="category-card-icon" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #ffffff; box-shadow: 0 4px 12px rgba(220, 39, 67, 0.25);">
-                            <svg style="width: 20px; height: 20px; fill: currentColor;" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg>
+                    <div class="category-card-info" style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div class="category-card-title" id="cat-title-retreat">Info & Servizi</div>
+                            <div class="category-card-count" id="cat-count-retreat" style="margin-top: 0;">5 info utili</div>
                         </div>
-                        <div class="category-card-info" style="margin-left: 4px;">
-                            <div class="category-card-title" id="ig-title" style="color: #c13584; font-size: 16px;">Seguici su Instagram</div>
-                            <div class="category-card-count" id="ig-desc" style="color: var(--color-text-muted); margin-top: 4px; white-space: normal; line-height: 1.3;">Condividi i tuoi momenti al Kinanto taggandoci!</div>
+                        <div id="cat-desc-retreat" style="font-size: 11.5px; color: var(--color-primary); margin-top: 4px; line-height: 1.4; opacity: 0.9;">
+                            🔑 Wi-Fi • ☕ Colazione • 🏊‍♂️ Piscina • 🧺 Lavanderia • ♻️ Eco
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
 
             <div class="dashboard-section-header" id="db-categories-title">Esplora per Categoria</div>
@@ -469,10 +440,44 @@
                     </div>
                 </div>
             </div>
+
+            <!-- TABELLA ESPERIENZE KINANTO -->
+            <div class="dashboard-section-header" style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; padding-bottom: 8px;">
+                <span id="db-esperienze-table-title">Esperienze Kinanto</span>
+                <button id="admin-add-exp-btn" onclick="window.openExpModal()" style="display: none; background: var(--color-primary); color: white; border: none; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: var(--shadow-sm);">+ Nuova</button>
+            </div>
+            <div style="padding: 0 20px;">
+                <div style="background-color: #eaf4f8; border: 1.5px solid #cce3eb; border-radius: 16px; box-shadow: 0 4px 12px rgba(23, 139, 117, 0.08); overflow: hidden;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+                        <tbody id="esperienze-table-body">
+                            <tr>
+                                <td style="padding: 24px 20px; color: var(--color-text-muted); text-align: center; font-style: italic;" id="esperienze-empty-text">
+                                    Nessuna esperienza inserita al momento.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEZIONE INSTAGRAM -->
+            <div style="padding: 20px 20px 0 20px;">
+                <a href="https://www.instagram.com/kinantoecoretreat/" target="_blank" style="text-decoration: none; display: block; outline: none; -webkit-tap-highlight-color: transparent;">
+                    <div class="category-card span-2" style="background: linear-gradient(135deg, #fdf4f4 0%, #ffffff 100%); border-color: #fce4e4; min-height: auto; padding: 16px; flex-direction: row; align-items: center;">
+                        <div class="category-card-icon" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #ffffff; box-shadow: 0 4px 12px rgba(220, 39, 67, 0.25);">
+                            <svg style="width: 20px; height: 20px; fill: currentColor;" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg>
+                        </div>
+                        <div class="category-card-info" style="margin-left: 4px;">
+                            <div class="category-card-title" id="ig-title" style="color: #c13584; font-size: 16px;">Seguici su Instagram</div>
+                            <div class="category-card-count" id="ig-desc" style="color: var(--color-text-muted); margin-top: 4px; white-space: normal; line-height: 1.3;">Condividi i tuoi momenti al Kinanto taggandoci!</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
             
-            <div class="dashboard-section-header" id="db-reviews-title">Le vostre preferenze ⭐</div>
+            <div class="dashboard-section-header" id="db-reviews-title" style="margin-top: 10px;">Le vostre preferenze ⭐</div>
             <div style="padding: 0 20px 10px 20px;">
-                <div class="category-card span-2" style="background-color: #fffaf6; border-color: var(--color-secondary);" onclick="window.navigateToReviews()">
+                <div class="category-card span-2" style="background: linear-gradient(135deg, #fffaf6 0%, #ffffff 100%); border-color: var(--color-secondary);" onclick="window.navigateToReviews()">
                     <div class="category-card-icon" style="background-color: #fff2eb; color: var(--color-secondary);">💬</div>
                     <div class="category-card-info">
                         <div class="category-card-title" id="cat-title-reviews" style="color: var(--color-secondary);">Bacheca Recensioni</div>
@@ -494,16 +499,24 @@
                     <svg style="width: 14px; height: 14px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20,11H7.83L13.41,5.41L12,4L4,12L12,20L13.41,18.59L7.83,13H20V11Z" /></svg>
                     <span class="btn-back-text">Indietro</span>
                 </button>
+                <h2 id="explore-top-title" style="font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--color-primary); margin: 0;">Esplora</h2>
             </div>
             <div class="sticky-controls">
-                <div class="filter-tabs">
+                <div class="filter-tabs" id="main-filter-tabs">
                     <button class="tab-btn active" id="tab-tutti" onclick="window.filterCategory('tutti', this)">✨ Tutti</button>
-                    <button class="tab-btn" id="tab-retreat" onclick="window.filterCategory('retreat', this)">🌿 EcoRetreat Info</button>
+                    <button class="tab-btn" id="tab-retreat" onclick="window.filterCategory('retreat', this)">🌿 Info & Servizi</button>
                     <button class="tab-btn" id="tab-mare" onclick="window.filterCategory('mare', this)">🏖️ Mare</button>
                     <button class="tab-btn" id="tab-borghi" onclick="window.filterCategory('borghi', this)">🏛️ Borghi</button>
                     <button class="tab-btn" id="tab-ristorazione" onclick="window.filterCategory('ristorazione', this)">🍽️ Ristoranti</button>
                     <button class="tab-btn" id="tab-eventi" onclick="window.filterCategory('eventi', this)">📅 Eventi</button>
                     <button class="tab-btn" id="tab-preferiti" onclick="window.filterCategory('preferiti', this)">❤️ Preferiti</button>
+                </div>
+                <div class="filter-tabs" id="retreat-filter-tabs" style="display: none;">
+                    <button class="tab-btn" id="subtab-wifi" onclick="window.scrollToCard('wifi')">🔑 Wi-Fi</button>
+                    <button class="tab-btn" id="subtab-breakfast" onclick="window.scrollToCard('breakfast')">☕ Colazione</button>
+                    <button class="tab-btn" id="subtab-pool" onclick="window.scrollToCard('pool-rules')">🏊‍♂️ Piscina</button>
+                    <button class="tab-btn" id="subtab-laundry" onclick="window.scrollToCard('laundry')">🧺 Lavanderia</button>
+                    <button class="tab-btn" id="subtab-eco" onclick="window.scrollToCard('ecology')">♻️ Eco</button>
                 </div>
             </div>
             <div class="cards-feed" id="cardsFeed"></div>
@@ -657,10 +670,11 @@
 
         window.staticTranslations = {
             it: {
+                heroTitle: "Benvenuti a Casa",
                 homeBtn: "Naviga verso il Kinanto",
                 introText: "Questa è una selezione esclusiva preparata direttamente dallo staff del Kinanto per i propri ospiti, frutto di una continua verifica sul territorio. Condividi la tua esperienza lasciando un commento e una classifica di gradimento utilizzando le stelline!",
                 tabTutti: "✨ Tutti",
-                tabRetreat: "🌿 EcoRetreat Info",
+                tabRetreat: "🌿 Info & Servizi",
                 tabMare: "🏖️ Mare & Natura",
                 tabBorghi: "🏛️ Borghi & Arte",
                 tabRistorazione: "🍽️ Ristorazione",
@@ -676,7 +690,7 @@
                 badgeRetreat: "🌿 Info Soggiorno",
                 badgeEventi: "📅 Eventi & Tradizioni",
                 highlightGastro: "✨ Esperienza Gastronomica",
-                sectionRetreat: "🌿 Soggiorno al Kinanto",
+                sectionRetreat: "🌿 Info & Servizi",
                 sectionTerritory: "🗺️ Esplora il Territorio",
                 sectionEvents: "📅 Eventi & Tradizioni",
                 saveBtn: "Salva questa guida",
@@ -693,7 +707,8 @@
                 dbFavorites: "I Tuoi Preferiti ❤️",
                 btnBack: "Indietro",
                 favCarouselEmpty: "Nessun preferito salvato.",
-                catRetreat: "Soggiorno al Kinanto",
+                catRetreat: "Info & Servizi",
+                catDescRetreat: "🔑 Wi-Fi • ☕ Colazione • 🏊‍♂️ Piscina • 🧺 Lavanderia • ♻️ Eco",
                 catMare: "Mare & Natura",
                 catBorghi: "Borghi & Arte",
                 catRisto: "Ristorazione",
@@ -735,7 +750,10 @@
             },
             en: {
                 heroTitle: "Welcome Home",
-                tabRetreat: "🌿 EcoRetreat Info",
+                homeBtn: "Navigate back to Kinanto",
+                introText: "This is an exclusive selection prepared directly by the Kinanto staff for our guests, the result of continuous verification in the area. Share your experience by leaving a comment and a rating using the stars!",
+                tabTutti: "✨ All",
+                tabRetreat: "🌿 Info & Services",
                 tabMare: "🏖️ Beach & Nature",
                 tabBorghi: "🏛️ Town & Art",
                 tabRistorazione: "🍽️ Dining",
@@ -751,7 +769,7 @@
                 badgeRetreat: "🌿 Useful Info",
                 badgeEventi: "📅 Events & Culture",
                 highlightGastro: "✨ Culinary Experience",
-                sectionRetreat: "🌿 Stay at Kinanto",
+                sectionRetreat: "🌿 Info & Services",
                 sectionTerritory: "🗺️ Explore Area",
                 sectionEvents: "📅 Local Events",
                 saveBtn: "Save this guide",
@@ -768,7 +786,8 @@
                 dbFavorites: "Your Favorites ❤️",
                 btnBack: "Back",
                 favCarouselEmpty: "No favorites saved yet.",
-                catRetreat: "Stay at Kinanto",
+                catRetreat: "Info & Services",
+                catDescRetreat: "🔑 Wi-Fi • ☕ Breakfast • 🏊‍♂️ Pool • 🧺 Laundry • ♻️ Eco",
                 catMare: "Beach & Nature",
                 catBorghi: "Towns & Art",
                 catRisto: "Dining",
@@ -885,6 +904,19 @@
             setTxt('tab-ristorazione', dict.tabRistorazione);
             setTxt('tab-eventi', dict.tabEventi);
             setTxt('tab-preferiti', dict.tabPreferiti);
+            
+            // Nuove sub-tab Info & Servizi
+            setTxt('subtab-wifi', '🔑 Wi-Fi');
+            setTxt('subtab-breakfast', lang === 'it' ? '☕ Colazione' : '☕ Breakfast');
+            setTxt('subtab-pool', lang === 'it' ? '🏊‍♂️ Piscina' : '🏊‍♂️ Pool');
+            setTxt('subtab-laundry', lang === 'it' ? '🧺 Lavanderia' : '🧺 Laundry');
+            setTxt('subtab-eco', lang === 'it' ? '♻️ Eco' : '♻️ Eco');
+
+            const exploreTitle = document.getElementById('explore-top-title');
+            if (exploreTitle) {
+                 exploreTitle.innerText = window.currentFilter === 'retreat' ? dict.catRetreat : (lang === 'it' ? 'Esplora' : 'Explore');
+            }
+            
             setTxt('save-modal-title', dict.modalTitle);
             setTxt('db-welcome-title', dict.dbWelcomeTitle);
             setTxt('db-welcome-desc', dict.dbWelcomeDesc);
@@ -897,6 +929,7 @@
             document.querySelectorAll('.btn-back-text').forEach(el => el.innerText = dict.btnBack);
             
             setTxt('cat-title-retreat', dict.catRetreat);
+            setTxt('cat-desc-retreat', dict.catDescRetreat);
             setTxt('cat-title-mare', dict.catMare);
             setTxt('cat-title-borghi', dict.catBorghi);
             setTxt('cat-title-ristorazione', dict.catRisto);
@@ -1037,11 +1070,13 @@
 
         window.navigateToExplore = function(category) {
             window.safeVibrate(12);
-            const tabs = document.querySelectorAll('.tab-btn');
+            const tabs = document.querySelectorAll('#main-filter-tabs .tab-btn');
             tabs.forEach(tab => { if (tab) tab.classList.remove('active'); });
             const activeTab = document.getElementById(`tab-${category}`);
             if (activeTab) { activeTab.classList.add('active'); }
             window.currentFilter = category;
+            
+            window.updateExploreTabsVisibility(category);
             window.renderCards();
             
             const viewDashboard = document.getElementById('view-dashboard');
@@ -1129,11 +1164,49 @@
 
         window.filterCategory = function(category, btnElement) {
             window.safeVibrate(10);
-            const buttons = document.querySelectorAll('.tab-btn');
+            const buttons = document.querySelectorAll('#main-filter-tabs .tab-btn');
             buttons.forEach(btn => { if (btn) btn.classList.remove('active'); });
-            if (btnElement) btnElement.classList.add('active');
+            if (btnElement && btnElement.parentElement.id === 'main-filter-tabs') btnElement.classList.add('active');
             window.currentFilter = category;
+            
+            window.updateExploreTabsVisibility(category);
             window.renderCards();
+        };
+
+        window.updateExploreTabsVisibility = function(category) {
+            const mainTabs = document.getElementById('main-filter-tabs');
+            const retreatTabs = document.getElementById('retreat-filter-tabs');
+            const exploreTitle = document.getElementById('explore-top-title');
+            
+            if (category === 'retreat') {
+                if(mainTabs) mainTabs.style.display = 'none';
+                if(retreatTabs) retreatTabs.style.display = 'flex';
+                if(exploreTitle) exploreTitle.innerText = window.staticTranslations[window.currentLang].catRetreat;
+            } else {
+                if(mainTabs) mainTabs.style.display = 'flex';
+                if(retreatTabs) retreatTabs.style.display = 'none';
+                if(exploreTitle) exploreTitle.innerText = window.currentLang === 'it' ? 'Esplora' : 'Explore';
+            }
+        };
+
+        window.scrollToCard = function(locationId) {
+            window.safeVibrate(12);
+            const cardEl = document.querySelector(`.card[data-id="${locationId}"]`);
+            if (cardEl) {
+                const y = cardEl.getBoundingClientRect().top + window.pageYOffset - 130;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+                
+                cardEl.style.transition = 'all 0.4s ease';
+                cardEl.style.transform = 'scale(1.02)';
+                cardEl.style.borderColor = 'var(--color-primary)';
+                cardEl.style.boxShadow = '0 12px 24px rgba(23, 139, 117, 0.2)';
+                
+                setTimeout(() => {
+                    cardEl.style.transform = '';
+                    cardEl.style.borderColor = '';
+                    cardEl.style.boxShadow = '';
+                }, 1500);
+            }
         };
 
         window.goToLocation = function(locationId) {
@@ -1221,9 +1294,9 @@
                 const adminControls = window.isModerator ? `<button onclick="window.deleteExperience('${exp.id}')" style="color:#e05d5d; font-size:11px; font-weight: bold; border:none; background:none; cursor:pointer; margin-top:10px; display: flex; align-items:center; gap: 4px;"><svg style="width:12px; height:12px; fill:currentColor;" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/></svg> Elimina</button>` : '';
 
                 tbody.insertAdjacentHTML('beforeend', `
-                    <tr style="${isLast ? '' : 'border-bottom: 1px solid var(--color-border);'}">
+                    <tr style="${isLast ? '' : 'border-bottom: 1px solid #cce3eb;'}">
                         <td style="padding: 16px 20px;">
-                            <div style="font-size: 11.5px; font-weight: 800; color: var(--color-secondary); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">📅 ${exp.date}</div>
+                            <div style="font-size: 11.5px; font-weight: 800; color: #1e88e5; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">📅 ${exp.date}</div>
                             <div style="font-family: var(--font-serif); font-size: 16px; font-weight: 700; color: var(--color-primary); margin-bottom: 4px; line-height: 1.2;">${title}</div>
                             <div style="font-size: 13px; color: var(--color-text-muted); line-height: 1.45;">${desc}</div>
                             ${adminControls}
