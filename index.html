@@ -57,17 +57,12 @@
         #offline-banner { position: fixed; top: 0; left: 50%; transform: translateX(-50%) translateY(-100%); width: 100%; max-width: 600px; background-color: var(--color-secondary); color: #ffffff; text-align: center; padding: 12px 16px; font-size: 13px; font-weight: 700; z-index: 2500; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
         #offline-banner.show { transform: translateX(-50%) translateY(0); }
 
-        /* --- HERO BANNER --- */
-        .hero { position: relative; width: 100%; height: 110px; background-color: var(--color-primary); overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
-        .brand-badge { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background-color: var(--color-bg); padding: 12px 30px 14px 30px; border-radius: 0 0 20px 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; z-index: 10; display: flex; flex-direction: column; align-items: center; border: 1.5px solid var(--color-border); border-top: none; width: 80%; max-width: 280px; cursor: pointer; }
-        .brand-title { font-family: var(--font-serif); font-size: 24px; font-weight: 700; color: var(--color-primary); letter-spacing: 0.5px; line-height: 1; }
-        .brand-subtitle { font-size: 8.5px; font-weight: 800; color: var(--color-secondary); text-transform: uppercase; letter-spacing: 2.5px; margin-top: 4px; display: flex; align-items: center; justify-content: center; width: 100%; white-space: nowrap; }
-        .brand-trademark { font-size: 6px; font-weight: 600; margin-left: 2px; vertical-align: super; }
-        .lang-selector { position: absolute; top: 10px; right: 12px; z-index: 100; display: flex; flex-direction: column; gap: 5px; align-items: flex-end; }
-        .lang-btn { background-color: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.4); color: #ffffff; font-size: 10px; font-weight: 700; padding: 3px 6px; border-radius: 30px; cursor: pointer; transition: var(--transition); white-space: nowrap; }
-        .lang-btn.active { background-color: #ffffff; color: var(--color-primary); border-color: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-        .hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 8px; }
-        .hero h1 { font-family: var(--font-serif); font-size: 16px; color: #ffffff; font-weight: 700; text-align: center; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.15); }
+        /* --- HERO BANNER FULL WIDTH LOGO --- */
+        .hero { position: relative; width: 100%; height: 180px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; background-color: var(--color-bg); }
+        .hero-logo-img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 1; cursor: pointer; }
+        .lang-selector { position: absolute; top: 10px; right: 12px; z-index: 100; display: flex; gap: 5px; align-items: center; }
+        .lang-btn { background-color: rgba(255, 255, 255, 0.6); backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.8); color: var(--color-primary); font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 30px; cursor: pointer; transition: var(--transition); white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .lang-btn.active { background-color: #ffffff; color: var(--color-primary); border-color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transform: scale(1.05); }
 
         /* --- SPA VIEW WRAPPERS --- */
         .spa-view { display: none; opacity: 0; transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -128,7 +123,7 @@
         .card:active { transform: scale(0.99); }
         .feed-section-title { font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--color-primary); margin: 20px 0 4px 0; padding-bottom: 8px; border-bottom: 2px solid var(--color-border); letter-spacing: 0.5px; display: block; width: 100%; }
         .card.retreat-highlight { border-left: 4px solid var(--color-primary); border-color: #cce5e1; background-color: #f3f8f6; box-shadow: 0 4px 12px rgba(23, 139, 117, 0.05); }
-        .card.ristorazione-highlight { border-top: 4px solid var(--color-secondary); box-shadow: 0 8px 24px rgba(201, 125, 82, 0.12); background: linear-gradient(180deg, #fffaf6 0%, #ffffff 100%); }
+        .card.ristorazione-highlight { border-top: 4px solid var(--color-secondary); box-shadow: 0 8px 24px rgba(201, 125, 82, 0.12); background-color: #fffaf6; }
         .resto-highlight-tag { font-size: 10px; font-weight: 800; color: var(--color-secondary); text-transform: uppercase; letter-spacing: 1px; margin-top: 1px; display: inline-flex; align-items: center; gap: 4px; }
         .card-header { display: flex; justify-content: space-between; align-items: center; }
         .category-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--color-secondary); background-color: #fff2eb; padding: 4px 10px; border-radius: 50px; }
@@ -160,7 +155,7 @@
         .toast-notif { position: fixed; bottom: calc(90px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateY(100px); background-color: var(--color-text); color: #ffffff; padding: 10px 24px; border-radius: 30px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 16px rgba(0,0,0,0.25); z-index: 2000; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .toast-notif.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        /* --- CONTROLLI DI SISTEMA: MODAL DI SALVATAGGIO APP --- */
+        /* --- CONTROLLI DI SISTEMA: MODALS --- */
         .modal-overlay { position: fixed; inset: 0; background-color: rgba(2, 2, 5, 0.6); backdrop-filter: blur(8px); z-index: 5000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.show { opacity: 1; pointer-events: auto; }
         .modal-content { background-color: #ffffff; border: 1.5px solid var(--color-border); border-radius: 24px; padding: 24px; width: 100%; max-width: 420px; box-shadow: 0 12px 32px rgba(23, 139, 117, 0.15); transform: translateY(40px); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15); color: var(--color-text); }
@@ -174,7 +169,7 @@
 
         /* --- BARRA DI NAVIGAZIONE INFERIORE ATTIVA --- */
         .bottom-tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px; background-color: rgba(255, 255, 255, 0.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid var(--color-border); padding: 10px 12px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); display: flex; justify-content: space-around; align-items: center; z-index: 1500; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04); }
-        .bottom-tab-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--color-text-muted); cursor: pointer; transition: var(--transition); width: 20%; padding: 2px; }
+        .bottom-tab-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--color-text-muted); cursor: pointer; transition: var(--transition); flex: 1; padding: 2px; }
         .bottom-tab-item svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; transition: var(--transition); }
         .bottom-tab-item.active { color: var(--color-primary); }
         .bottom-tab-item.active svg { stroke: var(--color-primary); transform: scale(1.08); }
@@ -252,13 +247,7 @@
     <!-- Native Splash Screen -->
     <div id="app-splash">
         <div style="text-align:center; transform: translateY(-20px);">
-            <!-- LOGO ORIGINALE (Caricamento): Sostituisci 'logo.png' con il tuo link -->
-            <img src="logo.png" alt="Kinanto Logo" style="max-height: 80px; margin-bottom: 15px; display: none;" onload="this.style.display='inline-block'; document.getElementById('splash-text-logo').style.display='none';">
-            
-            <div id="splash-text-logo">
-                <div style="font-family: var(--font-serif); font-size: 40px; font-weight: 700; color: var(--color-primary); letter-spacing: 1.5px; line-height: 1;">Kinanto</div>
-                <div style="font-size: 11px; font-weight: 800; color: var(--color-secondary); text-transform: uppercase; letter-spacing: 3px; margin-top: 6px;">EcoRetreat Sicily</div>
-            </div>
+            <img src="logo.jpg" alt="Kinanto Logo" style="width: 90vw; max-width: 400px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin-bottom: 20px; display: none;" onload="this.style.display='inline-block';">
             <div class="splash-spinner"></div>
         </div>
     </div>
@@ -304,6 +293,27 @@
         </div>
     </div>
 
+    <!-- Modal Aggiungi Esperienza (Solo Admin) -->
+    <div id="expModal" class="modal-overlay" onclick="window.closeExpModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title" style="font-size: 16px;">Aggiungi Esperienza</h3>
+                <button class="modal-close" onclick="window.closeExpModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body" style="gap: 8px;">
+                <input type="text" id="exp-date" class="review-name-input" placeholder="Data o Periodo (es. 15 Agosto / Ogni Martedì)">
+                <input type="text" id="exp-title-it" class="review-name-input" placeholder="Titolo (Italiano)">
+                <textarea id="exp-desc-it" class="review-textarea" style="height: 60px;" placeholder="Descrizione (Italiano)"></textarea>
+                <div style="height: 1px; background: var(--color-border); margin: 4px 0;"></div>
+                <input type="text" id="exp-title-en" class="review-name-input" placeholder="Titolo (Inglese)">
+                <textarea id="exp-desc-en" class="review-textarea" style="height: 60px;" placeholder="Descrizione (Inglese)"></textarea>
+                <button class="review-submit-btn" style="width: 100%; margin-top: 6px; padding: 12px; font-size: 14px;" onclick="window.saveExperience()">Salva nel Cloud</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal per ingrandire le immagini (Lightbox) -->
     <div id="imageModal" class="image-modal-overlay" onclick="window.closeImageModal()">
         <button class="image-modal-close" onclick="window.closeImageModal()" aria-label="Chiudi">
@@ -343,7 +353,6 @@
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
             <span class="bottom-tab-label" id="tab-label-explore">Esplora</span>
         </button>
-        <!-- NUOVO TAB: STAFF -->
         <button class="bottom-tab-item" id="tab-nav-staff" onclick="window.handleBottomTab('staff')">
             <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             <span class="bottom-tab-label" id="tab-label-staff">Staff</span>
@@ -360,22 +369,11 @@
 
     <div class="app-container">
         <!-- HEADER -->
-        <div class="hero">
+        <div class="hero" onclick="window.triggerAdminMode()">
+            <img class="hero-logo-img" src="logo.jpg" alt="Kinanto EcoRetreat Sicily" onload="this.style.opacity=1;">
             <div class="lang-selector">
-                <button class="lang-btn active" id="lang-it-btn" onclick="window.setLanguage('it')">🇮🇹 IT</button>
-                <button class="lang-btn" id="lang-en-btn" onclick="window.setLanguage('en')">🇬🇧 EN</button>
-            </div>
-            <div class="brand-badge" onclick="window.triggerAdminMode()">
-                <!-- LOGO ORIGINALE (Barra Header): Sostituisci 'logo.png' con il tuo link -->
-                <img src="logo.png" alt="Kinanto Logo" style="max-height: 40px; display: none;" onload="this.style.display='block'; document.getElementById('hero-text-logo').style.display='none';">
-                
-                <div id="hero-text-logo" style="display: flex; flex-direction: column; align-items: center;">
-                    <span class="brand-title">Kinanto</span>
-                    <span class="brand-subtitle">EcoRetreat Sicily <span class="brand-trademark">®</span></span>
-                </div>
-            </div>
-            <div class="hero-overlay">
-                <h1 id="hero-title">Benvenuti a Casa</h1>
+                <button class="lang-btn active" id="lang-it-btn" onclick="event.stopPropagation(); window.setLanguage('it')">🇮🇹 IT</button>
+                <button class="lang-btn" id="lang-en-btn" onclick="event.stopPropagation(); window.setLanguage('en')">🇬🇧 EN</button>
             </div>
         </div>
 
@@ -404,6 +402,40 @@
                         <div class="category-card-count" id="cat-count-retreat">5 info utili</div>
                     </div>
                 </div>
+            </div>
+
+            <!-- NUOVA TABELLA ESPERIENZE KINANTO -->
+            <div style="padding: 16px 20px 0 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h3 style="font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--color-primary); margin: 0;" id="db-esperienze-table-title">Esperienze Kinanto</h3>
+                    <button id="admin-add-exp-btn" onclick="window.openExpModal()" style="display: none; background: var(--color-primary); color: white; border: none; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: var(--shadow-sm);">+ Nuova</button>
+                </div>
+                <div style="background-color: var(--color-card); border: 1.5px solid var(--color-border); border-radius: 16px; box-shadow: var(--shadow-sm); overflow: hidden;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+                        <tbody id="esperienze-table-body">
+                            <tr>
+                                <td style="padding: 24px 20px; color: var(--color-text-muted); text-align: center; font-style: italic;" id="esperienze-empty-text">
+                                    Nessuna esperienza inserita al momento.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEZIONE INSTAGRAM -->
+            <div style="padding: 16px 20px 0 20px;">
+                <a href="https://www.instagram.com/kinantoecoretreat/" target="_blank" style="text-decoration: none; display: block; outline: none; -webkit-tap-highlight-color: transparent;">
+                    <div class="category-card span-2" style="background: linear-gradient(135deg, #fdf4f4 0%, #ffffff 100%); border-color: #fce4e4; min-height: auto; padding: 16px; flex-direction: row; align-items: center;">
+                        <div class="category-card-icon" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #ffffff; box-shadow: 0 4px 12px rgba(220, 39, 67, 0.25);">
+                            <svg style="width: 20px; height: 20px; fill: currentColor;" viewBox="0 0 24 24"><path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/></svg>
+                        </div>
+                        <div class="category-card-info" style="margin-left: 4px;">
+                            <div class="category-card-title" id="ig-title" style="color: #c13584; font-size: 16px;">Seguici su Instagram</div>
+                            <div class="category-card-count" id="ig-desc" style="color: var(--color-text-muted); margin-top: 4px; white-space: normal; line-height: 1.3;">Condividi i tuoi momenti al Kinanto taggandoci!</div>
+                        </div>
+                    </div>
+                </a>
             </div>
 
             <div class="dashboard-section-header" id="db-categories-title">Esplora per Categoria</div>
@@ -440,7 +472,7 @@
             
             <div class="dashboard-section-header" id="db-reviews-title">Le vostre preferenze ⭐</div>
             <div style="padding: 0 20px 10px 20px;">
-                <div class="category-card span-2" style="background: linear-gradient(135deg, #fffaf6 0%, #ffffff 100%); border-color: var(--color-secondary);" onclick="window.navigateToReviews()">
+                <div class="category-card span-2" style="background-color: #fffaf6; border-color: var(--color-secondary);" onclick="window.navigateToReviews()">
                     <div class="category-card-icon" style="background-color: #fff2eb; color: var(--color-secondary);">💬</div>
                     <div class="category-card-info">
                         <div class="category-card-title" id="cat-title-reviews" style="color: var(--color-secondary);">Bacheca Recensioni</div>
@@ -516,13 +548,10 @@
         </div>
     </div>
 
-    <!-- ========================================================================================= -->
-    <!-- SCRIPT 1: LOGICA APPLICATIVA & STATO (SINCRONO E GLOBALE)                                 -->
-    <!-- Questo blocco garantisce che l'interfaccia sia istantaneamente responsiva prima del cloud -->
-    <!-- ========================================================================================= -->
     <script>
         // --- 1. VARIABILI DI STATO E DATI COSTANTI GLOBALI ---
         window.dbReviews = {};
+        window.dbExperiences = []; // Array per le esperienze cloud
         window.currentLang = localStorage.getItem('kinanto_favorites_lang') || 'it';
         window.currentFilter = 'tutti';
         window.searchQuery = '';
@@ -535,13 +564,13 @@
         let preferiti = [];
         try { preferiti = JSON.parse(localStorage.getItem('kinanto_favorites')) || []; if (!Array.isArray(preferiti)) preferiti = []; } catch (e) { preferiti = []; }
 
-        // --- DATI STAFF MOCKUP ---
+        // --- DATI STAFF ---
         window.staffData = [
             {
                 id: "giulia",
                 name: "Giulia",
                 role: { it: "Host", en: "Host" },
-                photo: "giulia.jpg",
+                photo: "giulia.png",
                 desc: { 
                     it: "Il volto dell'accoglienza al Kinanto. Attenta e premurosa, si assicurerà che il tuo soggiorno sia impeccabile dal primo all'ultimo giorno.", 
                     en: "The welcoming face of Kinanto. Attentive and caring, she will ensure your stay is flawless from the first to the last day." 
@@ -551,7 +580,7 @@
                 id: "concita",
                 name: "Concita",
                 role: { it: "Maître Pâtissier", en: "Maître Pâtissier" },
-                photo: "concita.jpg",
+                photo: "concita.png",
                 desc: { 
                     it: "La regina delle colazioni. Le sue dolci creazioni artigianali e i prodotti appena sfornati sono la magia che risveglia i nostri ospiti ogni mattina.", 
                     en: "The queen of breakfast. Her artisan sweet creations and freshly baked goods are the magic that awakens our guests every morning." 
@@ -561,7 +590,7 @@
                 id: "housekeepers",
                 name: "Giorgia, Maria e Giovanna",
                 role: { it: "Housekeepers", en: "Housekeepers" },
-                photo: "team.jpg",
+                photo: "team_2.jpg",
                 desc: { 
                     it: "Le fate del pulito. Si prendono cura di ogni dettaglio delle camere per garantirti un ambiente fresco, profumato e immacolato ogni singolo giorno.", 
                     en: "Our cleanliness fairies. They meticulously care for every room detail to ensure a fresh, spotless, and welcoming environment every single day." 
@@ -571,7 +600,7 @@
                 id: "lisa",
                 name: "Lisa",
                 role: { it: "Groundskeeper", en: "Groundskeeper" },
-                photo: "lisa.jpg",
+                photo: "lisa.png",
                 desc: { 
                     it: "L'anima green della struttura. Con dedizione e cura mantiene in perfetta salute i nostri giardini, i percorsi e tutti i rilassanti spazi esterni dell'EcoRetreat.", 
                     en: "The green soul of the retreat. With dedication and care, she keeps our gardens, pathways, and all relaxing outdoor spaces in pristine condition." 
@@ -628,7 +657,6 @@
 
         window.staticTranslations = {
             it: {
-                heroTitle: "Benvenuti a Casa",
                 homeBtn: "Naviga verso il Kinanto",
                 introText: "Questa è una selezione esclusiva preparata direttamente dallo staff del Kinanto per i propri ospiti, frutto di una continua verifica sul territorio. Condividi la tua esperienza lasciando un commento e una classifica di gradimento utilizzando le stelline!",
                 tabTutti: "✨ Tutti",
@@ -688,7 +716,7 @@
                 toastReviewDeleted: "Recensione eliminata",
                 toastSelectStar: "Seleziona almeno una stella!",
                 adminTitle: "Accesso Moderatore",
-                adminDesc: "Inserisci il PIN per gestire le recensioni.",
+                adminDesc: "Inserisci il PIN per gestire le recensioni e le esperienze.",
                 adminBtn: "Sblocca Moderazione",
                 adminOn: "Modalità Moderatore ATTIVATA.",
                 adminOff: "Modalità Moderatore DISATTIVATA.",
@@ -699,13 +727,14 @@
                 reviewsTopTitle: "Classifica Recensioni",
                 reviewsEmpty: "Nessuna recensione pubblicata al momento.",
                 staffTopTitle: "Il Nostro Team",
-                staffIntroDesc: "Dietro ogni dettaglio del Kinanto c'è la passione e l'impegno di persone vere. Scopri chi si prende cura del tuo soggiorno ogni giorno."
+                staffIntroDesc: "Dietro ogni dettaglio del Kinanto c'è la passione e l'impegno di persone vere. Scopri chi si prende cura del tuo soggiorno ogni giorno.",
+                dbEsperienzeTableTitle: "Esperienze Kinanto",
+                esperienzeEmptyText: "Nessuna esperienza inserita al momento.",
+                igTitle: "Seguici su Instagram",
+                igDesc: "Condividi i tuoi momenti al Kinanto taggandoci!"
             },
             en: {
                 heroTitle: "Welcome Home",
-                homeBtn: "Navigate back to Kinanto",
-                introText: "This is an exclusive selection prepared directly by the Kinanto staff for our guests, the result of continuous verification in the area. Share your experience by leaving a comment and a rating using the stars!",
-                tabTutti: "✨ All",
                 tabRetreat: "🌿 EcoRetreat Info",
                 tabMare: "🏖️ Beach & Nature",
                 tabBorghi: "🏛️ Town & Art",
@@ -762,7 +791,7 @@
                 toastReviewDeleted: "Review deleted",
                 toastSelectStar: "Select at least one star!",
                 adminTitle: "Moderator Access",
-                adminDesc: "Enter PIN to manage reviews.",
+                adminDesc: "Enter PIN to manage reviews and experiences.",
                 adminBtn: "Unlock Moderation",
                 adminOn: "Moderator Mode ACTIVATED.",
                 adminOff: "Moderator Mode DEACTIVATED.",
@@ -773,7 +802,11 @@
                 reviewsTopTitle: "Reviews Ranking",
                 reviewsEmpty: "No reviews published yet.",
                 staffTopTitle: "Our Team",
-                staffIntroDesc: "Behind every detail of Kinanto is the passion and dedication of real people. Discover who takes care of your stay every day."
+                staffIntroDesc: "Behind every detail of Kinanto is the passion and dedication of real people. Discover who takes care of your stay every day.",
+                dbEsperienzeTableTitle: "Kinanto Experiences",
+                esperienzeEmptyText: "No experiences currently scheduled.",
+                igTitle: "Follow us on Instagram",
+                igDesc: "Share your Kinanto moments by tagging us!"
             }
         };
 
@@ -811,7 +844,6 @@
             { id: "panificio-asta", category: "ristorazione", icon: "bakery", title: { it: "Panificio Asta", en: "Panificio Asta (Bakery)" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Panificio+Asta+Ispica", desc: { it: "Nel cuore di Ispica. Emblema dell'artigianalità panificatrice: ogni giorno sfornano 'scacce' ragusane, arancine calde, focacce e sfiziosi dolci della tradizione siciliana a km 0.", en: "Located in downtown Ispica. An artisanal bakery producing traditional 'scacce' flatbreads, warm arancini, and typical dry sweets." }, phone: "09321917532" }
         ];
 
-        // --- FUNZIONI DI UTILITÀ MATEMATICHE ---
         window.countCategory = function(category) { return window.luoghiData.filter(l => l.category === category).length; };
         window.getThirdSundayOfMay = function(year) { let d = new Date(year, 4, 1); let c = 0; while (c < 3) { if (d.getDay() === 0) c++; if (c < 3) d.setDate(d.getDate() + 1); } return d; };
         window.getLastSundayOfMay = function(year) { let d = new Date(year, 4, 31); while (d.getDay() !== 0) d.setDate(d.getDate() - 1); return d; };
@@ -834,7 +866,6 @@
             return null;
         };
 
-        // --- FUNZIONI DI INTERFACCIA GLOBALE ---
         window.setLanguage = function(lang) {
             window.currentLang = lang;
             localStorage.setItem('kinanto_favorites_lang', lang);
@@ -847,7 +878,6 @@
             const dict = window.staticTranslations[lang];
             const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.innerText = txt; };
             
-            setTxt('hero-title', dict.heroTitle);
             setTxt('tab-tutti', dict.tabTutti);
             setTxt('tab-retreat', dict.tabRetreat);
             setTxt('tab-mare', dict.tabMare);
@@ -860,6 +890,9 @@
             setTxt('db-welcome-desc', dict.dbWelcomeDesc);
             setTxt('db-categories-title', dict.dbCategories);
             setTxt('db-favorites-title', dict.dbFavorites);
+            
+            setTxt('ig-title', dict.igTitle);
+            setTxt('ig-desc', dict.igDesc);
             
             document.querySelectorAll('.btn-back-text').forEach(el => el.innerText = dict.btnBack);
             
@@ -878,6 +911,10 @@
             setTxt('tab-label-contacts', lang === 'it' ? 'Contatti' : 'Contact');
             setTxt('tab-label-staff', lang === 'it' ? 'Staff' : 'Staff');
             
+            setTxt('db-esperienze-table-title', dict.dbEsperienzeTableTitle);
+            const expEmpty = document.getElementById('esperienze-empty-text');
+            if(expEmpty) expEmpty.innerText = dict.esperienzeEmptyText;
+
             setTxt('cat-count-retreat', `${window.countCategory('retreat')} ${dict.unitItems}`);
             setTxt('cat-count-mare', `${window.countCategory('mare')} ${dict.unitRoutes}`);
             setTxt('cat-count-borghi', `${window.countCategory('borghi')} ${dict.unitDest}`);
@@ -903,6 +940,7 @@
             window.renderFavoritesCarousel();
             window.renderAllReviews();
             window.renderStaff();
+            window.renderEsperienze();
         };
 
         window.triggerAdminMode = function() {
@@ -917,6 +955,7 @@
                     window.showToast(window.staticTranslations[window.currentLang].adminOff);
                     window.renderCards();
                     window.renderAllReviews();
+                    window.renderEsperienze();
                 } else {
                     document.getElementById('adminModal').classList.add('show');
                 }
@@ -934,6 +973,7 @@
                 document.getElementById('admin-pin-input').value = '';
                 window.renderCards();
                 window.renderAllReviews();
+                window.renderEsperienze();
             } else {
                 window.showToast(window.staticTranslations[window.currentLang].adminErr);
             }
@@ -1101,18 +1141,14 @@
             const locData = window.luoghiData.find(l => l.id === locationId);
             if (!locData) return;
 
-            // Naviga verso la categoria corretta
             window.navigateToExplore(locData.category);
 
-            // Attende il rendering e lo scroll a zero, poi esegue lo scroll mirato sulla card
             setTimeout(() => {
                 const cardEl = document.querySelector(`.card[data-id="${locationId}"]`);
                 if (cardEl) {
-                    // Calcola l'altezza tenendo conto della barra fissa in alto (filtri)
                     const y = cardEl.getBoundingClientRect().top + window.pageYOffset - 130;
                     window.scrollTo({ top: y, behavior: 'smooth' });
                     
-                    // Effetto highlight temporaneo per evidenziare la card scelta
                     cardEl.style.transition = 'all 0.4s ease';
                     cardEl.style.transform = 'scale(1.02)';
                     cardEl.style.borderColor = 'var(--color-primary)';
@@ -1158,6 +1194,45 @@
             });
         };
 
+        window.renderEsperienze = function() {
+            const tbody = document.getElementById('esperienze-table-body');
+            const adminBtn = document.getElementById('admin-add-exp-btn');
+            if (!tbody) return;
+
+            if (adminBtn) {
+                adminBtn.style.display = window.isModerator ? 'block' : 'none';
+            }
+
+            tbody.innerHTML = '';
+            const lang = window.currentLang;
+            
+            if (!window.dbExperiences || window.dbExperiences.length === 0) {
+                tbody.innerHTML = `<tr><td style="padding: 24px 20px; color: var(--color-text-muted); text-align: center; font-style: italic;" id="esperienze-empty-text">${window.staticTranslations[lang].esperienzeEmptyText}</td></tr>`;
+                return;
+            }
+
+            const sortedExp = [...window.dbExperiences].sort((a,b) => b.timestamp - a.timestamp);
+
+            sortedExp.forEach((exp, index) => {
+                const title = exp.title[lang] || exp.title['it'];
+                const desc = exp.desc[lang] || exp.desc['it'];
+                const isLast = index === sortedExp.length - 1;
+                
+                const adminControls = window.isModerator ? `<button onclick="window.deleteExperience('${exp.id}')" style="color:#e05d5d; font-size:11px; font-weight: bold; border:none; background:none; cursor:pointer; margin-top:10px; display: flex; align-items:center; gap: 4px;"><svg style="width:12px; height:12px; fill:currentColor;" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/></svg> Elimina</button>` : '';
+
+                tbody.insertAdjacentHTML('beforeend', `
+                    <tr style="${isLast ? '' : 'border-bottom: 1px solid var(--color-border);'}">
+                        <td style="padding: 16px 20px;">
+                            <div style="font-size: 11.5px; font-weight: 800; color: var(--color-secondary); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">📅 ${exp.date}</div>
+                            <div style="font-family: var(--font-serif); font-size: 16px; font-weight: 700; color: var(--color-primary); margin-bottom: 4px; line-height: 1.2;">${title}</div>
+                            <div style="font-size: 13px; color: var(--color-text-muted); line-height: 1.45;">${desc}</div>
+                            ${adminControls}
+                        </td>
+                    </tr>
+                `);
+            });
+        };
+
         window.renderAllReviews = function() {
             const container = document.getElementById('all-reviews-feed');
             const emptyState = document.getElementById('emptyReviewsState');
@@ -1166,7 +1241,6 @@
             
             let aggregatedLocations = [];
             
-            // Aggrega le singole recensioni nei Luoghi
             Object.keys(window.dbReviews).forEach(locId => {
                 let rList = window.dbReviews[locId];
                 if (!rList || rList.length === 0) return;
@@ -1203,7 +1277,6 @@
             container.style.display = 'flex';
             if (emptyState) emptyState.style.display = 'none';
 
-            // Classifica: Prima per media stelle, poi per numero recensioni, infine per like totali
             aggregatedLocations.sort((a, b) => {
                 if (b.avgRating !== a.avgRating) return b.avgRating - a.avgRating;
                 if (b.reviewCount !== a.reviewCount) return b.reviewCount - a.reviewCount;
@@ -1224,7 +1297,6 @@
                 
                 let reviewsHtml = '<div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">';
                 
-                // Ordina le singole recensioni all'interno del luogo per like e data
                 let sortedReviews = [...loc.reviews].sort((a, b) => {
                     let aL = a.likes ? a.likes.length : 0;
                     let bL = b.likes ? b.likes.length : 0;
@@ -1629,33 +1701,67 @@
             const modal = document.getElementById('imageModal');
             if(modal) modal.classList.remove('show');
         };
-
-        window.renderStaff = function() {
-            const container = document.getElementById('staff-grid-container');
-            if (!container) return;
-            container.innerHTML = '';
-            
-            window.staffData.forEach(person => {
-                const roleText = person.role[window.currentLang];
-                const descText = person.desc[window.currentLang];
-                
-                container.insertAdjacentHTML('beforeend', `
-                    <div class="staff-card">
-                        <img src="${person.photo}" alt="${person.name}" class="staff-photo" onclick="window.openImageModal('${person.photo}')">
-                        <div class="staff-name">${person.name}</div>
-                        <div class="staff-role">${roleText}</div>
-                        <div class="staff-desc">${descText}</div>
-                    </div>
-                `);
-            });
+        
+        window.openExpModal = function() {
+            const modal = document.getElementById('expModal');
+            if(modal) modal.classList.add('show');
         };
 
-        // --- INIZIALIZZAZIONE AL DOM LOAD ---
+        window.closeExpModal = function() {
+            const modal = document.getElementById('expModal');
+            if(modal) modal.classList.remove('show');
+            document.getElementById('exp-date').value = '';
+            document.getElementById('exp-title-it').value = '';
+            document.getElementById('exp-title-en').value = '';
+            document.getElementById('exp-desc-it').value = '';
+            document.getElementById('exp-desc-en').value = '';
+        };
+
+        window.saveExperience = function() {
+            if (!navigator.onLine) {
+                window.showToast(window.staticTranslations[window.currentLang].offlineMessage);
+                return;
+            }
+            
+            const date = document.getElementById('exp-date').value.trim();
+            const titleIt = document.getElementById('exp-title-it').value.trim();
+            const titleEn = document.getElementById('exp-title-en').value.trim();
+            const descIt = document.getElementById('exp-desc-it').value.trim();
+            const descEn = document.getElementById('exp-desc-en').value.trim();
+
+            if(!date || !titleIt) {
+                window.showToast("Compila almeno Data e Titolo in italiano.");
+                return;
+            }
+
+            const expData = {
+                date: date,
+                title: { it: titleIt, en: titleEn || titleIt },
+                desc: { it: descIt, en: descEn || descIt },
+                timestamp: Date.now()
+            };
+
+            if (window.firebaseSaveExperience) {
+                window.firebaseSaveExperience(expData, "Esperienza salvata nel Cloud!", "Errore durante il salvataggio.");
+            } else {
+                window.showToast("Connessione in corso, riprova tra poco.");
+            }
+        };
+
+        window.deleteExperience = function(id) {
+            if (confirm("Vuoi davvero eliminare questa esperienza per tutti gli ospiti?")) {
+                if (window.firebaseDeleteExperience) {
+                    window.firebaseDeleteExperience(id, "Esperienza eliminata.");
+                }
+            }
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
             window.renderCards();
             window.renderFavoritesCarousel();
             window.renderAllReviews();
             window.renderStaff();
+            window.renderEsperienze();
 
             const langItBtn = document.getElementById('lang-it-btn');
             const langEnBtn = document.getElementById('lang-en-btn');
@@ -1687,9 +1793,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Setup Configurazione Cloud
         const MY_FIREBASE_CONFIG = {
             apiKey: "AIzaSyD9HF3QgD2G1YpbEqJRqOves6qyIioIx2c",
             authDomain: "guida-kinanto.firebaseapp.com",
@@ -1718,6 +1823,7 @@
                 } catch (error) {
                     console.error("Auth failed:", error);
                 }
+                
                 onAuthStateChanged(auth, (user) => {
                     if (user) {
                         window.currentUserId = user.uid; 
@@ -1729,6 +1835,16 @@
                             });
                             if (typeof window.renderCards === 'function') window.renderCards();
                             if (typeof window.renderAllReviews === 'function') window.renderAllReviews();
+                        }, (error) => console.error(error));
+
+                        // Sincronizzazione in tempo reale delle Esperienze
+                        const expRef = collection(db, 'artifacts', appId, 'public', 'data', 'experiences');
+                        onSnapshot(expRef, (snapshot) => {
+                            window.dbExperiences = [];
+                            snapshot.forEach(doc => {
+                                window.dbExperiences.push({ id: doc.id, ...doc.data() });
+                            });
+                            if (typeof window.renderEsperienze === 'function') window.renderEsperienze();
                         }, (error) => console.error(error));
                     }
                 });
@@ -1793,6 +1909,32 @@
                             await setDoc(docRef, { reviewsList });
                         }
                     }
+                } catch (e) {
+                    console.error(e);
+                }
+            };
+
+            // Funzioni Cloud per le Esperienze (Solo Admin)
+            window.firebaseSaveExperience = async function(expData, msgSuccess, msgErr) {
+                if (!window.isModerator) return;
+                try {
+                    const newExpRef = doc(collection(db, 'artifacts', appId, 'public', 'data', 'experiences'));
+                    console.log("Saving experience to Firebase:", expData);
+                    await setDoc(newExpRef, expData);
+                    console.log("Experience saved successfully!");
+                    window.showToast(msgSuccess);
+                    window.closeExpModal();
+                } catch (e) {
+                    console.error("Error saving experience:", e);
+                    window.showToast(msgErr);
+                }
+            };
+
+            window.firebaseDeleteExperience = async function(expId, msgSuccess) {
+                if (!window.isModerator) return;
+                try {
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'experiences', expId));
+                    window.showToast(msgSuccess);
                 } catch (e) {
                     console.error(e);
                 }
