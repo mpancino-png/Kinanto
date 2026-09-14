@@ -694,6 +694,10 @@
         let deferredPrompt;
         let adminClickCount = 0;
         let adminClickTimer;
+        
+        // --- LEAFLET MAP VARIABLES ---
+        let map = null;
+        let markers = [];
 
         // Recupero preferiti locali
         let preferiti = [];
@@ -1403,7 +1407,9 @@
             window.safeVibrate(12);
             
             // If map popup is open, close it
-            if(map) map.closePopup();
+            if (map) {
+                map.closePopup();
+            }
 
             const cardEl = document.querySelector(`.card[data-id="${locationId}"]`);
             if (cardEl) {
