@@ -82,6 +82,7 @@
         .dashboard-action-btn.save-app:active { background-color: #fff8f5; }
         .dashboard-action-btn svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
         .dashboard-section-header { font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--color-primary); padding: 16px 20px 4px 20px; }
+        
         .dashboard-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 10px 20px 20px 20px; }
         .category-card { background-color: var(--color-card); border: 1.5px solid var(--color-border); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; box-shadow: var(--shadow-sm); transition: var(--transition); cursor: pointer; min-height: 115px; user-select: none; -webkit-user-select: none; }
         .category-card:active { transform: scale(0.96); border-color: var(--color-primary); }
@@ -126,7 +127,7 @@
         
         /* --- LISTA LUOGHI (CARDS) --- */
         .cards-feed { padding: 16px 20px 30px 20px; display: flex; flex-direction: column; gap: 16px; }
-        .card { background-color: var(--color-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 18px; box-shadow: var(--shadow-sm); transition: var(--transition); position: relative; display: flex; flex-direction: column; gap: 12px; overflow: hidden; scroll-margin-top: 140px;} /* scroll-margin to offset sticky header */
+        .card { background-color: var(--color-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 18px; box-shadow: var(--shadow-sm); transition: var(--transition); position: relative; display: flex; flex-direction: column; gap: 12px; overflow: hidden; scroll-margin-top: 140px;}
         .card:active { transform: scale(0.99); }
         .feed-section-title { font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--color-primary); margin: 20px 0 4px 0; padding-bottom: 8px; border-bottom: 2px solid var(--color-border); letter-spacing: 0.5px; display: block; width: 100%; }
         .card.retreat-highlight { border-left: 4px solid var(--color-primary); border-color: #cce5e1; background-color: #f3f8f6; box-shadow: 0 4px 12px rgba(23, 139, 117, 0.05); }
@@ -183,13 +184,6 @@
         .bottom-tab-item.active.tab-fav { color: #e05d5d; }
         .bottom-tab-item.active.tab-fav svg { stroke: #e05d5d; fill: #e05d5d; }
         .bottom-tab-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2px; }
-
-        /* --- HERO BANNER FULL WIDTH LOGO --- */
-        .hero { position: relative; width: 100%; height: 180px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; background-color: var(--color-bg); }
-        .hero-logo-img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 1; cursor: pointer; }
-        .lang-selector { position: absolute; top: 10px; right: 12px; z-index: 100; display: flex; gap: 5px; align-items: center; }
-        .lang-btn { background-color: rgba(255, 255, 255, 0.6); backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.8); color: var(--color-primary); font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 30px; cursor: pointer; transition: var(--transition); white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .lang-btn.active { background-color: #ffffff; color: var(--color-primary); border-color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transform: scale(1.05); }
 
         /* --- BOTTOM SHEET SLIDE-UP MODAL (Pannello Contatti) --- */
         .sheet-overlay { position: fixed; inset: 0; background-color: rgba(2, 2, 5, 0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 4000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; display: flex; align-items: flex-end; }
@@ -272,7 +266,6 @@
     <!-- Native Splash Screen -->
     <div id="app-splash">
         <div style="text-align:center; transform: translateY(-20px);">
-            <!-- Placeholder for logo. In reality this would load logo.jpg -->
             <img src="logo.jpg" alt="Kinanto Logo" style="width: 90vw; max-width: 400px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin-bottom: 20px; display: none;" onload="this.style.display='inline-block';">
             <div class="splash-spinner"></div>
         </div>
@@ -632,7 +625,7 @@
                 <button onclick="window.openRestoModal()" style="background: var(--color-secondary); color: white; border: none; padding: 8px 16px; border-radius: 12px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: var(--shadow-sm); text-transform: uppercase; letter-spacing: 0.5px;">+ Nuovo Ristorante</button>
             </div>
             
-            <!-- Map Container for Borghi -->
+            <!-- Map Container for Dynamic Categories -->
             <div id="map-container"></div>
             
             <div class="cards-feed" id="cardsFeed"></div>
@@ -955,22 +948,20 @@
             }
         };
 
-        // Added coordinates (lat, lng) to locations in the 'borghi' category.
         window.luoghiData = [
             { id: "wifi", category: "retreat", icon: "key", title: { it: "🔑 Connessione Wi-Fi Ospiti", en: "🔑 Guest Wi-Fi Network" }, distance: "0 km", distanceNum: 0, mapsUrl: "", desc: { it: "Il Kinanto è coperto da Wi-Fi gratuito. Clicca sulla password qui sotto per copiarla automaticamente sul tuo smartphone:", en: "High-speed Wi-Fi is available throughout the retreat. Tap the password below to automatically copy it to your clipboard:" }, phone: "", wifi: "24364851" },
             { id: "breakfast", category: "retreat", icon: "coffee", title: { it: "☕ Servizio Colazione", en: "☕ Breakfast Service" }, distance: "0 km", distanceNum: 0, mapsUrl: "", desc: { it: "La nostra colazione biologica e artigianale viene servita ogni mattina dalle <strong>08:30 alle 10:30</strong> sotto la pompeiana. Se hai intolleranze alimentari, ti invitiamo a segnalarcelo preventivamente.", en: "Our organic, artisan breakfast is served every morning from <strong>08:30 AM to 10:30 AM</strong> under the pergola. Please notify our reception of any food allergies or dietary restrictions." }, phone: "" },
             { id: "pool-rules", category: "retreat", icon: "pool", title: { it: "🏊‍♂️ Piscina e Solarium", en: "🏊‍♂️ Pool & Solarium" }, distance: "0 km", distanceNum: 0, mapsUrl: "", desc: { it: "La piscina è aperta tutti i giorni dalle <strong>09:00 alle 19:30</strong>. Per salvaguardare la pace di tutti gli ospiti, si prega di evitare tuffi e schiamazzi rumorosi. Si prega di utilizzare teli da piscina.", en: "Our swimming pool is open daily from <strong>09:00 AM to 07:30 PM</strong>. To preserve tranquility for all, please refrain from diving or running. Pool towels are available upon request." }, phone: "" },
             { id: "laundry", category: "retreat", icon: "laundry", title: { it: "🧺 Servizio Lavanderia", en: "🧺 Laundry Service" }, distance: "0 km", distanceNum: 0, mapsUrl: "", desc: { it: "Gli ospiti possono accedere liberamente al nostro locale lavanderia, dove troveranno a disposizione tutto il necessario (lavatrice, detersivi, asse e ferro da stiro) per lavare e prendersi cura dei propri capi.", en: "Guests have free access to our laundry room, where they will find everything needed (washing machine, detergents, ironing board, and iron) to wash and care for their clothes." }, phone: "" },
             { id: "ecology", category: "retreat", icon: "leaf", title: { it: "♻️ Filosofia Green & Riciclaggio", en: "♻️ Green Philosophy & Recycling" }, distance: "0 km", distanceNum: 0, mapsUrl: "", desc: { it: "Kinanto è un EcoRetreat incentrato sulla sostenibilità. Ti invitiamo a non sprecare acqua ed energia spegnendo il climatizzatore quando esci. Troverai i bidoni della differenziata nell'isola ecologica comune.", en: "Kinanto is an EcoRetreat devoted to sustainability. Kindly prevent water and power waste by switching off your A/C unit when leaving. Sorting bins are located in the designated common recycling area." }, phone: "" },
-            { id: "marza", category: "mare", icon: "umbrella", title: { it: "Spiaggia di Marzà", en: "Marzà Beach" }, distance: "4 km", distanceNum: 4, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Marza+Ispica", desc: { it: "Sita a soli 4 Km dall'EcoRetreat. Offre sia spiaggia libera che lidi attrezzati per una giornata di assoluto comfort e relax.", en: "Located just 4 km from the EcoRetreat. Offering pristine public areas and fully equipped beach clubs for your comfort." }, phone: "3319907318", bookingUrl: "https://new-widget.spiagge.it/stabilimenti-balneari/prenotazione/it-rg-97014-marza-beach-club/insertPeriod", bookingLabel: { it: "Prenota Lido", en: "Book Club" } },
-            { id: "cavallo-focallo", category: "mare", icon: "hiking", title: { it: "🐴 Passeggiata a Cavallo a Santa Maria del Focallo", en: "🐴 Horseback Riding at Santa Maria del Focallo" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Santa+Maria+del+Focallo", desc: { it: "Un'indimenticabile passeggiata a cavallo tra le dune dorate e la spiaggia incontaminata di Santa Maria del Focallo, ideale al tramonto e a stretto contatto con la natura.", en: "An unforgettable horseback ride along the golden dunes and pristine beach of Santa Maria del Focallo, perfect at sunset and deeply connected with nature." }, phone: "", bookingUrl: "https://www.holidoit.com/e/passeggiate-a-cavallo-in-spiaggia-e-nella-riserva-di-santa-maria-del-focallo-vicino-pozzallo?sP=%5B%7B%22id%22%3A90%2C%22q%22%3A2%7D%5D&sV=4798", bookingLabel: { it: "Prenota escursione", en: "Book horseback ride" } },
-            { id: "vendicari", category: "mare", icon: "nature", title: { it: "Oasi di Vendicari", en: "Vendicari Nature Reserve" }, distance: "23 km", distanceNum: 23, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Oasi+di+Vendicari", desc: { it: "Sita a circa 20 minuti di macchina dall'EcoRetreat. Prevede un biglietto d’ingresso ed una suggestiva passeggiata naturalistica per raggiungere le prime spiagge incontaminate.", en: "An unmissable nature reserve just 20 minutes away by car. Features scenic coastal hikes and untouched golden sand beaches." }, phone: "0931468879", bookingUrl: "https://www.riserva-vendicari.it/", bookingLabel: { it: "Sito Web", en: "Website" } },
-            { id: "correnti", category: "mare", icon: "umbrella", title: { it: "Isola delle Correnti", en: "Isola delle Correnti" }, distance: "20 km", distanceNum: 20, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Isola+delle+Correnti", desc: { it: "Punto d'incontro spettacolare tra il Mar Ionio e il Canale di Sicilia, situato a soli 20 minuti di auto dall'EcoRetreat.", en: "A mesmerizing meeting point where the Ionian Sea clashes with the Sicilian Channel. Located 20 minutes south." }, phone: "" },
-            { id: "cava-ispica", category: "mare", icon: "hiking", title: { it: "Cava di Ispica", en: "Cava d'Ispica Gorge" }, distance: "8 km", distanceNum: 8, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Cava+di+Ispica", desc: { it: "L'ideale per un'emozionante escursione di trekking archeologico immersi nella natura incontaminata e nella storia millenaria della Sicilia.", en: "Perfect for archaeological trekking. Explore prehistoric rock tombs and ruins engulfed in wild, deep green gorges." }, phone: "", bookingUrl: "https://parchiarcheologici.regione.sicilia.it/kamarina-cava-ispica/biglietti/parco-forza-ispica/", bookingLabel: { it: "Prenota biglietti", en: "Book tickets" } },
-            { id: "marina-ragusa", category: "mare", icon: "boat", title: { it: "Marina di Ragusa", en: "Marina di Ragusa" }, distance: "33 km", distanceNum: 33, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Marina+di+Ragusa", desc: { it: "Località marina rinomata ed attrezzata, consigliata per passeggiate serali o per organizzare splendide escursioni e gite in barca.", en: "A popular seaside destination with a vibrant promenade. Great for dining out, coastal strolls, or booking private boat charters." }, phone: "", bookingUrl: "https://freedome.it/escursioni-in-barca/marina-di-ragusa/", bookingLabel: { it: "Prenota barca", en: "Book boat trip" } },
-            // Added lat/lng for Borghi locations
-            { id: "enjoy-barocco", category: "borghi", icon: "town", title: { it: "🗺️ Percorsi ed Itinerari Enjoy Barocco", en: "🗺️ Enjoy Barocco Itineraries & Routes" }, distance: "Ispica e dintorni", distanceNum: 0, mapsUrl: "", desc: { it: "Esplora la straordinaria ricchezza della Sicilia sud-orientale attraverso itinerari tematici. Scopri i percorsi barocchi, naturalistici, archeologici e gastronomici raccomandati per arricchire la tua vacanza.", en: "Explore the extraordinary richness of South-Eastern Sicily through thematic itineraries. Discover recommended Baroque, natural, archaeological, and gastronomic routes to enhance your holiday." }, phone: "", bookingUrl: "https://www.enjoybarocco.com/percorsi/", bookingLabel: { it: "Esplora i percorsi", en: "Explore routes" }, lat: 36.7844, lng: 14.9080 }, // Centered around Ispica general area
-            { id: "enjoy-barocco-ispica", category: "borghi", icon: "town", title: { it: "🏛️ Ispica su Enjoy Barocco", en: "🏛️ Ispica on Enjoy Barocco" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Corso+Umberto+I+Ispica", desc: { it: "Scopri la storia, i capolavori architettonici, i palazzi in stile Liberty (come Palazzo Bruno di Belmonte) e i suggestivi itinerari urbani di Ispica direttamente sulla pagina di approfondimento ufficiale di Enjoy Barocco.", en: "Discover the history, architectural masterpieces, Art Nouveau palaces (like Palazzo Bruno di Belmonte), and evocative urban itineraries of Ispica directly on the official Enjoy Barocco guide page." }, phone: "", bookingUrl: "https://www.enjoybarocco.com/paesi/ispica/", bookingLabel: { it: "Esplora Ispica", en: "Explore Ispica" }, lat: 36.7865, lng: 14.9069 }, // Ispica center
+            { id: "marza", category: "mare", icon: "umbrella", title: { it: "Spiaggia di Marzà", en: "Marzà Beach" }, distance: "4 km", distanceNum: 4, mapsUrl: "https://maps.google.com/?cid=2337928286717020999", desc: { it: "Sita a soli 4 Km dall'EcoRetreat. Offre sia spiaggia libera che lidi attrezzati per una giornata di assoluto comfort e relax.", en: "Located just 4 km from the EcoRetreat. Offering pristine public areas and fully equipped beach clubs for your comfort." }, phone: "3319907318", bookingUrl: "https://new-widget.spiagge.it/stabilimenti-balneari/prenotazione/it-rg-97014-marza-beach-club/insertPeriod", bookingLabel: { it: "Prenota Lido", en: "Book Club" }, lat: 36.721464999999996, lng: 14.954707699999999 },
+            { id: "cavallo-focallo", category: "mare", icon: "hiking", title: { it: "🐴 Passeggiata a Cavallo a Santa Maria del Focallo", en: "🐴 Horseback Riding at Santa Maria del Focallo" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://maps.google.com/?cid=723676752749684816", desc: { it: "Un'indimenticabile passeggiata a cavallo tra le dune dorate e la spiaggia incontaminata di Santa Maria del Focallo, ideale al tramonto e a stretto contatto con la natura.", en: "An unforgettable horseback ride along the golden dunes and pristine beach of Santa Maria del Focallo, perfect at sunset and deeply connected with nature." }, phone: "", bookingUrl: "https://www.holidoit.com/e/passeggiate-a-cavallo-in-spiaggia-e-nella-riserva-di-santa-maria-del-focallo-vicino-pozzallo?sP=%5B%7B%22id%22%3A90%2C%22q%22%3A2%7D%5D&sV=4798", bookingLabel: { it: "Prenota escursione", en: "Book horseback ride" }, lat: 36.7118322, lng: 14.918973799999999 },
+            { id: "vendicari", category: "mare", icon: "nature", title: { it: "Oasi di Vendicari", en: "Vendicari Nature Reserve" }, distance: "23 km", distanceNum: 23, mapsUrl: "https://maps.google.com/?cid=1083964715368920032", desc: { it: "Sita a circa 20 minuti di macchina dall'EcoRetreat. Prevede un biglietto d’ingresso ed una suggestiva passeggiata naturalistica per raggiungere le prime spiagge incontaminate.", en: "An unmissable nature reserve just 20 minutes away by car. Features scenic coastal hikes and untouched golden sand beaches." }, phone: "0931468879", bookingUrl: "http://www.riserva-vendicari.it/", bookingLabel: { it: "Sito Web", en: "Website" }, lat: 36.7978873, lng: 15.0970634 },
+            { id: "correnti", category: "mare", icon: "umbrella", title: { it: "Isola delle Correnti", en: "Isola delle Correnti" }, distance: "20 km", distanceNum: 20, mapsUrl: "https://maps.google.com/?cid=17612132536587826965", desc: { it: "Punto d'incontro spettacolare tra il Mar Ionio e il Canale di Sicilia, situato a soli 20 minuti di auto dall'EcoRetreat.", en: "A mesmerizing meeting point where the Ionian Sea clashes with the Sicilian Channel. Located 20 minutes south." }, phone: "3209595251", lat: 36.6450631, lng: 15.078239 },
+            { id: "cava-ispica", category: "mare", icon: "hiking", title: { it: "Cava di Ispica", en: "Cava d'Ispica Gorge" }, distance: "8 km", distanceNum: 8, mapsUrl: "https://maps.google.com/?cid=10147562755948563501", desc: { it: "L'ideale per un'emozionante escursione di trekking archeologico immersi nella natura incontaminata e nella storia millenaria della Sicilia.", en: "Perfect for archaeological trekking. Explore prehistoric rock tombs and ruins engulfed in wild, deep green gorges." }, phone: "0932771667", bookingUrl: "https://parchiarcheologici.regione.sicilia.it/kamarina-cava-ispica/", bookingLabel: { it: "Prenota biglietti", en: "Book tickets" }, lat: 36.8488828, lng: 14.8364718 },
+            { id: "marina-ragusa", category: "mare", icon: "boat", title: { it: "Marina di Ragusa", en: "Marina di Ragusa" }, distance: "33 km", distanceNum: 33, mapsUrl: "https://maps.google.com/?cid=723676752595300640", desc: { it: "Località marina rinomata ed attrezzata, consigliata per passeggiate serali o per organizzare splendide escursioni e gite in barca.", en: "A popular seaside destination with a vibrant promenade. Great for dining out, coastal strolls, or booking private boat charters." }, phone: "", bookingUrl: "https://freedome.it/escursioni-in-barca/marina-di-ragusa/", bookingLabel: { it: "Prenota barca", en: "Book boat trip" }, lat: 36.7820101, lng: 14.5552317 },
+            { id: "enjoy-barocco", category: "borghi", icon: "town", title: { it: "🗺️ Percorsi ed Itinerari Enjoy Barocco", en: "🗺️ Enjoy Barocco Itineraries & Routes" }, distance: "Ispica e dintorni", distanceNum: 0, mapsUrl: "", desc: { it: "Esplora la straordinaria ricchezza della Sicilia sud-orientale attraverso itinerari tematici. Scopri i percorsi barocchi, naturalistici, archeologici e gastronomici raccomandati per arricchire la tua vacanza.", en: "Explore the extraordinary richness of South-Eastern Sicily through thematic itineraries. Discover recommended Baroque, natural, archaeological, and gastronomic routes to enhance your holiday." }, phone: "", bookingUrl: "https://www.enjoybarocco.com/percorsi/", bookingLabel: { it: "Esplora i percorsi", en: "Explore routes" }, lat: 36.7844, lng: 14.9080 },
+            { id: "enjoy-barocco-ispica", category: "borghi", icon: "town", title: { it: "🏛️ Ispica su Enjoy Barocco", en: "🏛️ Ispica on Enjoy Barocco" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Corso+Umberto+I+Ispica", desc: { it: "Scopri la storia, i capolavori architettonici, i palazzi in stile Liberty (come Palazzo Bruno di Belmonte) e i suggestivi itinerari urbani di Ispica direttamente sulla pagina di approfondimento ufficiale di Enjoy Barocco.", en: "Discover the history, architectural masterpieces, Art Nouveau palaces (like Palazzo Bruno di Belmonte), and evocative urban itineraries of Ispica directly on the official Enjoy Barocco guide page." }, phone: "", bookingUrl: "https://www.enjoybarocco.com/paesi/ispica/", bookingLabel: { it: "Esplora Ispica", en: "Explore Ispica" }, lat: 36.7865, lng: 14.9069 },
             { id: "marzamemi", category: "borghi", icon: "town", title: { it: "Marzamemi", en: "Marzamemi" }, distance: "20 km", distanceNum: 20, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Marzamemi", desc: { it: "Incantevole borgo di pescatori da visitare rigorosamente dalle 18:00 in poi. Ottimo per aperitivi e street-food. Per la cena si consiglia il <strong>Ristorante da Nassa</strong>. Prodotti tipici acquistabili da <strong>Campisi</strong>.", en: "An iconic, picturesque fishing village best visited after 6 PM. Ideal for romantic sunset aperitifs. We recommend dinner at <strong>Ristorante da Nassa</strong> and gourmet shopping at <strong>Campisi</strong>." }, phone: "", lat: 36.7410, lng: 15.1165 },
             { id: "noto", category: "borghi", icon: "town", title: { it: "Noto", en: "Noto" }, distance: "23 km", distanceNum: 23, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Noto", desc: { it: "La capitale indiscussa del Barocco, da esplorare nel tardo pomeriggio. Per cena consigliamo il ristorante <strong>Ci:Vulia</strong> a Marina D’Avola (circa 15 minuti da Noto, 25 km dall'EcoRetreat).", en: "The undisputed capital of Sicilian Baroque, marvelous under the golden hour light. For dinner, we suggest <strong>Ci:Vulia</strong> in Marina D’Avola, about 15 minutes further." }, phone: "", lat: 36.8906, lng: 15.0694 },
             { id: "ragusa-ibla", category: "borghi", icon: "town", title: { it: "Ragusa (IBLA)", en: "Ragusa Ibla" }, distance: "33 km", distanceNum: 33, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ragusa+Ibla", desc: { it: "Un gioiello barocco mozzafiato arroccato sulla colina. Da visitare nel tardo pomeriggio, perdersi nei vicoli storici e cenare in uno dei ristorantini tipici.", en: "A jaw-dropping historic town perched on a ridge. Visit in the late afternoon, get lost in its alleys, and enjoy a traditional dinner." }, phone: "", lat: 36.9269, lng: 14.7454 },
@@ -982,13 +973,13 @@
             { id: "infiorata", category: "eventi", icon: "calendar", title: { it: "🌸 Infiorata di Noto", en: "🌸 Noto Flower Festival" }, distance: "23 km", distanceNum: 23, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Via+Corrado+Nicolaci+Noto", desc: { it: "Uno degli eventi più famosi della Sicilia, che si tiene ogni anno la terza domenica di maggio. Via Nicolaci si trasforma in un meraviglioso tappeto di petali colorati che riproducono splendide opere d'arte.", en: "One of Sicily's most spectacular traditional events, held annually during the third weekend of May. Via Nicolaci becomes a stunning, vibrant carpet of mosaic designs crafted entirely from flower petals." }, phone: "" },
             { id: "sagra-pomodoro", category: "eventi", icon: "calendar", title: { it: "🍅 Sagra del Pomodoro (Pachino)", en: "🍅 Pachino Tomato Festival" }, distance: "16 km", distanceNum: 16, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Piazza+Vittorio+Emanuele+Pachino", desc: { it: "Una vivace festa estiva che si svolge solitamente a Pachino. Celebra il famoso oro rosso del territorio (il pomodoro ciliegino IGP) con degustazioni tipiche, spettacoli di strada, concerti e mercatini.", en: "A lively, authentic summer food festival celebrating the region's famous 'red gold' (IGP Cherry Tomato) with traditional tastings, street performances, live music, and artisanal stands." }, phone: "" },
             { id: "san-giorgio", category: "eventi", icon: "calendar", title: { it: "🛡️ Festa di San Giorgio (Ibla)", en: "🛡️ Feast of St. George (Ibla)" }, distance: "33 km", distanceNum: 33, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Duomo+di+San+Giorgio+Ragusa+Ibla", desc: { it: "Spettacolare festa patronale che si tiene a fine maggio a Ragusa Ibla. Caratterizzata dalla suggestiva processione del simulacro a spalla e da un finale con sbalorditivi giochi d'artificio e spettacoli piromusicali.", en: "A majestic, deeply felt patron saint festival held in late May in Ragusa Ibla. Showcases a historic processional carrying of the saint's statue and a breathtaking, musical firework finale above the Baroque domes." }, phone: "" },
-            { id: "casa-azzurra", category: "ristorazione", icon: "farm", title: { it: "Agriturismo Casa Azzurra", en: "Casa Azzurra Farmhouse" }, distance: "5 km", distanceNum: 5, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Agriturismo+Casa+Azzurra+Ispica", desc: { it: "Cucina casalinga, genuina e locale. Menù fisso tipico in ambiente rustico e cordiale. Ottimo rapporto qualità/prezzo (circa € 20/25 a persona). <strong style='color: var(--color-secondary);'>È consigliatissima la prenotazione.</strong>", en: "Authentic homestyle local cuisine. Typical set menu in a simple, friendly farmhouse. Exceptional value (around € 20-25 per person). <strong style='color: var(--color-secondary);'>Reservations are highly recommended.</strong>" }, phone: "3393200306" },
-            { id: "incavo", category: "ristorazione", icon: "pizza", title: { it: "Incavo Pizzeria", en: "Incavo Gourmet Pizzeria" }, distance: "9 km", distanceNum: 9, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Incavo+Pizzeria+Ispica", desc: { it: "Pizzeria situata nella suggestiva cornice storica della Cava di Ispica. Location magica ed atmosfera unica accoppiate ad eccellenti pizze gourmet (costo medio € 25/35 a persona).", en: "A stunning pizzeria located inside a rock cave at Cava d'Ispica. A unique, romantic setting offering exceptional gourmet pizzas." }, phone: "3463732741" },
-            { id: "giardino-sapori", category: "ristorazione", icon: "seafood", title: { it: "Il Giardino dei Sapori", en: "Il Giardino dei Sapori" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Il+Giardino+dei+Sapori+Ispica", desc: { it: "Ristorante di pesce molto semplice ma con cucina casalinga a base di pescato freschissimo. Situato ad Ispica centro (costo medio € 45/55 a persona). <strong style='color: var(--color-secondary);'>Consigliata la prenotazione.</strong>", en: "An informal, cozy fish restaurant in downtown Ispica. Excellent, simple seafood dishes. <strong style='color: var(--color-secondary);'>Reservations are highly recommended.</strong>" }, phone: "0932959323" },
-            { id: "a-valata", category: "ristorazione", icon: "seafood", title: { it: "A’ Valata", en: "A’ Valata Seafood Restaurant" }, distance: "10 km", distanceNum: 10, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ristorante+A+Valata+Pozzallo", desc: { it: "Elegante ristorante di pesce sul lungomare di Pozzallo (zona portuale). Offre una splendida vista sul mare e pescato freschissimo tutti i giorni cucinato con maestria (costo medio € 75/85 a persona).", en: "Upscale seafood dining near the harbor in Pozzallo. Offers amazing ocean views and super fresh catches cooked with absolute mastery." }, phone: "3341544320" },
-            { id: "ci-vulia", category: "ristorazione", icon: "seafood", title: { it: "Cì Vulia", en: "Cì Vulia Restaurant" }, distance: "25 km", distanceNum: 25, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ci+Vulia+Marina+di+Avola", desc: { it: "Di giorno pescheria locale, la sera si trasforma in ristorante di pesce favoloso con pescato del giorno. Ottima tappa post-visita della splendida città di Noto (costo medio € 55/65 a persona).", en: "A fishmonger by day, a spectacular seafood restaurant by night. A perfect culinary stop after exploring the baroque city of Noto." }, phone: "0931562227" },
-            { id: "artigianale", category: "ristorazione", icon: "gelato", title: { it: "L’Artigianale (Gelateria)", en: "L’Artigianale Artisanal Gelato" }, distance: "10 km", distanceNum: 10, mapsUrl: "https://www.google.com/maps/search/?api=1&query=L+Artigianale+Pozzallo", desc: { it: "Sita sul lungomare di Pozzallo. Gelateria d'eccellenza ideale per una prima colazione o merenda rinfrescante con granite siciliane memorabili ed eccellenti gelati d'autore.", en: "Located on Pozzallo's seaside promenade. Elite ice cream and world-class traditional Sicilian granite (shaved ice) for a hot day." }, phone: "0932958438" },
-            { id: "panificio-asta", category: "ristorazione", icon: "bakery", title: { it: "Panificio Asta", en: "Panificio Asta (Bakery)" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Panificio+Asta+Ispica", desc: { it: "Nel cuore di Ispica. Emblema dell'artigianalità panificatrice: ogni giorno sfornano 'scacce' ragusane, arancine calde, focacce e sfiziosi dolci della tradizione siciliana a km 0.", en: "Located in downtown Ispica. An artisanal bakery producing traditional 'scacce' flatbreads, warm arancini, and typical dry sweets." }, phone: "09321917532" }
+            { id: "casa-azzurra", category: "ristorazione", icon: "farm", title: { it: "Agriturismo Casa Azzurra", en: "Casa Azzurra Farmhouse" }, distance: "5 km", distanceNum: 5, mapsUrl: "https://maps.google.com/?cid=1081279961964066570", desc: { it: "Cucina casalinga, genuina e locale. Menù fisso tipico in ambiente rustico e cordiale. Ottimo rapporto qualità/prezzo (circa € 20/25 a persona). <strong style='color: var(--color-secondary);'>È consigliatissima la prenotazione.</strong>", en: "Authentic homestyle local cuisine. Typical set menu in a simple, friendly farmhouse. Exceptional value (around € 20-25 per person). <strong style='color: var(--color-secondary);'>Reservations are highly recommended.</strong>" }, phone: "3393200306", lat: 36.786561199999995, lng: 14.8872591 },
+            { id: "incavo", category: "ristorazione", icon: "pizza", title: { it: "Incavo Pizzeria", en: "Incavo Gourmet Pizzeria" }, distance: "9 km", distanceNum: 9, mapsUrl: "https://maps.google.com/?cid=11474838975584342847", desc: { it: "Pizzeria situata nella suggestiva cornice storica della Cava di Ispica. Location magica ed atmosfera unica accoppiate ad eccellenti pizze gourmet (costo medio € 25/35 a persona).", en: "A stunning pizzeria located inside a rock cave at Cava d'Ispica. A unique, romantic setting offering exceptional gourmet pizzas." }, phone: "3463732741", lat: 36.815598600000005, lng: 14.8722421 },
+            { id: "giardino-sapori", category: "ristorazione", icon: "seafood", title: { it: "Il Giardino dei Sapori", en: "Il Giardino dei Sapori" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://maps.google.com/?cid=2111688105271718134", desc: { it: "Ristorante di pesce molto semplice ma con cucina casalinga a base di pescato freschissimo. Situato ad Ispica centro (costo medio € 45/55 a persona). <strong style='color: var(--color-secondary);'>Consigliata la prenotazione.</strong>", en: "An informal, cozy fish restaurant in downtown Ispica. Excellent, simple seafood dishes. <strong style='color: var(--color-secondary);'>Reservations are highly recommended.</strong>" }, phone: "0932959323", lat: 36.789182999999995, lng: 14.9080517 },
+            { id: "a-valata", category: "ristorazione", icon: "seafood", title: { it: "A’ Valata", en: "A’ Valata Seafood Restaurant" }, distance: "10 km", distanceNum: 10, mapsUrl: "https://maps.google.com/?cid=6390107604390998191", desc: { it: "Elegante ristorante di pesce sul lungomare di Pozzallo (zona portuale). Offre una splendida vista sul mare e pescato freschissimo tutti i giorni cucinato con maestria (costo medio € 75/85 a persona).", en: "Upscale seafood dining near the harbor in Pozzallo. Offers amazing ocean views and super fresh catches cooked with absolute mastery." }, phone: "3341544320", lat: 36.7266185, lng: 14.8475949 },
+            { id: "ci-vulia", category: "ristorazione", icon: "seafood", title: { it: "Cì Vulia", en: "Cì Vulia Restaurant" }, distance: "25 km", distanceNum: 25, mapsUrl: "https://maps.google.com/?cid=2317001749076170091", desc: { it: "Di giorno pescheria locale, la sera si trasforma in ristorante di pesce favoloso con pescato del giorno. Ottima tappa post-visita della splendida città di Noto (costo medio € 55/65 a persona).", en: "A fishmonger by day, a spectacular seafood restaurant by night. A perfect culinary stop after exploring the baroque city of Noto." }, phone: "0931562227", lat: 36.8923056, lng: 15.111815 },
+            { id: "artigianale", category: "ristorazione", icon: "gelato", title: { it: "L’Artigianale (Gelateria)", en: "L’Artigianale Artisanal Gelato" }, distance: "10 km", distanceNum: 10, mapsUrl: "https://maps.google.com/?cid=13584465790183778418", desc: { it: "Sita sul lungomare di Pozzallo. Gelateria d'eccellenza ideale per una prima colazione o merenda rinfrescante con granite siciliane memorabili ed eccellenti gelati d'autore.", en: "Located on Pozzallo's seaside promenade. Elite ice cream and world-class traditional Sicilian granite (shaved ice) for a hot day." }, phone: "0932958438", lat: 36.727931, lng: 14.849925200000001 },
+            { id: "panificio-asta", category: "ristorazione", icon: "bakery", title: { it: "Panificio Asta", en: "Panificio Asta (Bakery)" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://maps.google.com/?cid=14352286725243661003", desc: { it: "Nel cuore di Ispica. Emblema dell'artigianalità panificatrice: ogni giorno sfornano 'scacce' ragusane, arancine calde, focacce e sfiziosi dolci della tradizione siciliana a km 0.", en: "Located in downtown Ispica. An artisanal bakery producing traditional 'scacce' flatbreads, warm arancini, and typical dry sweets." }, phone: "09321917532", lat: 36.7903875, lng: 14.903823499999999 }
         ];
 
         window.countCategory = function(category) { return [...window.luoghiData, ...window.dbRestaurants].filter(l => l.category === category).length; };
@@ -1216,6 +1207,7 @@
             
             window.updateExploreTabsVisibility(category);
             window.renderCards();
+            window.initOrUpdateMap();
             
             const viewDashboard = document.getElementById('view-dashboard');
             const viewExplore = document.getElementById('view-explore');
@@ -1299,20 +1291,23 @@
             if (window.currentFilter === 'preferiti') window.renderCards();
             window.renderFavoritesCarousel();
         };
-
+        
         window.initOrUpdateMap = function() {
             const mapContainer = document.getElementById('map-container');
-            if (window.currentFilter === 'borghi') {
+            
+            // Categorie per cui la mappa è visibile
+            const showMapFor = ['borghi', 'mare', 'ristorazione'];
+            
+            if (showMapFor.includes(window.currentFilter)) {
                 mapContainer.style.display = 'block';
                 
-                // Need to give container time to render before initializing Leaflet
                 setTimeout(() => {
-                    const borghiLocations = window.luoghiData.filter(l => l.category === 'borghi' && l.lat && l.lng);
+                    const locationsToShow = window.luoghiData.filter(l => 
+                        l.category === window.currentFilter && l.lat && l.lng
+                    );
                     
                     if (!map) {
-                        // Initialize map
-                        map = L.map('map-container').setView([36.85, 14.95], 9); // Center of Val di Noto area roughly
-                        
+                        map = L.map('map-container').setView([36.85, 14.95], 9);
                         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
                             subdomains: 'abcd',
@@ -1320,16 +1315,16 @@
                         }).addTo(map);
                     }
                     
-                    // Clear existing markers
                     markers.forEach(marker => map.removeLayer(marker));
                     markers = [];
-                    
-                    // Add new markers
                     const bounds = L.latLngBounds();
                     
-                    borghiLocations.forEach(loc => {
+                    locationsToShow.forEach(loc => {
                         const title = loc.title[window.currentLang];
-                        const iconHtml = `<div style="background-color: var(--color-primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3); border: 2px solid white;">${window.iconTemplates.town}</div>`;
+                        const iconSvg = window.iconTemplates[loc.icon] || window.iconTemplates.town;
+                        const iconColor = loc.category === 'ristorazione' ? 'var(--color-secondary)' : (loc.category === 'mare' ? '#1e88e5' : 'var(--color-primary)');
+                        
+                        const iconHtml = `<div style="background-color: ${iconColor}; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3); border: 2px solid white; padding: 3px;">${iconSvg}</div>`;
                         
                         const customIcon = L.divIcon({
                             html: iconHtml,
@@ -1341,7 +1336,6 @@
                         
                         const marker = L.marker([loc.lat, loc.lng], {icon: customIcon}).addTo(map);
                         
-                        // Popup content
                         const popupContent = `
                             <div style="font-family: var(--font-sans); padding: 5px;">
                                 <h4 style="margin: 0 0 5px 0; color: var(--color-primary); font-family: var(--font-serif); font-size: 14px;">${title}</h4>
@@ -1351,22 +1345,14 @@
                         `;
                         
                         marker.bindPopup(popupContent);
-                        
-                        marker.on('click', () => {
-                            // Automatically scroll to card when marker is clicked (optional, can just open popup)
-                            // window.scrollToCard(loc.id); 
-                        });
-                        
                         markers.push(marker);
                         bounds.extend([loc.lat, loc.lng]);
                     });
                     
-                    // Fit map to markers
-                    if (borghiLocations.length > 0) {
-                        map.fitBounds(bounds, { padding: [20, 20] });
+                    if (locationsToShow.length > 0) {
+                        map.fitBounds(bounds, { padding: [20, 20], maxZoom: 14 });
                     }
                     
-                    // Ensure map size is correct after display:block
                     map.invalidateSize();
                     
                 }, 100);
@@ -1406,17 +1392,14 @@
         window.scrollToCard = function(locationId) {
             window.safeVibrate(12);
             
-            // If map popup is open, close it
-            if (map) {
+            if (typeof map !== 'undefined' && map) {
                 map.closePopup();
             }
 
             const cardEl = document.querySelector(`.card[data-id="${locationId}"]`);
             if (cardEl) {
-                // Calculate position accounting for sticky header and map if present
-                const stickyOffset = 140; // Approx height of sticky header + tabs
+                const stickyOffset = 140;
                 const y = cardEl.getBoundingClientRect().top + window.pageYOffset - stickyOffset;
-                
                 window.scrollTo({ top: y, behavior: 'smooth' });
                 
                 cardEl.style.transition = 'all 0.4s ease';
@@ -1441,7 +1424,7 @@
 
             setTimeout(() => {
                 window.scrollToCard(locationId);
-            }, 300); // Give it a bit more time to render view and map
+            }, 300);
         };
 
         window.toggleLike = function(locationId, reviewUserId) {
@@ -1480,7 +1463,6 @@
             const adminBtn = document.getElementById('admin-add-exp-btn');
             if (!tbody) return;
 
-            // Nascondiamo il bottone inline se usiamo il pannello admin in alto
             if (adminBtn) {
                 adminBtn.style.display = 'none'; 
             }
@@ -1647,7 +1629,6 @@
             if (!container) return;
             container.innerHTML = '';
             
-            // Unisce i dati statici con quelli caricati da Firebase
             let filteredList = [...window.luoghiData, ...window.dbRestaurants];
             
             if (window.searchQuery.trim() !== '') {
@@ -2116,8 +2097,6 @@
                 descEl.innerText = message;
                 
                 banner.classList.add('show');
-                
-                // Nessun timer di auto-chiusura. La notifica richiede l'annullamento MANUALE da parte dell'utente.
             }
         };
 
@@ -2198,7 +2177,7 @@
             window.renderEsperienze();
             window.updateAdminDashboardUI();
 
-            // Aggiunta Swipe-to-dismiss (chiusura manuale rapida tramite gesture touch)
+            // Aggiunta Swipe-to-dismiss per la notifica push
             const pushBanner = document.getElementById('in-app-push');
             if (pushBanner) {
                 let touchStartY = 0;
@@ -2331,7 +2310,7 @@
                                     return; // Interrompiamo l'elaborazione, la notifica è annullata.
                                 }
                                 
-                                // Usiamo sessionStorage così la notifica si rivede al riavvio dell'app (nuova sessione) se ancora valida
+                                // Usiamo sessionStorage così la notifica si rivede al riavvio dell'app se ancora valida
                                 let seenNotifs = [];
                                 try { seenNotifs = JSON.parse(sessionStorage.getItem('kinanto_seen_notif') || '[]'); } catch(e) {}
                                 
