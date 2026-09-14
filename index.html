@@ -399,7 +399,10 @@
                 <input type="text" id="push-title-en" class="review-name-input" placeholder="Titolo Notifica (Inglese)">
                 <textarea id="push-desc-en" class="review-textarea" style="height: 60px;" placeholder="Messaggio (Inglese)"></textarea>
                 
-                <button class="review-submit-btn" style="width: 100%; margin-top: 6px; padding: 12px; font-size: 14px;" onclick="window.sendPushNotification()">Invia Notifica Ora</button>
+                <div style="display: flex; gap: 8px; margin-top: 6px;">
+                    <button id="btn-cancel-push" class="review-cancel-btn" style="flex: 1; padding: 12px; font-size: 13px; display: none;" onclick="window.retractPushNotification()">Ritira Ultima</button>
+                    <button class="review-submit-btn" style="flex: 2; padding: 12px; font-size: 14px;" onclick="window.sendPushNotification()">Invia Notifica Ora</button>
+                </div>
             </div>
         </div>
     </div>
@@ -686,10 +689,11 @@
         window.currentFilter = 'tutti';
         window.searchQuery = '';
         window.isModerator = localStorage.getItem('kinanto_admin') === 'true'; 
+        window.activePushId = null; // ID dell'ultima notifica inviata
+        window.isLastPushCanceled = true; // Stato dell'ultima notifica
         let deferredPrompt;
         let adminClickCount = 0;
         let adminClickTimer;
-        let pushTimeout; // Timer per chiudere la notifica
 
         // Recupero preferiti locali
         let preferiti = [];
@@ -2041,6 +2045,12 @@
         window.openPushModal = function() {
             const modal = document.getElementById('pushModal');
             if(modal) modal.classList.add('show');
+            
+            // Verifica e mostra il pulsante Ritira dinamicamente all'apertura
+            const btnCancel = document.getElementById('btn-cancel-push');
+            if (btnCancel) {
+                btnCancel.style.display = (window.activePushId && !window.isLastPushCanceled) ? 'block' : 'none';
+            }
         };
 
         window.closePushModal = function() {
@@ -2075,6 +2085,19 @@
             }
         };
 
+        window.retractPushNotification = function() {
+            if (!window.isModerator) return;
+            if (!navigator.onLine) {
+                window.showToast(window.staticTranslations[window.currentLang].offlineMessage);
+                return;
+            }
+            if (window.activePushId && window.firebaseRetractPush) {
+                if (confirm("Vuoi annullare e ritirare l'ultima notifica inviata? Scomparirà dai dispositivi degli ospiti in tempo reale.")) {
+                    window.firebaseRetractPush(window.activePushId, "Notifica annullata e ritirata con successo.", "Errore durante l'annullamento.");
+                }
+            }
+        };
+
         window.showInAppPush = function(title, message) {
             window.safeVibrate([100, 50, 100]); // Vibrazione stile notifica
             
@@ -2088,17 +2111,13 @@
                 
                 banner.classList.add('show');
                 
-                clearTimeout(pushTimeout);
-                pushTimeout = setTimeout(() => {
-                    window.closeInAppPush();
-                }, 8000); // Scompare dopo 8 secondi
+                // Nessun timer di auto-chiusura. La notifica richiede l'annullamento MANUALE da parte dell'utente.
             }
         };
 
         window.closeInAppPush = function() {
             const banner = document.getElementById('in-app-push');
             if (banner) banner.classList.remove('show');
-            clearTimeout(pushTimeout);
         };
 
         // --- FUNZIONI MODAL RISTORANTI ---
@@ -2173,6 +2192,21 @@
             window.renderEsperienze();
             window.updateAdminDashboardUI();
 
+            // Aggiunta Swipe-to-dismiss (chiusura manuale rapida tramite gesture touch)
+            const pushBanner = document.getElementById('in-app-push');
+            if (pushBanner) {
+                let touchStartY = 0;
+                pushBanner.addEventListener('touchstart', e => {
+                    touchStartY = e.touches[0].clientY;
+                }, {passive: true});
+                pushBanner.addEventListener('touchmove', e => {
+                    let touchEndY = e.touches[0].clientY;
+                    if (touchStartY - touchEndY > 20) { // Swipe verso l'alto
+                        window.closeInAppPush();
+                    }
+                }, {passive: true});
+            }
+
             const langItBtn = document.getElementById('lang-it-btn');
             const langEnBtn = document.getElementById('lang-en-btn');
             if (langItBtn) langItBtn.classList.toggle('active', window.currentLang === 'it');
@@ -2203,7 +2237,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, deleteDoc, collection, onSnapshot, query, orderBy, limit, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, deleteDoc, collection, onSnapshot, query, orderBy, limit, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const MY_FIREBASE_CONFIG = {
             apiKey: "AIzaSyD9HF3QgD2G1YpbEqJRqOves6qyIioIx2c",
@@ -2276,6 +2310,21 @@
                                 const data = latestDoc.data();
                                 const id = latestDoc.id;
                                 
+                                window.activePushId = id; // Salviamo l'id per permettere all'admin di annullarla
+                                window.isLastPushCanceled = data.canceled;
+                                
+                                // Mostra il bottone "Ritira" se l'admin ha il pannello aperto
+                                const btnCancel = document.getElementById('btn-cancel-push');
+                                if (btnCancel && window.isModerator) {
+                                    btnCancel.style.display = data.canceled ? 'none' : 'block';
+                                }
+
+                                // Se la notifica è appena stata ritirata/annullata, forziamo la chiusura sul client se visibile
+                                if (data.canceled) {
+                                    if (typeof window.closeInAppPush === 'function') window.closeInAppPush();
+                                    return; // Interrompiamo l'elaborazione, la notifica è annullata.
+                                }
+                                
                                 // Usiamo sessionStorage così la notifica si rivede al riavvio dell'app (nuova sessione) se ancora valida
                                 let seenNotifs = [];
                                 try { seenNotifs = JSON.parse(sessionStorage.getItem('kinanto_seen_notif') || '[]'); } catch(e) {}
@@ -2283,7 +2332,7 @@
                                 const ONE_DAY = 24 * 60 * 60 * 1000; // 24 ore di validità
                                 const isRecent = (Date.now() - data.timestamp) < ONE_DAY;
 
-                                if (!seenNotifs.includes(id) && isRecent) {
+                                if (!seenNotifs.includes(id) && isRecent && !data.canceled) {
                                     const pushTitle = data.title[window.currentLang] || data.title['it'];
                                     const pushMsg = data.message[window.currentLang] || data.message['it'];
                                     
@@ -2297,6 +2346,8 @@
                                     seenNotifs.push(id);
                                     sessionStorage.setItem('kinanto_seen_notif', JSON.stringify(seenNotifs));
                                 }
+                            } else {
+                                window.activePushId = null;
                             }
                         }, (error) => console.error("Error listening to notifications:", error));
                     }
@@ -2416,12 +2467,26 @@
                     await addDoc(docRef, {
                         title: { it: titleIt, en: titleEn },
                         message: { it: msgIt, en: msgEn },
-                        timestamp: Date.now()
+                        timestamp: Date.now(),
+                        canceled: false
                     });
                     window.showToast(msgSuccess);
                     window.closePushModal();
                 } catch(e) {
                     console.error("Error sending push:", e);
+                    window.showToast(msgErr);
+                }
+            };
+
+            window.firebaseRetractPush = async function(id, msgSuccess, msgErr) {
+                if (!window.isModerator) return;
+                try {
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'notifications', id);
+                    await updateDoc(docRef, { canceled: true });
+                    window.showToast(msgSuccess);
+                    window.closePushModal();
+                } catch(e) {
+                    console.error("Error retracting push:", e);
                     window.showToast(msgErr);
                 }
             };
