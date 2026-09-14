@@ -23,6 +23,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
     <style>
         /* --- BRAND IDENTITY & TOKENS --- */
         :root {
@@ -71,7 +74,7 @@
         /* --- DASHBOARD HOME SCREEN VIEW --- */
         .dashboard-welcome { padding: 24px 20px 8px 20px; text-align: center; }
         .dashboard-welcome h2 { font-family: var(--font-serif); font-size: 26px; font-weight: 700; color: var(--color-primary); margin-bottom: 6px; }
-        .dashboard-welcome p { font-size: 15px; color: var(--color-text-muted); line-height: 1.55; }
+        .dashboard-welcome p { font-size: 16px; color: var(--color-text-muted); line-height: 1.6; }
         .dashboard-actions { padding: 10px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .dashboard-action-btn { background-color: var(--color-accent); border: 1.5px solid rgba(23, 139, 117, 0.2); color: var(--color-primary); text-decoration: none; padding: 10px 14px; border-radius: 12px; font-weight: 700; font-size: 12.5px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition); box-shadow: var(--shadow-sm); cursor: pointer; text-align: center; user-select: none; -webkit-user-select: none; }
         .dashboard-action-btn:active { transform: scale(0.97); background-color: #d8ece8; }
@@ -95,7 +98,7 @@
         .icon-bg-eventi { background-color: #ede7f6; color: #5e35b1; }
         .category-card-info { display: flex; flex-direction: column; }
         .category-card-title { font-family: var(--font-serif); font-size: 15px; font-weight: 700; color: var(--color-text); }
-        .category-card-count { font-size: 13px; color: var(--color-text-muted); margin-top: 2px; }
+        .category-card-count { font-size: 14px; color: var(--color-text-muted); margin-top: 2px; }
         .favorites-widget { padding: 10px 20px 24px 20px; }
         .favorites-carousel { display: flex; gap: 10px; overflow-x: auto; padding: 6px 0; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
         .favorites-carousel::-webkit-scrollbar { display: none; }
@@ -118,9 +121,12 @@
         .tab-btn.active { background-color: var(--color-primary); color: #ffffff; border-color: var(--color-primary); box-shadow: 0 4px 12px rgba(23, 139, 117, 0.2); }
         #tab-ristorazione::after { content: ''; position: absolute; top: 4px; right: 6px; width: 6px; height: 6px; background-color: var(--color-secondary); border-radius: 50%; box-shadow: 0 0 8px var(--color-secondary); }
 
+        /* --- MAP CONTAINER --- */
+        #map-container { width: 100%; height: 250px; display: none; z-index: 100; border-bottom: 2px solid var(--color-primary);}
+        
         /* --- LISTA LUOGHI (CARDS) --- */
         .cards-feed { padding: 16px 20px 30px 20px; display: flex; flex-direction: column; gap: 16px; }
-        .card { background-color: var(--color-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 18px; box-shadow: var(--shadow-sm); transition: var(--transition); position: relative; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+        .card { background-color: var(--color-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 18px; box-shadow: var(--shadow-sm); transition: var(--transition); position: relative; display: flex; flex-direction: column; gap: 12px; overflow: hidden; scroll-margin-top: 140px;} /* scroll-margin to offset sticky header */
         .card:active { transform: scale(0.99); }
         .feed-section-title { font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--color-primary); margin: 20px 0 4px 0; padding-bottom: 8px; border-bottom: 2px solid var(--color-border); letter-spacing: 0.5px; display: block; width: 100%; }
         .card.retreat-highlight { border-left: 4px solid var(--color-primary); border-color: #cce5e1; background-color: #f3f8f6; box-shadow: 0 4px 12px rgba(23, 139, 117, 0.05); }
@@ -137,8 +143,8 @@
         .card-title { font-family: var(--font-serif); font-size: 19px; font-weight: 700; color: var(--color-text); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
         .card-title:hover { color: var(--color-primary); }
         .maps-indicator-icon { width: 14px; height: 14px; fill: var(--color-secondary); }
-        .card-desc { font-size: 15px; color: var(--color-text-muted); line-height: 1.5; }
-        .wifi-spec-box { background-color: var(--color-bg); border: 1px dashed var(--color-primary); border-radius: 12px; padding: 12px; margin-top: 4px; text-align: center; font-size: 15px; }
+        .card-desc { font-size: 16px; color: var(--color-text-muted); line-height: 1.55; }
+        .wifi-spec-box { background-color: var(--color-bg); border: 1px dashed var(--color-primary); border-radius: 12px; padding: 12px; margin-top: 4px; text-align: center; font-size: 16px; }
         .wifi-click-copy { font-family: monospace; font-weight: 700; color: var(--color-primary); cursor: pointer; border-bottom: 1.5px dotted var(--color-primary); padding: 1px 4px; }
         .fav-btn { background: none; border: none; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; margin-left: auto; }
         .fav-icon { width: 22px; height: 22px; fill: none; stroke: #a2aba5; stroke-width: 2; transition: var(--transition); pointer-events: none; }
@@ -165,7 +171,7 @@
         .modal-title { font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--color-primary); }
         .modal-close { background: none; border: none; color: var(--color-text-muted); cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; }
         .modal-close svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; }
-        .modal-body { font-size: 15px; line-height: 1.6; color: var(--color-text); display: flex; flex-direction: column; gap: 12px; }
+        .modal-body { font-size: 16px; line-height: 1.6; color: var(--color-text); display: flex; flex-direction: column; gap: 12px; }
         .instruction-box { background-color: var(--color-bg); border-radius: 14px; padding: 14px; border: 1px solid var(--color-border); }
 
         /* --- BARRA DI NAVIGAZIONE INFERIORE ATTIVA --- */
@@ -178,6 +184,13 @@
         .bottom-tab-item.active.tab-fav svg { stroke: #e05d5d; fill: #e05d5d; }
         .bottom-tab-label { font-size: 10px; font-weight: 700; letter-spacing: 0.2px; }
 
+        /* --- HERO BANNER FULL WIDTH LOGO --- */
+        .hero { position: relative; width: 100%; height: 180px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; background-color: var(--color-bg); }
+        .hero-logo-img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 1; cursor: pointer; }
+        .lang-selector { position: absolute; top: 10px; right: 12px; z-index: 100; display: flex; gap: 5px; align-items: center; }
+        .lang-btn { background-color: rgba(255, 255, 255, 0.6); backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.8); color: var(--color-primary); font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 30px; cursor: pointer; transition: var(--transition); white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .lang-btn.active { background-color: #ffffff; color: var(--color-primary); border-color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transform: scale(1.05); }
+
         /* --- BOTTOM SHEET SLIDE-UP MODAL (Pannello Contatti) --- */
         .sheet-overlay { position: fixed; inset: 0; background-color: rgba(2, 2, 5, 0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 4000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; display: flex; align-items: flex-end; }
         .sheet-overlay.show { opacity: 1; pointer-events: auto; }
@@ -186,7 +199,7 @@
         .sheet-handle { width: 40px; height: 5px; background-color: var(--color-border); border-radius: 10px; margin: 0 auto 8px auto; }
         .sheet-header { text-align: center; }
         .sheet-title { font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--color-primary); margin-bottom: 4px; }
-        .sheet-desc { font-size: 14.5px; color: var(--color-text-muted); line-height: 1.5; }
+        .sheet-desc { font-size: 15.5px; color: var(--color-text-muted); line-height: 1.5; }
         .sheet-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
         .sheet-btn { padding: 14px; border-radius: 16px; font-size: 14px; font-weight: 700; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; transition: var(--transition); box-shadow: var(--shadow-sm); }
         .sheet-btn.whatsapp { background-color: #25d366; color: #ffffff; }
@@ -194,6 +207,17 @@
         .sheet-btn.phone { background-color: var(--color-primary); color: #ffffff; }
         .sheet-btn.phone:active { background-color: #0f6c5a; transform: scale(0.98); }
         .sheet-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+        /* --- IN-APP PUSH NOTIFICATION BANNER --- */
+        #in-app-push { position: fixed; top: 16px; left: 50%; transform: translateX(-50%) translateY(-150%); width: calc(100% - 32px); max-width: 450px; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 20px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2); z-index: 9999; display: flex; align-items: flex-start; gap: 14px; padding: 16px; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(23, 139, 117, 0.15); pointer-events: auto; }
+        #in-app-push.show { transform: translateX(-50%) translateY(0); }
+        .push-icon { width: 42px; height: 42px; background: linear-gradient(135deg, var(--color-primary), #23b599); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; box-shadow: 0 4px 12px rgba(23, 139, 117, 0.3); }
+        .push-icon svg { width: 22px; height: 22px; fill: currentColor; }
+        .push-content { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+        .push-title { font-family: var(--font-sans); font-size: 15px; font-weight: 800; color: var(--color-text); line-height: 1.2; }
+        .push-desc { font-size: 13.5px; color: var(--color-text-muted); line-height: 1.4; }
+        .push-close { background: none; border: none; color: var(--color-text-muted); padding: 4px; cursor: pointer; flex-shrink: 0; margin-top: -4px; margin-right: -4px; transition: var(--transition); }
+        .push-close:active { transform: scale(0.9); }
 
         /* ================= STILI SPECIFICI COMPONENTE RECENSIONI ================= */
         .review-trigger-btn { background: none; border: none; color: var(--color-primary); font-size: 12.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; padding: 4px 0; width: fit-content; transition: var(--transition); }
@@ -212,7 +236,7 @@
         .review-submit-btn:active { background-color: #0f6c5a; transform: scale(0.97); }
         .review-cancel-btn { background-color: #e5e5e0; color: var(--color-text-muted); }
         .review-cancel-btn:active { background-color: #dcdcd7; transform: scale(0.97); }
-        .user-review-display { background-color: #FAF9F5; border-left: 3px solid var(--color-secondary); padding: 10px 14px; border-radius: 0 14px 14px 0; font-size: 14.5px; margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+        .user-review-display { background-color: #FAF9F5; border-left: 3px solid var(--color-secondary); padding: 10px 14px; border-radius: 0 14px 14px 0; font-size: 15px; margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
         .user-review-header { display: flex; justify-content: space-between; align-items: center; }
         .user-review-stars { color: var(--color-secondary); font-size: 15px; font-weight: 700; letter-spacing: 1px; }
         .user-review-actions { display: flex; gap: 12px; font-size: 11px; }
@@ -231,7 +255,7 @@
         .staff-photo:active { transform: scale(0.92); }
         .staff-name { font-family: var(--font-serif); font-size: 16px; font-weight: 700; color: var(--color-primary); margin-bottom: 4px; }
         .staff-role { font-size: 10px; font-weight: 800; color: var(--color-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .staff-desc { font-size: 14px; color: var(--color-text-muted); line-height: 1.45; }
+        .staff-desc { font-size: 15.5px; color: var(--color-text-muted); line-height: 1.5; }
 
         /* --- MODAL IMMAGINE (LIGHTBOX STAFF) --- */
         .image-modal-overlay { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 6000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; padding: 20px; }
@@ -248,6 +272,7 @@
     <!-- Native Splash Screen -->
     <div id="app-splash">
         <div style="text-align:center; transform: translateY(-20px);">
+            <!-- Placeholder for logo. In reality this would load logo.jpg -->
             <img src="logo.jpg" alt="Kinanto Logo" style="width: 90vw; max-width: 400px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin-bottom: 20px; display: none;" onload="this.style.display='inline-block';">
             <div class="splash-spinner"></div>
         </div>
@@ -262,6 +287,20 @@
     <!-- Notification Toast Popup -->
     <div id="toast" class="toast-notif">Password copiata!</div>
 
+    <!-- IN-APP PUSH NOTIFICATION -->
+    <div id="in-app-push" onclick="window.closeInAppPush()">
+        <div class="push-icon">
+            <svg viewBox="0 0 24 24"><path d="M21,19V20H3V19L5,17V11C5,7.9 7.03,5.17 10,4.29C10,4.19 10,4.1 10,4A2,2 0 0,1 12,2A2,2 0 0,1 14,4C14,4.1 14,4.19 14,4.29C16.97,5.17 19,7.9 19,11V17L21,19M14,21A2,2 0 0,1 12,23A2,2 0 0,1 10,21M19.75,3.19L18.33,4.61C20.04,6.3 21,8.6 21,11H23C23,8.07 21.84,5.25 19.75,3.19M1,11H3C3,8.6 3.96,6.3 5.67,4.61L4.25,3.19C2.16,5.25 1,8.07 1,11Z"/></svg>
+        </div>
+        <div class="push-content">
+            <div class="push-title" id="push-title-text">Nuova Comunicazione</div>
+            <div class="push-desc" id="push-desc-text">Questo è il testo della notifica.</div>
+        </div>
+        <button class="push-close" onclick="event.stopPropagation(); window.closeInAppPush()">
+            <svg viewBox="0 0 24 24" style="width: 18px; height: 18px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+    </div>
+
     <!-- Modal Admin PIN per la Moderazione Segreta -->
     <div id="adminModal" class="modal-overlay" onclick="window.closeAdminModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
@@ -272,7 +311,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p id="admin-modal-desc" style="font-size: 14.5px; color: var(--color-text-muted); margin-bottom: 8px;">Inserisci il PIN per attivare i privilegi di moderazione e gestire le recensioni degli ospiti.</p>
+                <p id="admin-modal-desc" style="font-size: 15.5px; color: var(--color-text-muted); margin-bottom: 8px;">Inserisci il PIN per attivare i privilegi di moderazione e gestire le recensioni degli ospiti.</p>
                 <input type="password" id="admin-pin-input" class="review-name-input" placeholder="PIN Moderatore">
                 <button id="admin-modal-btn" class="review-submit-btn" style="width: 100%; margin-top: 10px; padding: 12px; font-size: 14px;" onclick="window.verifyAdminPin()">Sblocca</button>
             </div>
@@ -311,6 +350,56 @@
                 <input type="text" id="exp-title-en" class="review-name-input" placeholder="Titolo (Inglese)">
                 <textarea id="exp-desc-en" class="review-textarea" style="height: 60px;" placeholder="Descrizione (Inglese)"></textarea>
                 <button class="review-submit-btn" style="width: 100%; margin-top: 6px; padding: 12px; font-size: 14px;" onclick="window.saveExperience()">Salva nel Cloud</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Aggiungi Ristorante (Solo Admin) -->
+    <div id="restoModal" class="modal-overlay" onclick="window.closeRestoModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title" style="font-size: 16px;">Aggiungi Ristorante</h3>
+                <button class="modal-close" onclick="window.closeRestoModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body" style="gap: 8px;">
+                <input type="text" id="resto-title" class="review-name-input" placeholder="Nome del Ristorante">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <input type="text" id="resto-distance" class="review-name-input" placeholder="Distanza (es. 5 km)">
+                    <input type="tel" id="resto-phone" class="review-name-input" placeholder="Telefono (es. 3331234567)">
+                </div>
+                <input type="url" id="resto-maps" class="review-name-input" placeholder="Link di Google Maps">
+                <textarea id="resto-desc-it" class="review-textarea" style="height: 60px;" placeholder="Descrizione (Italiano)"></textarea>
+                <textarea id="resto-desc-en" class="review-textarea" style="height: 60px;" placeholder="Descrizione (Inglese)"></textarea>
+                
+                <div style="font-size: 11px; color: var(--color-text-muted); margin-top: 4px;">Icona predefinita: Piatto di Mare 🍤</div>
+                <button class="review-submit-btn" style="width: 100%; margin-top: 6px; padding: 12px; font-size: 14px;" onclick="window.saveRestaurant()">Salva Ristorante</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Invia Notifica Push (Solo Admin) -->
+    <div id="pushModal" class="modal-overlay" onclick="window.closePushModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title" style="font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    <svg style="width:18px; height:18px; fill:currentColor;" viewBox="0 0 24 24"><path d="M21,19V20H3V19L5,17V11C5,7.9 7.03,5.17 10,4.29C10,4.19 10,4.1 10,4A2,2 0 0,1 12,2A2,2 0 0,1 14,4C14,4.1 14,4.19 14,4.29C16.97,5.17 19,7.9 19,11V17L21,19M14,21A2,2 0 0,1 12,23A2,2 0 0,1 10,21Z"/></svg>
+                    Invia Notifica
+                </h3>
+                <button class="modal-close" onclick="window.closePushModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body" style="gap: 8px;">
+                <p style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 4px;">Questa notifica apparirà in tempo reale a tutti gli ospiti che hanno l'app aperta o la apriranno nelle prossime 24 ore.</p>
+                <input type="text" id="push-title-it" class="review-name-input" placeholder="Titolo Notifica (Italiano)">
+                <textarea id="push-desc-it" class="review-textarea" style="height: 60px;" placeholder="Messaggio (Italiano)"></textarea>
+                <div style="height: 1px; background: var(--color-border); margin: 4px 0;"></div>
+                <input type="text" id="push-title-en" class="review-name-input" placeholder="Titolo Notifica (Inglese)">
+                <textarea id="push-desc-en" class="review-textarea" style="height: 60px;" placeholder="Messaggio (Inglese)"></textarea>
+                
+                <button class="review-submit-btn" style="width: 100%; margin-top: 6px; padding: 12px; font-size: 14px;" onclick="window.sendPushNotification()">Invia Notifica Ora</button>
             </div>
         </div>
     </div>
@@ -380,6 +469,21 @@
 
         <!-- VIEW 1: DASHBOARD -->
         <div id="view-dashboard" class="spa-view active-view">
+            
+            <!-- ADMIN DASHBOARD PANEL -->
+            <div id="admin-dashboard-panel" style="display: none; background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%); padding: 12px 20px; color: white; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);">
+                <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; opacity: 0.9;">Pannello Admin</div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button onclick="window.openPushModal()" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 8px 12px; border-radius: 10px; font-size: 12.5px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: var(--transition);">
+                        <svg style="width:16px; height:16px; fill:currentColor;" viewBox="0 0 24 24"><path d="M21,19V20H3V19L5,17V11C5,7.9 7.03,5.17 10,4.29C10,4.19 10,4.1 10,4A2,2 0 0,1 12,2A2,2 0 0,1 14,4C14,4.1 14,4.19 14,4.29C16.97,5.17 19,7.9 19,11V17L21,19M14,21A2,2 0 0,1 12,23A2,2 0 0,1 10,21Z"/></svg>
+                        Invia Notifica
+                    </button>
+                    <button id="admin-add-exp-btn-dash" onclick="window.openExpModal()" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 8px 12px; border-radius: 10px; font-size: 12.5px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: var(--transition);">
+                        + Nuova Esperienza
+                    </button>
+                </div>
+            </div>
+
             <div class="dashboard-welcome">
                 <h2 id="db-welcome-title">La tua Guida Esclusiva</h2>
                 <p id="db-welcome-desc">Questa è una selezione esclusiva preparata direttamente dallo staff del Kinanto per i propri ospiti, frutto di una continua verifica sul territorio. Condividi la tua esperienza lasciando un commento e una classifica di gradimento utilizzando le stelline!</p>
@@ -403,7 +507,7 @@
                             <div class="category-card-title" id="cat-title-retreat">Info & Servizi</div>
                             <div class="category-card-count" id="cat-count-retreat" style="margin-top: 0;">5 info utili</div>
                         </div>
-                        <div id="cat-desc-retreat" style="font-size: 13px; color: var(--color-primary); margin-top: 4px; line-height: 1.4; opacity: 0.9;">
+                        <div id="cat-desc-retreat" style="font-size: 14px; color: var(--color-primary); margin-top: 4px; line-height: 1.4; opacity: 0.9;">
                             🔑 Wi-Fi • ☕ Colazione • 🏊‍♂️ Piscina • 🧺 Lavanderia • ♻️ Eco
                         </div>
                     </div>
@@ -449,7 +553,7 @@
             </div>
             <div style="padding: 0 20px;">
                 <div style="background-color: #eaf4f8; border: 1.5px solid #cce3eb; border-radius: 16px; box-shadow: 0 4px 12px rgba(23, 139, 117, 0.08); overflow: hidden;">
-                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14.5px;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 16px;">
                         <tbody id="esperienze-table-body">
                             <tr>
                                 <td style="padding: 24px 20px; color: var(--color-text-muted); text-align: center; font-style: italic;" id="esperienze-empty-text">
@@ -470,7 +574,7 @@
                         </div>
                         <div class="category-card-info" style="margin-left: 4px;">
                             <div class="category-card-title" id="ig-title" style="color: #c13584; font-size: 16px;">Seguici su Instagram</div>
-                            <div class="category-card-count" id="ig-desc" style="color: var(--color-text-muted); margin-top: 4px; white-space: normal; line-height: 1.4; font-size: 14px;">Condividi i tuoi momenti al Kinanto taggandoci!</div>
+                            <div class="category-card-count" id="ig-desc" style="color: var(--color-text-muted); margin-top: 4px; white-space: normal; line-height: 1.45; font-size: 15px;">Condividi i tuoi momenti al Kinanto taggandoci!</div>
                         </div>
                     </div>
                 </a>
@@ -520,6 +624,14 @@
                     <button class="tab-btn" id="subtab-eco" onclick="window.scrollToCard('ecology')">♻️ Eco</button>
                 </div>
             </div>
+            
+            <div id="admin-resto-controls" style="display: none; padding: 16px 20px 0 20px; text-align: right;">
+                <button onclick="window.openRestoModal()" style="background: var(--color-secondary); color: white; border: none; padding: 8px 16px; border-radius: 12px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: var(--shadow-sm); text-transform: uppercase; letter-spacing: 0.5px;">+ Nuovo Ristorante</button>
+            </div>
+            
+            <!-- Map Container for Borghi -->
+            <div id="map-container"></div>
+            
             <div class="cards-feed" id="cardsFeed"></div>
         </div>
 
@@ -549,7 +661,7 @@
                 <h2 id="staff-top-title" style="font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--color-primary); margin: 0;">Il Nostro Team</h2>
             </div>
             <div class="dashboard-welcome">
-                <p id="staff-intro-desc" style="font-size: 15px; color: var(--color-text-muted); line-height: 1.55; margin-top: 10px;">Dietro ogni dettaglio del Kinanto c'è la passione e l'impegno di persone vere. Scopri chi si prende cura del tuo soggiorno ogni giorno.</p>
+                <p id="staff-intro-desc" style="font-size: 16px; color: var(--color-text-muted); line-height: 1.6; margin-top: 10px;">Dietro ogni dettaglio del Kinanto c'è la passione e l'impegno di persone vere. Scopri chi si prende cura del tuo soggiorno ogni giorno.</p>
             </div>
             <div class="staff-grid" id="staff-grid-container">
                 <!-- Verrà popolato da JS -->
@@ -562,10 +674,14 @@
         </div>
     </div>
 
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
     <script>
         // --- 1. VARIABILI DI STATO E DATI COSTANTI GLOBALI ---
         window.dbReviews = {};
         window.dbExperiences = []; // Array per le esperienze cloud
+        window.dbRestaurants = []; // Array per i ristoranti cloud
         window.currentLang = localStorage.getItem('kinanto_favorites_lang') || 'it';
         window.currentFilter = 'tutti';
         window.searchQuery = '';
@@ -573,6 +689,7 @@
         let deferredPrompt;
         let adminClickCount = 0;
         let adminClickTimer;
+        let pushTimeout; // Timer per chiudere la notifica
 
         // Recupero preferiti locali
         let preferiti = [];
@@ -584,7 +701,7 @@
                 id: "giulia",
                 name: "Giulia",
                 role: { it: "Host", en: "Host" },
-                photo: "giulia.png",
+                photo: "giulia.jpg",
                 desc: { 
                     it: "Il volto dell'accoglienza al Kinanto. Attenta e premurosa, si assicurerà che il tuo soggiorno sia impeccabile dal primo all'ultimo giorno.", 
                     en: "The welcoming face of Kinanto. Attentive and caring, she will ensure your stay is flawless from the first to the last day." 
@@ -594,7 +711,7 @@
                 id: "concita",
                 name: "Concita",
                 role: { it: "Maître Pâtissier", en: "Maître Pâtissier" },
-                photo: "concita.png",
+                photo: "concita.jpg",
                 desc: { 
                     it: "La regina delle colazioni. Le sue dolci creazioni artigianali e i prodotti appena sfornati sono la magia che risveglia i nostri ospiti ogni mattina.", 
                     en: "The queen of breakfast. Her artisan sweet creations and freshly baked goods are the magic that awakens our guests every morning." 
@@ -830,6 +947,7 @@
             }
         };
 
+        // Added coordinates (lat, lng) to locations in the 'borghi' category.
         window.luoghiData = [
             { id: "wifi", category: "retreat", icon: "key", title: { it: "🔑 Connessione Wi-Fi Ospiti", en: "🔑 Guest Wi-Fi Network" }, distance: "0 km", distanceNum: 0, mapsUrl: "", desc: { it: "Il Kinanto è coperto da Wi-Fi gratuito. Clicca sulla password qui sotto per copiarla automaticamente sul tuo smartphone:", en: "High-speed Wi-Fi is available throughout the retreat. Tap the password below to automatically copy it to your clipboard:" }, phone: "", wifi: "24364851" },
             { id: "breakfast", category: "retreat", icon: "coffee", title: { it: "☕ Servizio Colazione", en: "☕ Breakfast Service" }, distance: "0 km", distanceNum: 0, mapsUrl: "", desc: { it: "La nostra colazione biologica e artigianale viene servita ogni mattina dalle <strong>08:30 alle 10:30</strong> sotto la pompeiana. Se hai intolleranze alimentari, ti invitiamo a segnalarcelo preventivamente.", en: "Our organic, artisan breakfast is served every morning from <strong>08:30 AM to 10:30 AM</strong> under the pergola. Please notify our reception of any food allergies or dietary restrictions." }, phone: "" },
@@ -842,14 +960,15 @@
             { id: "correnti", category: "mare", icon: "umbrella", title: { it: "Isola delle Correnti", en: "Isola delle Correnti" }, distance: "20 km", distanceNum: 20, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Isola+delle+Correnti", desc: { it: "Punto d'incontro spettacolare tra il Mar Ionio e il Canale di Sicilia, situato a soli 20 minuti di auto dall'EcoRetreat.", en: "A mesmerizing meeting point where the Ionian Sea clashes with the Sicilian Channel. Located 20 minutes south." }, phone: "" },
             { id: "cava-ispica", category: "mare", icon: "hiking", title: { it: "Cava di Ispica", en: "Cava d'Ispica Gorge" }, distance: "8 km", distanceNum: 8, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Cava+di+Ispica", desc: { it: "L'ideale per un'emozionante escursione di trekking archeologico immersi nella natura incontaminata e nella storia millenaria della Sicilia.", en: "Perfect for archaeological trekking. Explore prehistoric rock tombs and ruins engulfed in wild, deep green gorges." }, phone: "", bookingUrl: "https://parchiarcheologici.regione.sicilia.it/kamarina-cava-ispica/biglietti/parco-forza-ispica/", bookingLabel: { it: "Prenota biglietti", en: "Book tickets" } },
             { id: "marina-ragusa", category: "mare", icon: "boat", title: { it: "Marina di Ragusa", en: "Marina di Ragusa" }, distance: "33 km", distanceNum: 33, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Marina+di+Ragusa", desc: { it: "Località marina rinomata ed attrezzata, consigliata per passeggiate serali o per organizzare splendide escursioni e gite in barca.", en: "A popular seaside destination with a vibrant promenade. Great for dining out, coastal strolls, or booking private boat charters." }, phone: "", bookingUrl: "https://freedome.it/escursioni-in-barca/marina-di-ragusa/", bookingLabel: { it: "Prenota barca", en: "Book boat trip" } },
-            { id: "enjoy-barocco", category: "borghi", icon: "town", title: { it: "🗺️ Percorsi ed Itinerari Enjoy Barocco", en: "🗺️ Enjoy Barocco Itineraries & Routes" }, distance: "Ispica e dintorni", distanceNum: 0, mapsUrl: "", desc: { it: "Esplora la straordinaria ricchezza della Sicilia sud-orientale attraverso itinerari tematici. Scopri i percorsi barocchi, naturalistici, archeologici e gastronomici raccomandati per arricchire la tua vacanza.", en: "Explore the extraordinary richness of South-Eastern Sicily through thematic itineraries. Discover recommended Baroque, natural, archaeological, and gastronomic routes to enhance your holiday." }, phone: "", bookingUrl: "https://www.enjoybarocco.com/percorsi/", bookingLabel: { it: "Esplora i percorsi", en: "Explore routes" } },
-            { id: "enjoy-barocco-ispica", category: "borghi", icon: "town", title: { it: "🏛️ Ispica su Enjoy Barocco", en: "🏛️ Ispica on Enjoy Barocco" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Corso+Umberto+I+Ispica", desc: { it: "Scopri la storia, i capolavori architettonici, i palazzi in stile Liberty (come Palazzo Bruno di Belmonte) e i suggestivi itinerari urbani di Ispica direttamente sulla pagina di approfondimento ufficiale di Enjoy Barocco.", en: "Discover the history, architectural masterpieces, Art Nouveau palaces (like Palazzo Bruno di Belmonte), and evocative urban itineraries of Ispica directly on the official Enjoy Barocco guide page." }, phone: "", bookingUrl: "https://www.enjoybarocco.com/paesi/ispica/", bookingLabel: { it: "Esplora Ispica", en: "Explore Ispica" } },
-            { id: "marzamemi", category: "borghi", icon: "town", title: { it: "Marzamemi", en: "Marzamemi" }, distance: "20 km", distanceNum: 20, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Marzamemi", desc: { it: "Incantevole borgo di pescatori da visitare rigorosamente dalle 18:00 in poi. Ottimo per aperitivi e street-food. Per la cena si consiglia il <strong>Ristorante da Nassa</strong>. Prodotti tipici acquistabili da <strong>Campisi</strong>.", en: "An iconic, picturesque fishing village best visited after 6 PM. Ideal for romantic sunset aperitifs. We recommend dinner at <strong>Ristorante da Nassa</strong> and gourmet shopping at <strong>Campisi</strong>." }, phone: "" },
-            { id: "noto", category: "borghi", icon: "town", title: { it: "Noto", en: "Noto" }, distance: "23 km", distanceNum: 23, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Noto", desc: { it: "La capitale indiscussa del Barocco, da esplorare nel tardo pomeriggio. Per cena consigliamo il ristorante <strong>Ci:Vulia</strong> a Marina D’Avola (circa 15 minuti da Noto, 25 km dall'EcoRetreat).", en: "The undisputed capital of Sicilian Baroque, marvelous under the golden hour light. For dinner, we suggest <strong>Ci:Vulia</strong> in Marina D’Avola, about 15 minutes further." }, phone: "" },
-            { id: "ragusa-ibla", category: "borghi", icon: "town", title: { it: "Ragusa (IBLA)", en: "Ragusa Ibla" }, distance: "33 km", distanceNum: 33, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ragusa+Ibla", desc: { it: "Un gioiello barocco mozzafiato arroccato sulla colina. Da visitare nel tardo pomeriggio, perdersi nei vicoli storici e cenare in uno dei ristorantini tipici.", en: "A jaw-dropping historic town perched on a ridge. Visit in the late afternoon, get lost in its alleys, and enjoy a traditional dinner." }, phone: "" },
-            { id: "scicli", category: "borghi", icon: "town", title: { it: "Scicli", en: "Scicli" }, distance: "27 km", distanceNum: 27, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Scicli", desc: { it: "Meravigliosa città barocca, set naturale del celebre telefilm 'Il Commissario Montalbano'. Ottima per una visita serale ricca di cultura e gastronomia.", en: "A refined Baroque gem nestled in valleys, famously serving as the filming set for 'Inspector Montalbano'. Outstanding night atmosphere." }, phone: "" },
-            { id: "modica", category: "borghi", icon: "town", title: { it: "Modica", en: "Modica" }, distance: "19 km", distanceNum: 19, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Modica", desc: { it: "Cìttà delle cento chiese, celebre in tutto il mondo per il suo cioccolato artigianale unico fatto a freddo. Consigliata la passeggiata nel tardo pomeriggio.", en: "A UNESCO World Heritage town famous worldwide for its unique, cold-processed Modican chocolate. Beautiful for a sunset walk." }, phone: "" },
-            { id: "siracusa", category: "borghi", icon: "town", title: { it: "Siracusa & Ortigia", en: "Syracuse & Ortigia Island" }, distance: "55 km", distanceNum: 55, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Siracusa", desc: { it: "Antica potenza della Magna Grecia. Imperdibile una passeggiata sull'Isola di Ortigia e la visita al parco archeologico della Neapolis.", en: "An ancient Greek superpower. Do not miss Ortigia Island, a labyrinth of white limestone alleys surrounded by clear turquoise waters." }, phone: "" },
+            // Added lat/lng for Borghi locations
+            { id: "enjoy-barocco", category: "borghi", icon: "town", title: { it: "🗺️ Percorsi ed Itinerari Enjoy Barocco", en: "🗺️ Enjoy Barocco Itineraries & Routes" }, distance: "Ispica e dintorni", distanceNum: 0, mapsUrl: "", desc: { it: "Esplora la straordinaria ricchezza della Sicilia sud-orientale attraverso itinerari tematici. Scopri i percorsi barocchi, naturalistici, archeologici e gastronomici raccomandati per arricchire la tua vacanza.", en: "Explore the extraordinary richness of South-Eastern Sicily through thematic itineraries. Discover recommended Baroque, natural, archaeological, and gastronomic routes to enhance your holiday." }, phone: "", bookingUrl: "https://www.enjoybarocco.com/percorsi/", bookingLabel: { it: "Esplora i percorsi", en: "Explore routes" }, lat: 36.7844, lng: 14.9080 }, // Centered around Ispica general area
+            { id: "enjoy-barocco-ispica", category: "borghi", icon: "town", title: { it: "🏛️ Ispica su Enjoy Barocco", en: "🏛️ Ispica on Enjoy Barocco" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Corso+Umberto+I+Ispica", desc: { it: "Scopri la storia, i capolavori architettonici, i palazzi in stile Liberty (come Palazzo Bruno di Belmonte) e i suggestivi itinerari urbani di Ispica direttamente sulla pagina di approfondimento ufficiale di Enjoy Barocco.", en: "Discover the history, architectural masterpieces, Art Nouveau palaces (like Palazzo Bruno di Belmonte), and evocative urban itineraries of Ispica directly on the official Enjoy Barocco guide page." }, phone: "", bookingUrl: "https://www.enjoybarocco.com/paesi/ispica/", bookingLabel: { it: "Esplora Ispica", en: "Explore Ispica" }, lat: 36.7865, lng: 14.9069 }, // Ispica center
+            { id: "marzamemi", category: "borghi", icon: "town", title: { it: "Marzamemi", en: "Marzamemi" }, distance: "20 km", distanceNum: 20, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Marzamemi", desc: { it: "Incantevole borgo di pescatori da visitare rigorosamente dalle 18:00 in poi. Ottimo per aperitivi e street-food. Per la cena si consiglia il <strong>Ristorante da Nassa</strong>. Prodotti tipici acquistabili da <strong>Campisi</strong>.", en: "An iconic, picturesque fishing village best visited after 6 PM. Ideal for romantic sunset aperitifs. We recommend dinner at <strong>Ristorante da Nassa</strong> and gourmet shopping at <strong>Campisi</strong>." }, phone: "", lat: 36.7410, lng: 15.1165 },
+            { id: "noto", category: "borghi", icon: "town", title: { it: "Noto", en: "Noto" }, distance: "23 km", distanceNum: 23, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Noto", desc: { it: "La capitale indiscussa del Barocco, da esplorare nel tardo pomeriggio. Per cena consigliamo il ristorante <strong>Ci:Vulia</strong> a Marina D’Avola (circa 15 minuti da Noto, 25 km dall'EcoRetreat).", en: "The undisputed capital of Sicilian Baroque, marvelous under the golden hour light. For dinner, we suggest <strong>Ci:Vulia</strong> in Marina D’Avola, about 15 minutes further." }, phone: "", lat: 36.8906, lng: 15.0694 },
+            { id: "ragusa-ibla", category: "borghi", icon: "town", title: { it: "Ragusa (IBLA)", en: "Ragusa Ibla" }, distance: "33 km", distanceNum: 33, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ragusa+Ibla", desc: { it: "Un gioiello barocco mozzafiato arroccato sulla colina. Da visitare nel tardo pomeriggio, perdersi nei vicoli storici e cenare in uno dei ristorantini tipici.", en: "A jaw-dropping historic town perched on a ridge. Visit in the late afternoon, get lost in its alleys, and enjoy a traditional dinner." }, phone: "", lat: 36.9269, lng: 14.7454 },
+            { id: "scicli", category: "borghi", icon: "town", title: { it: "Scicli", en: "Scicli" }, distance: "27 km", distanceNum: 27, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Scicli", desc: { it: "Meravigliosa città barocca, set naturale del celebre telefilm 'Il Commissario Montalbano'. Ottima per una visita serale ricca di cultura e gastronomia.", en: "A refined Baroque gem nestled in valleys, famously serving as the filming set for 'Inspector Montalbano'. Outstanding night atmosphere." }, phone: "", lat: 36.7924, lng: 14.7042 },
+            { id: "modica", category: "borghi", icon: "town", title: { it: "Modica", en: "Modica" }, distance: "19 km", distanceNum: 19, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Modica", desc: { it: "Cìttà delle cento chiese, celebre in tutto il mondo per il suo cioccolato artigianale unico fatto a freddo. Consigliata la passeggiata nel tardo pomeriggio.", en: "A UNESCO World Heritage town famous worldwide for its unique, cold-processed Modican chocolate. Beautiful for a sunset walk." }, phone: "", lat: 36.8587, lng: 14.7607 },
+            { id: "siracusa", category: "borghi", icon: "town", title: { it: "Siracusa & Ortigia", en: "Syracuse & Ortigia Island" }, distance: "55 km", distanceNum: 55, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Siracusa", desc: { it: "Antica potenza della Magna Grecia. Imperdibile una passeggiata sull'Isola di Ortigia e la visita al parco archeologico della Neapolis.", en: "An ancient Greek superpower. Do not miss Ortigia Island, a labyrinth of white limestone alleys surrounded by clear turquoise waters." }, phone: "", lat: 37.0755, lng: 15.2866 },
             { id: "valdinoto-eventi", category: "eventi", icon: "calendar", title: { it: "📅 Calendario Eventi Val di Noto", en: "📅 Val di Noto Events Calendar" }, distance: "Ispica e dintorni", distanceNum: 0, mapsUrl: "", desc: { it: "Vuoi scoprire tutti gli altri eventi, concerti, mostre, feste patronali e manifestazioni della stagione estiva e invernale? Consulta la guida aggiornata del portale ufficiale Val di Noto.", en: "Want to discover all other events, concerts, exhibitions, patronal feasts and seasonal highlights? Check the official Val di Noto updated portal directory." }, phone: "", bookingUrl: "https://eventi.valdinoto.it/", bookingLabel: { it: "Scopri tutti gli eventi", en: "Discover all events" } },
             { id: "ispica-eventi-comunali", category: "eventi", icon: "calendar", title: { it: "🏛️ Eventi Ufficiali del Comune di Ispica", en: "🏛️ Ispica Municipality Official Events" }, distance: "0 km (Centro Storico)", distanceNum: 0, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Piazza+Unita+d+Italia+Ispica", desc: { it: "Consulta direttamente il portale turistico e istituzionale del Comune di Ispica per la programmazione ufficiale della ricca <b>Estate Ispicese</b>, della Festa Patronale della Madonna del Carmelo (16 Luglio) e delle mostre d'arte.", en: "Consult the institutional tourist portal of the Municipality of Ispica for the official schedule of the vibrant <b>Estate Ispicese (Summer Fest)</b>, the Patronal Feast of Madonna del Carmelo (July 16th), and local art exhibitions." }, phone: "", bookingUrl: "https://www.comune.ispica.rg.it/it/vivere/eventi", bookingLabel: { it: "Sito Web Comune di Ispica", en: "Ispica Town Official Website" } },
             { id: "infiorata", category: "eventi", icon: "calendar", title: { it: "🌸 Infiorata di Noto", en: "🌸 Noto Flower Festival" }, distance: "23 km", distanceNum: 23, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Via+Corrado+Nicolaci+Noto", desc: { it: "Uno degli eventi più famosi della Sicilia, che si tiene ogni anno la terza domenica di maggio. Via Nicolaci si trasforma in un meraviglioso tappeto di petali colorati che riproducono splendide opere d'arte.", en: "One of Sicily's most spectacular traditional events, held annually during the third weekend of May. Via Nicolaci becomes a stunning, vibrant carpet of mosaic designs crafted entirely from flower petals." }, phone: "" },
@@ -864,7 +983,7 @@
             { id: "panificio-asta", category: "ristorazione", icon: "bakery", title: { it: "Panificio Asta", en: "Panificio Asta (Bakery)" }, distance: "6 km", distanceNum: 6, mapsUrl: "https://www.google.com/maps/search/?api=1&query=Panificio+Asta+Ispica", desc: { it: "Nel cuore di Ispica. Emblema dell'artigianalità panificatrice: ogni giorno sfornano 'scacce' ragusane, arancine calde, focacce e sfiziosi dolci della tradizione siciliana a km 0.", en: "Located in downtown Ispica. An artisanal bakery producing traditional 'scacce' flatbreads, warm arancini, and typical dry sweets." }, phone: "09321917532" }
         ];
 
-        window.countCategory = function(category) { return window.luoghiData.filter(l => l.category === category).length; };
+        window.countCategory = function(category) { return [...window.luoghiData, ...window.dbRestaurants].filter(l => l.category === category).length; };
         window.getThirdSundayOfMay = function(year) { let d = new Date(year, 4, 1); let c = 0; while (c < 3) { if (d.getDay() === 0) c++; if (c < 3) d.setDate(d.getDate() + 1); } return d; };
         window.getLastSundayOfMay = function(year) { let d = new Date(year, 4, 31); while (d.getDay() !== 0) d.setDate(d.getDate() - 1); return d; };
         
@@ -975,6 +1094,14 @@
             window.renderAllReviews();
             window.renderStaff();
             window.renderEsperienze();
+            window.updateAdminDashboardUI();
+        };
+
+        window.updateAdminDashboardUI = function() {
+            const adminPanel = document.getElementById('admin-dashboard-panel');
+            if(adminPanel) {
+                adminPanel.style.display = window.isModerator ? 'block' : 'none';
+            }
         };
 
         window.triggerAdminMode = function() {
@@ -990,6 +1117,7 @@
                     window.renderCards();
                     window.renderAllReviews();
                     window.renderEsperienze();
+                    window.updateAdminDashboardUI();
                 } else {
                     document.getElementById('adminModal').classList.add('show');
                 }
@@ -1008,6 +1136,7 @@
                 window.renderCards();
                 window.renderAllReviews();
                 window.renderEsperienze();
+                window.updateAdminDashboardUI();
             } else {
                 window.showToast(window.staticTranslations[window.currentLang].adminErr);
             }
@@ -1163,6 +1292,81 @@
             window.renderFavoritesCarousel();
         };
 
+        window.initOrUpdateMap = function() {
+            const mapContainer = document.getElementById('map-container');
+            if (window.currentFilter === 'borghi') {
+                mapContainer.style.display = 'block';
+                
+                // Need to give container time to render before initializing Leaflet
+                setTimeout(() => {
+                    const borghiLocations = window.luoghiData.filter(l => l.category === 'borghi' && l.lat && l.lng);
+                    
+                    if (!map) {
+                        // Initialize map
+                        map = L.map('map-container').setView([36.85, 14.95], 9); // Center of Val di Noto area roughly
+                        
+                        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                            subdomains: 'abcd',
+                            maxZoom: 19
+                        }).addTo(map);
+                    }
+                    
+                    // Clear existing markers
+                    markers.forEach(marker => map.removeLayer(marker));
+                    markers = [];
+                    
+                    // Add new markers
+                    const bounds = L.latLngBounds();
+                    
+                    borghiLocations.forEach(loc => {
+                        const title = loc.title[window.currentLang];
+                        const iconHtml = `<div style="background-color: var(--color-primary); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3); border: 2px solid white;">${window.iconTemplates.town}</div>`;
+                        
+                        const customIcon = L.divIcon({
+                            html: iconHtml,
+                            className: 'custom-leaflet-icon',
+                            iconSize: [24, 24],
+                            iconAnchor: [12, 12],
+                            popupAnchor: [0, -12]
+                        });
+                        
+                        const marker = L.marker([loc.lat, loc.lng], {icon: customIcon}).addTo(map);
+                        
+                        // Popup content
+                        const popupContent = `
+                            <div style="font-family: var(--font-sans); padding: 5px;">
+                                <h4 style="margin: 0 0 5px 0; color: var(--color-primary); font-family: var(--font-serif); font-size: 14px;">${title}</h4>
+                                <div style="font-size: 11px; color: var(--color-text-muted); margin-bottom: 8px;">${loc.distance}</div>
+                                <button onclick="window.scrollToCard('${loc.id}')" style="background: var(--color-secondary); color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; width: 100%;">Vedi Dettagli</button>
+                            </div>
+                        `;
+                        
+                        marker.bindPopup(popupContent);
+                        
+                        marker.on('click', () => {
+                            // Automatically scroll to card when marker is clicked (optional, can just open popup)
+                            // window.scrollToCard(loc.id); 
+                        });
+                        
+                        markers.push(marker);
+                        bounds.extend([loc.lat, loc.lng]);
+                    });
+                    
+                    // Fit map to markers
+                    if (borghiLocations.length > 0) {
+                        map.fitBounds(bounds, { padding: [20, 20] });
+                    }
+                    
+                    // Ensure map size is correct after display:block
+                    map.invalidateSize();
+                    
+                }, 100);
+            } else {
+                mapContainer.style.display = 'none';
+            }
+        };
+
         window.filterCategory = function(category, btnElement) {
             window.safeVibrate(10);
             const buttons = document.querySelectorAll('#main-filter-tabs .tab-btn');
@@ -1172,6 +1376,7 @@
             
             window.updateExploreTabsVisibility(category);
             window.renderCards();
+            window.initOrUpdateMap();
         };
 
         window.updateExploreTabsVisibility = function(category) {
@@ -1192,9 +1397,16 @@
 
         window.scrollToCard = function(locationId) {
             window.safeVibrate(12);
+            
+            // If map popup is open, close it
+            if(map) map.closePopup();
+
             const cardEl = document.querySelector(`.card[data-id="${locationId}"]`);
             if (cardEl) {
-                const y = cardEl.getBoundingClientRect().top + window.pageYOffset - 130;
+                // Calculate position accounting for sticky header and map if present
+                const stickyOffset = 140; // Approx height of sticky header + tabs
+                const y = cardEl.getBoundingClientRect().top + window.pageYOffset - stickyOffset;
+                
                 window.scrollTo({ top: y, behavior: 'smooth' });
                 
                 cardEl.style.transition = 'all 0.4s ease';
@@ -1218,23 +1430,8 @@
             window.navigateToExplore(locData.category);
 
             setTimeout(() => {
-                const cardEl = document.querySelector(`.card[data-id="${locationId}"]`);
-                if (cardEl) {
-                    const y = cardEl.getBoundingClientRect().top + window.pageYOffset - 130;
-                    window.scrollTo({ top: y, behavior: 'smooth' });
-                    
-                    cardEl.style.transition = 'all 0.4s ease';
-                    cardEl.style.transform = 'scale(1.02)';
-                    cardEl.style.borderColor = 'var(--color-primary)';
-                    cardEl.style.boxShadow = '0 12px 24px rgba(23, 139, 117, 0.2)';
-                    
-                    setTimeout(() => {
-                        cardEl.style.transform = '';
-                        cardEl.style.borderColor = '';
-                        cardEl.style.boxShadow = '';
-                    }, 1500);
-                }
-            }, 150);
+                window.scrollToCard(locationId);
+            }, 300); // Give it a bit more time to render view and map
         };
 
         window.toggleLike = function(locationId, reviewUserId) {
@@ -1273,8 +1470,9 @@
             const adminBtn = document.getElementById('admin-add-exp-btn');
             if (!tbody) return;
 
+            // Nascondiamo il bottone inline se usiamo il pannello admin in alto
             if (adminBtn) {
-                adminBtn.style.display = window.isModerator ? 'block' : 'none';
+                adminBtn.style.display = 'none'; 
             }
 
             tbody.innerHTML = '';
@@ -1299,7 +1497,7 @@
                         <td style="padding: 16px 20px;">
                             <div style="font-size: 11.5px; font-weight: 800; color: #1e88e5; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">📅 ${exp.date}</div>
                             <div style="font-family: var(--font-serif); font-size: 16px; font-weight: 700; color: var(--color-primary); margin-bottom: 4px; line-height: 1.2;">${title}</div>
-                            <div style="font-size: 15px; color: var(--color-text-muted); line-height: 1.5;">${desc}</div>
+                            <div style="font-size: 16px; color: var(--color-text-muted); line-height: 1.55;">${desc}</div>
                             ${adminControls}
                         </td>
                     </tr>
@@ -1398,7 +1596,7 @@
                                     </button>
                                 </div>
                             </div>
-                            ${r.comment ? `<p style="font-style: italic; margin-top: 4px; line-height: 1.45; color: var(--color-text-muted); font-size: 14px;">"${r.comment}"</p>` : ''}
+                            ${r.comment ? `<p style="font-style: italic; margin-top: 4px; line-height: 1.5; color: var(--color-text-muted); font-size: 15px;">"${r.comment}"</p>` : ''}
                         </div>
                     `;
                 });
@@ -1430,9 +1628,17 @@
         window.renderCards = function() {
             const container = document.getElementById('cardsFeed');
             const emptyState = document.getElementById('emptyState');
+            const restoControls = document.getElementById('admin-resto-controls');
+            
+            if (restoControls) {
+                restoControls.style.display = (window.isModerator && window.currentFilter === 'ristorazione') ? 'block' : 'none';
+            }
+
             if (!container) return;
             container.innerHTML = '';
-            let filteredList = window.luoghiData;
+            
+            // Unisce i dati statici con quelli caricati da Firebase
+            let filteredList = [...window.luoghiData, ...window.dbRestaurants];
             
             if (window.searchQuery.trim() !== '') {
                 const query = window.searchQuery.toLowerCase().trim();
@@ -1549,7 +1755,7 @@
                                     <span style="color: var(--color-secondary); letter-spacing: 0.5px;">${stars}</span>
                                 </div>
                             </div>
-                            ${r.comment ? `<p style="font-style: italic; margin-top: 4px; line-height: 1.4;">"${r.comment}"</p>` : ''}
+                            ${r.comment ? `<p style="font-style: italic; margin-top: 4px; line-height: 1.5; color: var(--color-text-muted); font-size: 15px;">"${r.comment}"</p>` : ''}
                         </div>
                     `;
                 });
@@ -1654,6 +1860,7 @@
                         ${l.mapsUrl ? `<a href="${l.mapsUrl}" target="_blank" class="action-btn action-btn-secondary"><svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24"><path d="M12,2C15.31,2 18,4.66 18,7.95C18,12.41 12,19 12,19C12,19 6,12.41 6,7.95C6,4.66 8.69,2 12,2M12,6A1.5,1.5 0 1,0 13.5,7.5A1.5,1.5 0 0,0 12,6M20,19C20,20.1 16.41,21 12,21C7.59,21 4,20.1 4,19C4,18.15 6.5,17.43 10,17.15V19.15C7.63,19.38 6,19.78 6,20C6,20.33 8.69,21 12,21C15.31,21 18,20.33 18,20C18,19.78 16.37,19.38 14,19.15V17.15C17.5,17.43 20,18.15 20,19z" /></svg>${window.currentLang === 'it' ? 'Naviga' : 'Navigate'}</a>` : ''}
                         ${l.bookingUrl ? `<a href="${l.bookingUrl}" target="_blank" class="action-btn action-btn-primary" style="${isRetreat ? 'background-color: var(--color-primary);' : ''}"><svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24"><path d="M19 4H18V2H16V4H8V2H6V4H5C3.89 4 3 4.9 3 6V20C3 21.1 3.89 22 5 22H19C20.11 22 21 21.1 21 20V6C21 4.9 20.11 4 19 4M19 20H5V10H19V20M9 14H7V12H9V14M13 14H11V12H13V14M17 14H15V12H17V14M9 17H11V19H9V17M13 18H15V20H13V18z"/></svg>${bookingText}</a>` : ''}
                         ${l.phone ? `<a href="tel:${l.phone}" class="action-btn action-btn-primary"><svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/></svg>${l.category === 'ristorazione' ? (window.currentLang === 'it' ? 'Prenota' : 'Book') : (window.currentLang === 'it' ? 'Chiama' : 'Call')}</a>` : ''}
+                        ${(window.isModerator && l.id.startsWith('dyn_resto_')) ? `<button onclick="window.deleteRestaurant('${l.id}')" class="action-btn" style="background-color: #fff0f0; color: #e05d5d; border: 1px solid #fcd2d2;"><svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/></svg>Elimina</button>` : ''}
                     </div>
                 </div>
             `;
@@ -1830,12 +2037,141 @@
             }
         };
 
+        // --- FUNZIONI MODAL PUSH NOTIFICATION ---
+        window.openPushModal = function() {
+            const modal = document.getElementById('pushModal');
+            if(modal) modal.classList.add('show');
+        };
+
+        window.closePushModal = function() {
+            const modal = document.getElementById('pushModal');
+            if(modal) modal.classList.remove('show');
+            document.getElementById('push-title-it').value = '';
+            document.getElementById('push-title-en').value = '';
+            document.getElementById('push-desc-it').value = '';
+            document.getElementById('push-desc-en').value = '';
+        };
+
+        window.sendPushNotification = function() {
+            if (!navigator.onLine) {
+                window.showToast(window.staticTranslations[window.currentLang].offlineMessage);
+                return;
+            }
+            
+            const titleIt = document.getElementById('push-title-it').value.trim();
+            const titleEn = document.getElementById('push-title-en').value.trim();
+            const descIt = document.getElementById('push-desc-it').value.trim();
+            const descEn = document.getElementById('push-desc-en').value.trim();
+
+            if(!titleIt || !descIt) {
+                window.showToast("Compila almeno Titolo e Messaggio in italiano.");
+                return;
+            }
+
+            if (window.firebaseSendPush) {
+                window.firebaseSendPush(titleIt, titleEn || titleIt, descIt, descEn || descIt, "Notifica inviata a tutti i dispositivi attivi!", "Errore durante l'invio.");
+            } else {
+                window.showToast("Connessione in corso, riprova tra poco.");
+            }
+        };
+
+        window.showInAppPush = function(title, message) {
+            window.safeVibrate([100, 50, 100]); // Vibrazione stile notifica
+            
+            const banner = document.getElementById('in-app-push');
+            const titleEl = document.getElementById('push-title-text');
+            const descEl = document.getElementById('push-desc-text');
+            
+            if (banner && titleEl && descEl) {
+                titleEl.innerText = title;
+                descEl.innerText = message;
+                
+                banner.classList.add('show');
+                
+                clearTimeout(pushTimeout);
+                pushTimeout = setTimeout(() => {
+                    window.closeInAppPush();
+                }, 8000); // Scompare dopo 8 secondi
+            }
+        };
+
+        window.closeInAppPush = function() {
+            const banner = document.getElementById('in-app-push');
+            if (banner) banner.classList.remove('show');
+            clearTimeout(pushTimeout);
+        };
+
+        // --- FUNZIONI MODAL RISTORANTI ---
+        window.openRestoModal = function() {
+            const modal = document.getElementById('restoModal');
+            if(modal) modal.classList.add('show');
+        };
+
+        window.closeRestoModal = function() {
+            const modal = document.getElementById('restoModal');
+            if(modal) modal.classList.remove('show');
+            document.getElementById('resto-title').value = '';
+            document.getElementById('resto-distance').value = '';
+            document.getElementById('resto-phone').value = '';
+            document.getElementById('resto-maps').value = '';
+            document.getElementById('resto-desc-it').value = '';
+            document.getElementById('resto-desc-en').value = '';
+        };
+
+        window.saveRestaurant = function() {
+            if (!navigator.onLine) {
+                window.showToast(window.staticTranslations[window.currentLang].offlineMessage);
+                return;
+            }
+            
+            const title = document.getElementById('resto-title').value.trim();
+            const distance = document.getElementById('resto-distance').value.trim();
+            const phone = document.getElementById('resto-phone').value.trim();
+            const mapsUrl = document.getElementById('resto-maps').value.trim();
+            const descIt = document.getElementById('resto-desc-it').value.trim();
+            const descEn = document.getElementById('resto-desc-en').value.trim();
+
+            if(!title || !descIt) {
+                window.showToast("Compila almeno Nome e Descrizione in italiano.");
+                return;
+            }
+
+            const distNum = parseFloat(distance.replace(',', '.').replace(/[^\d.-]/g, '')) || 0;
+
+            const restoData = {
+                category: "ristorazione",
+                icon: "seafood", // Icona predefinita fissa per i ristoranti dinamici
+                title: { it: title, en: title },
+                distance: distance,
+                distanceNum: distNum,
+                mapsUrl: mapsUrl,
+                desc: { it: descIt, en: descEn || descIt },
+                phone: phone,
+                timestamp: Date.now()
+            };
+
+            if (window.firebaseSaveRestaurant) {
+                window.firebaseSaveRestaurant(restoData, "Ristorante salvato nel Cloud!", "Errore durante il salvataggio.");
+            } else {
+                window.showToast("Connessione in corso, riprova tra poco.");
+            }
+        };
+
+        window.deleteRestaurant = function(id) {
+            if (confirm("Vuoi davvero eliminare definitivamente questo ristorante e tutte le sue recensioni?")) {
+                if (window.firebaseDeleteRestaurant) {
+                    window.firebaseDeleteRestaurant(id, "Ristorante eliminato.");
+                }
+            }
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
             window.renderCards();
             window.renderFavoritesCarousel();
             window.renderAllReviews();
             window.renderStaff();
             window.renderEsperienze();
+            window.updateAdminDashboardUI();
 
             const langItBtn = document.getElementById('lang-it-btn');
             const langEnBtn = document.getElementById('lang-en-btn');
@@ -1867,7 +2203,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, deleteDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, deleteDoc, collection, onSnapshot, query, orderBy, limit, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const MY_FIREBASE_CONFIG = {
             apiKey: "AIzaSyD9HF3QgD2G1YpbEqJRqOves6qyIioIx2c",
@@ -1920,6 +2256,49 @@
                             });
                             if (typeof window.renderEsperienze === 'function') window.renderEsperienze();
                         }, (error) => console.error(error));
+
+                        // Sincronizzazione in tempo reale dei Ristoranti Dinamici
+                        const restoRef = collection(db, 'artifacts', appId, 'public', 'data', 'restaurants');
+                        onSnapshot(restoRef, (snapshot) => {
+                            window.dbRestaurants = [];
+                            snapshot.forEach(doc => {
+                                window.dbRestaurants.push({ id: doc.id, ...doc.data() });
+                            });
+                            if (typeof window.renderCards === 'function') window.renderCards();
+                            if (typeof window.setLanguage === 'function') window.setLanguage(window.currentLang); // Aggiorna i contatori nella home
+                        }, (error) => console.error(error));
+
+                        // Sincronizzazione in tempo reale per le Notifiche (Push in-app)
+                        const notifQuery = query(collection(db, 'artifacts', appId, 'public', 'data', 'notifications'), orderBy('timestamp', 'desc'), limit(1));
+                        onSnapshot(notifQuery, (snapshot) => {
+                            if (!snapshot.empty) {
+                                const latestDoc = snapshot.docs[0];
+                                const data = latestDoc.data();
+                                const id = latestDoc.id;
+                                
+                                // Usiamo sessionStorage così la notifica si rivede al riavvio dell'app (nuova sessione) se ancora valida
+                                let seenNotifs = [];
+                                try { seenNotifs = JSON.parse(sessionStorage.getItem('kinanto_seen_notif') || '[]'); } catch(e) {}
+                                
+                                const ONE_DAY = 24 * 60 * 60 * 1000; // 24 ore di validità
+                                const isRecent = (Date.now() - data.timestamp) < ONE_DAY;
+
+                                if (!seenNotifs.includes(id) && isRecent) {
+                                    const pushTitle = data.title[window.currentLang] || data.title['it'];
+                                    const pushMsg = data.message[window.currentLang] || data.message['it'];
+                                    
+                                    if(typeof window.showInAppPush === 'function') {
+                                        // Mostriamo la notifica con un leggero ritardo all'avvio, per dare tempo all'interfaccia
+                                        setTimeout(() => {
+                                            window.showInAppPush(pushTitle, pushMsg);
+                                        }, 1500);
+                                    }
+                                    
+                                    seenNotifs.push(id);
+                                    sessionStorage.setItem('kinanto_seen_notif', JSON.stringify(seenNotifs));
+                                }
+                            }
+                        }, (error) => console.error("Error listening to notifications:", error));
                     }
                 });
             };
@@ -2008,6 +2387,53 @@
                 if (!window.isModerator) return;
                 try {
                     await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'experiences', expId));
+                    window.showToast(msgSuccess);
+                } catch (e) {
+                    console.error(e);
+                }
+            };
+
+            // Funzioni Cloud per i Ristoranti (Solo Admin)
+            window.firebaseSaveRestaurant = async function(restoData, msgSuccess, msgErr) {
+                if (!window.isModerator) return;
+                try {
+                    // Crea un ID personalizzato che inizia con dyn_resto_ per riconoscerlo
+                    const docId = 'dyn_resto_' + Date.now();
+                    const newRestoRef = doc(db, 'artifacts', appId, 'public', 'data', 'restaurants', docId);
+                    await setDoc(newRestoRef, restoData);
+                    window.showToast(msgSuccess);
+                    window.closeRestoModal();
+                } catch (e) {
+                    console.error("Error saving restaurant:", e);
+                    window.showToast(msgErr);
+                }
+            };
+
+            window.firebaseSendPush = async function(titleIt, titleEn, msgIt, msgEn, msgSuccess, msgErr) {
+                if (!window.isModerator) return;
+                try {
+                    const docRef = collection(db, 'artifacts', appId, 'public', 'data', 'notifications');
+                    await addDoc(docRef, {
+                        title: { it: titleIt, en: titleEn },
+                        message: { it: msgIt, en: msgEn },
+                        timestamp: Date.now()
+                    });
+                    window.showToast(msgSuccess);
+                    window.closePushModal();
+                } catch(e) {
+                    console.error("Error sending push:", e);
+                    window.showToast(msgErr);
+                }
+            };
+
+            window.firebaseDeleteRestaurant = async function(restoId, msgSuccess) {
+                if (!window.isModerator) return;
+                try {
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'restaurants', restoId));
+                    
+                    // Cancella anche le recensioni associate per mantenere pulito il DB
+                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'reviews', restoId));
+                    
                     window.showToast(msgSuccess);
                 } catch (e) {
                     console.error(e);
